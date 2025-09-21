@@ -1,0 +1,236 @@
+{
+  "audit_timestamp": "2025-09-21T11:00:55.607215",
+  "auditor_version": "1.0.1",
+  "test_environment": {
+    "browser": "Chromium",
+    "viewport": "1920x1080",
+    "platform": "Windows",
+    "working_directory": "C:\\Users\\gregg\\Documents\\Code\\email_threads"
+  },
+  "tests": {
+    "main_application": {
+      "timestamp": "2025-09-21T11:00:55.607439",
+      "main_app_status": "loaded_test_layouts_systematic.html",
+      "screenshots": [
+        "test-screenshots\\main_app_test_layouts_systematic.html_20250921_110058.png"
+      ],
+      "console_logs": [],
+      "errors": []
+    },
+    "visualization_layouts": {
+      "timestamp": "2025-09-21T11:00:59.027734",
+      "layouts": {
+        "compact": {
+          "filename": "test_compact_visualization.html",
+          "loaded": true,
+          "screenshots": [
+            "test-screenshots\\compact_layout_initial_20250921_110101.png",
+            "test-screenshots\\compact_layout_final_20250921_110104.png"
+          ],
+          "layout_types_tested": [],
+          "interactions_tested": [
+            "zoom_in",
+            "zoom_out",
+            "zoom_reset",
+            "search"
+          ],
+          "console_errors": []
+        },
+        "multiple": {
+          "filename": "test_multiple_layouts_fixed.html",
+          "loaded": true,
+          "screenshots": [
+            "test-screenshots\\multiple_layout_initial_20250921_110107.png",
+            "test-screenshots\\multiple_tree_layout_20250921_110110.png",
+            "test-screenshots\\multiple_force_layout_20250921_110114.png",
+            "test-screenshots\\multiple_radial_layout_20250921_110117.png",
+            "test-screenshots\\multiple_timeline_layout_20250921_110121.png",
+            "test-screenshots\\multiple_grid_layout_20250921_110124.png",
+            "test-screenshots\\multiple_sankey_layout_20250921_110127.png",
+            "test-screenshots\\multiple_layout_final_20250921_110128.png"
+          ],
+          "layout_types_tested": [
+            "tree",
+            "force",
+            "radial",
+            "timeline",
+            "grid",
+            "sankey"
+          ],
+          "interactions_tested": [
+            "zoom_in_not_found",
+            "zoom_out_not_found",
+            "zoom_reset",
+            "search_not_found"
+          ],
+          "console_errors": [
+            {
+              "timestamp": "2025-09-21T11:01:04.674791",
+              "type": "error",
+              "text": "Cannot read properties of undefined (reading 'x')",
+              "location": "page_error"
+            }
+          ]
+        },
+        "systematic": {
+          "filename": "test_layouts_systematic.html",
+          "loaded": true,
+          "screenshots": [
+            "test-screenshots\\systematic_layout_initial_20250921_110131.png",
+            "test-screenshots\\systematic_tree_layout_20250921_110135.png",
+            "test-screenshots\\systematic_force_layout_20250921_110138.png",
+            "test-screenshots\\systematic_radial_layout_20250921_110142.png",
+            "test-screenshots\\systematic_timeline_layout_20250921_110145.png",
+            "test-screenshots\\systematic_grid_layout_20250921_110148.png",
+            "test-screenshots\\systematic_sankey_layout_20250921_110152.png",
+            "test-screenshots\\systematic_layout_final_20250921_110152.png"
+          ],
+          "layout_types_tested": [
+            "tree",
+            "force",
+            "radial",
+            "timeline",
+            "grid",
+            "sankey"
+          ],
+          "interactions_tested": [
+            "zoom_in_not_found",
+            "zoom_out_not_found",
+            "zoom_reset_not_found",
+            "search_not_found"
+          ],
+          "console_errors": []
+        }
+      }
+    },
+    "layout_interactions": {
+      "timestamp": "2025-09-21T11:01:53.163618",
+      "interaction_tests": {
+        "tree": {
+          "layout": "tree",
+          "button_click": true,
+          "rendering": false,
+          "errors": [],
+          "status_text": "Not loaded"
+        },
+        "force": {
+          "layout": "force",
+          "button_click": true,
+          "rendering": false,
+          "errors": [],
+          "status_text": "Not loaded"
+        },
+        "radial": {
+          "layout": "radial",
+          "button_click": true,
+          "rendering": true,
+          "errors": [],
+          "status_text": "Success"
+        },
+        "timeline": {
+          "layout": "timeline",
+          "button_click": true,
+          "rendering": true,
+          "errors": [],
+          "status_text": "Success"
+        },
+        "grid": {
+          "layout": "grid",
+          "button_click": true,
+          "rendering": true,
+          "errors": [],
+          "status_text": "Success"
+        },
+        "sankey": {
+          "layout": "sankey",
+          "button_click": true,
+          "rendering": true,
+          "errors": [],
+          "status_text": "Success"
+        }
+      },
+      "screenshots": [
+        "test-screenshots\\interaction_tree_20250921_110157.png",
+        "test-screenshots\\interaction_force_20250921_110200.png",
+        "test-screenshots\\interaction_radial_20250921_110202.png",
+        "test-screenshots\\interaction_timeline_20250921_110205.png",
+        "test-screenshots\\interaction_grid_20250921_110207.png",
+        "test-screenshots\\interaction_sankey_20250921_110210.png"
+      ]
+    },
+    "data_processing": {
+      "timestamp": "2025-09-21T11:02:10.543630",
+      "data_tests": {
+        "sample_data_loaded": false,
+        "data_count": 0,
+        "clone_function_available": true
+      },
+      "processing_times": {}
+    },
+    "performance_validation": {
+      "timestamp": "2025-09-21T11:02:13.120094",
+      "performance_tests": {
+        "radial": {
+          "layout": "radial",
+          "render_times": [
+            139.6183967590332,
+            138.1981372833252,
+            79.02288436889648
+          ],
+          "average_render_time": 118.94647280375163,
+          "meets_spec": true
+        },
+        "timeline": {
+          "layout": "timeline",
+          "render_times": [
+            86.16948127746582,
+            113.65890502929688,
+            93.89662742614746
+          ],
+          "average_render_time": 97.90833791097005,
+          "meets_spec": true
+        },
+        "grid": {
+          "layout": "grid",
+          "render_times": [
+            103.22403907775879,
+            77.74519920349121,
+            92.22674369812012
+          ],
+          "average_render_time": 91.06532732645671,
+          "meets_spec": true
+        },
+        "sankey": {
+          "layout": "sankey",
+          "render_times": [
+            90.8203125,
+            65.99664688110352,
+            108.74629020690918
+          ],
+          "average_render_time": 88.52108319600423,
+          "meets_spec": true
+        }
+      },
+      "meets_requirements": {
+        "radial": true,
+        "timeline": true,
+        "grid": true,
+        "sankey": true
+      }
+    },
+    "accessibility": {
+      "timestamp": "2025-09-21T11:02:47.536141",
+      "accessibility_tests": {},
+      "keyboard_navigation": {
+        "tab_navigation": true,
+        "enter_activation": true,
+        "escape_handling": true
+      },
+      "aria_compliance": {
+        "total_interactive_elements": 12,
+        "labeled_elements": 12,
+        "compliance_percentage": 100
+      }
+    }
+  }
+}
