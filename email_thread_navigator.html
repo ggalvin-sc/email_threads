@@ -73,6 +73,8 @@
             display: flex;
             flex-direction: column;
             gap: 8px;
+            position: relative;
+            z-index: 200;
         }
 
         .nav-button {
@@ -433,7 +435,7 @@
         /* Navigation shortcuts overlay */
         .shortcuts-help {
             position: fixed;
-            top: 16px;
+            top: 160px;
             right: 16px;
             background: rgba(0,0,0,0.8);
             color: white;
@@ -443,6 +445,7 @@
             z-index: 1000;
             opacity: 0;
             transition: opacity 0.3s;
+            pointer-events: none;
         }
 
         .shortcuts-help.visible {
@@ -614,7 +617,7 @@ Mike`,
             ]
         };
 
-        // Timeline Visualization Component
+        // Enhanced Visualization Component with Tree, Timeline, and Sankey modes
         function TimelineVisualization({ threadData, selectedMessageId, onSelectMessage, viewMode }) {
             const svgRef = useRef();
 
@@ -628,13 +631,25 @@ Mike`,
                 const height = 80;
                 const margin = { top: 10, right: 20, bottom: 20, left: 20 };
 
-                // Create timeline data
-                const messages = threadData.messages.map(msg => ({
+                // Create message data with enhanced structure
+                const messages = threadData.messages.map((msg, i) => ({
                     ...msg,
                     date: new Date(msg.date),
+                    index: i,
                     x: 0,
-                    y: height / 2
+                    y: 0,
+                    depth: 0
                 }));
+
+                // Calculate hierarchy depth for tree layout
+                const calculateDepth = (msg, depth = 0) => {
+                    msg.depth = depth;
+                    messages.filter(m => m.parentMessageId === msg.messageId)
+                        .forEach(child => calculateDepth(child, depth + 1));
+                };
+
+                const rootMessages = messages.filter(msg => !msg.parentMessageId);
+                rootMessages.forEach(root => calculateDepth(root, 0));
 
                 // Set up scales
                 const xScale = d3.scaleTime()
@@ -642,17 +657,18 @@ Mike`,
                     .range([margin.left, width - margin.right]);
 
                 const yScale = d3.scaleLinear()
-                    .domain([0, messages.length])
+                    .domain([0, Math.max(3, messages.length - 1)])
                     .range([margin.top, height - margin.bottom]);
 
-                // Position messages
-                messages.forEach((msg, i) => {
-                    msg.x = xScale(msg.date);
-                    msg.y = viewMode === 'timeline' ? height / 2 : yScale(i);
-                });
-
-                // Draw timeline axis
+                // Position messages based on view mode
                 if (viewMode === 'timeline') {
+                    // Timeline Flow: Horizontal chronological layout
+                    messages.forEach(msg => {
+                        msg.x = xScale(msg.date);
+                        msg.y = height / 2;
+                    });
+
+                    // Draw timeline axis
                     const xAxis = d3.axisBottom(xScale)
                         .tickSize(4)
                         .tickFormat(d3.timeFormat("%m/%d"));
@@ -661,7 +677,7 @@ Mike`,
                         .attr("transform", `translate(0, ${height - margin.bottom})`)
                         .call(xAxis)
                         .selectAll("text")
-                        .style("font-size", "10px")
+                        .style("font-size", "9px")
                         .style("fill", "#656d76");
 
                     // Draw timeline line
@@ -672,10 +688,34 @@ Mike`,
                         .attr("y2", height / 2)
                         .attr("stroke", "#d0d7de")
                         .attr("stroke-width", 2);
-                }
 
-                // Draw connections for tree view
-                if (viewMode === 'tree' && messages.length > 1) {
+                } else if (viewMode === 'tree') {
+                    // Hierarchical Tree: Vertical layout by depth
+                    const maxDepth = Math.max(...messages.map(m => m.depth));
+                    const depthScale = d3.scaleLinear()
+                        .domain([0, maxDepth])
+                        .range([margin.left + 20, width - margin.right - 20]);
+
+                    messages.forEach(msg => {
+                        msg.x = depthScale(msg.depth);
+
+                        // Position vertically based on chronological order within depth
+                        const sameDepthMessages = messages.filter(m => m.depth === msg.depth)
+                            .sort((a, b) => a.date - b.date);
+                        const indexInDepth = sameDepthMessages.indexOf(msg);
+                        const totalInDepth = sameDepthMessages.length;
+
+                        if (totalInDepth === 1) {
+                            msg.y = height / 2;
+                        } else {
+                            const depthYScale = d3.scaleLinear()
+                                .domain([0, totalInDepth - 1])
+                                .range([margin.top + 15, height - margin.bottom - 15]);
+                            msg.y = depthYScale(indexInDepth);
+                        }
+                    });
+
+                    // Draw tree connections
                     const connections = [];
                     messages.forEach(msg => {
                         if (msg.parentMessageId) {
@@ -686,22 +726,101 @@ Mike`,
                         }
                     });
 
-                    svg.selectAll(".connection")
+                    svg.selectAll(".tree-connection")
                         .data(connections)
                         .enter()
                         .append("path")
-                        .attr("class", "connection")
+                        .attr("class", "tree-connection")
                         .attr("d", d => {
                             const midX = (d.source.x + d.target.x) / 2;
-                            return `M${d.source.x},${d.source.y} Q${midX},${d.source.y - 15} ${d.target.x},${d.target.y}`;
+                            return `M${d.source.x},${d.source.y} C${midX},${d.source.y} ${midX},${d.target.y} ${d.target.x},${d.target.y}`;
                         })
                         .attr("stroke", "#8250df")
                         .attr("stroke-width", 1.5)
                         .attr("fill", "none")
+                        .attr("opacity", 0.7);
+
+                } else if (viewMode === 'sankey') {
+                    // Sankey Flow: Flow-based layout showing message progression
+                    const nodeWidth = 8;
+                    const sankeyPadding = 12;
+
+                    // Create flow structure
+                    const flows = [];
+                    messages.forEach(msg => {
+                        if (msg.parentMessageId) {
+                            const parent = messages.find(m => m.messageId === msg.parentMessageId);
+                            if (parent) {
+                                flows.push({
+                                    source: parent,
+                                    target: msg,
+                                    value: 1 + (msg.hasAttachments ? 0.5 : 0) // Thicker flow for attachments
+                                });
+                            }
+                        }
+                    });
+
+                    // Position nodes in columns by depth
+                    const maxDepth = Math.max(...messages.map(m => m.depth));
+                    const columnScale = d3.scaleLinear()
+                        .domain([0, maxDepth])
+                        .range([margin.left + nodeWidth, width - margin.right - nodeWidth]);
+
+                    messages.forEach(msg => {
+                        msg.x = columnScale(msg.depth);
+
+                        // Distribute nodes vertically within each column
+                        const sameDepthMessages = messages.filter(m => m.depth === msg.depth);
+                        const indexInDepth = sameDepthMessages.indexOf(msg);
+                        const totalInDepth = sameDepthMessages.length;
+
+                        if (totalInDepth === 1) {
+                            msg.y = height / 2;
+                        } else {
+                            const columnYScale = d3.scaleLinear()
+                                .domain([0, totalInDepth - 1])
+                                .range([margin.top + sankeyPadding, height - margin.bottom - sankeyPadding]);
+                            msg.y = columnYScale(indexInDepth);
+                        }
+                    });
+
+                    // Draw Sankey flows
+                    svg.selectAll(".sankey-flow")
+                        .data(flows)
+                        .enter()
+                        .append("path")
+                        .attr("class", "sankey-flow")
+                        .attr("d", d => {
+                            const x0 = d.source.x + nodeWidth/2;
+                            const x1 = d.target.x - nodeWidth/2;
+                            const y0 = d.source.y;
+                            const y1 = d.target.y;
+                            const xi = d3.interpolateNumber(x0, x1);
+                            const x2 = xi(0.6);
+                            const x3 = xi(0.4);
+
+                            return `M${x0},${y0} C${x2},${y0} ${x3},${y1} ${x1},${y1}`;
+                        })
+                        .attr("stroke", "#fd7e14")
+                        .attr("stroke-width", d => 2 + d.value)
+                        .attr("fill", "none")
                         .attr("opacity", 0.6);
+
+                    // Draw column indicators
+                    for (let depth = 0; depth <= maxDepth; depth++) {
+                        const x = columnScale(depth);
+                        svg.append("line")
+                            .attr("x1", x)
+                            .attr("x2", x)
+                            .attr("y1", margin.top)
+                            .attr("y2", height - margin.bottom)
+                            .attr("stroke", "#e0e4e7")
+                            .attr("stroke-width", 1)
+                            .attr("opacity", 0.3);
+                    }
                 }
 
-                // Draw message nodes
+                // Draw message nodes (common for all modes)
                 const nodes = svg.selectAll(".message-node")
                     .data(messages)
                     .enter()
@@ -709,18 +828,34 @@ Mike`,
                     .attr("class", "message-node")
                     .attr("transform", d => `translate(${d.x}, ${d.y})`)
                     .style("cursor", "pointer")
-                    .on("click", (event, d) => onSelectMessage(d.messageId));
+                    .on("click", (event, d) => {
+                        onSelectMessage(d.messageId);
+                    })
+                    .on("mouseover", function(event, d) {
+                        d3.select(this).select("circle")
+                            .transition()
+                            .duration(200)
+                            .attr("r", selectedMessageId === d.messageId ? 10 : 8);
+                    })
+                    .on("mouseout", function(event, d) {
+                        d3.select(this).select("circle")
+                            .transition()
+                            .duration(200)
+                            .attr("r", selectedMessageId === d.messageId ? 8 : 6);
+                    });
 
-                // Message circles
+                // Message circles with enhanced styling
                 nodes.append("circle")
                     .attr("r", d => selectedMessageId === d.messageId ? 8 : 6)
                     .attr("fill", d => {
                         if (selectedMessageId === d.messageId) return "#0969da";
                         if (d.hasAttachments) return "#fd7e14";
-                        return "#6f42c1";
+                        if (d.parentMessageId) return "#8250df";
+                        return "#1f883d"; // Root messages in green
                     })
                     .attr("stroke", "white")
-                    .attr("stroke-width", 2);
+                    .attr("stroke-width", 2)
+                    .style("filter", d => selectedMessageId === d.messageId ? "drop-shadow(0px 2px 4px rgba(0,0,0,0.3))" : "none");
 
                 // Sender initials
                 nodes.append("text")
@@ -735,13 +870,28 @@ Mike`,
                     })
                     .attr("text-anchor", "middle")
                     .attr("dy", "0.35em")
-                    .attr("font-size", "8px")
+                    .attr("font-size", d => selectedMessageId === d.messageId ? "9px" : "8px")
                     .attr("font-weight", "bold")
                     .attr("fill", "white");
 
-                // Hover tooltips
+                // Enhanced tooltips
                 nodes.append("title")
-                    .text(d => `${d.from}\n${d.subject}\n${new Date(d.date).toLocaleString()}`);
+                    .text(d => {
+                        const fromName = d.from.split('@')[0].replace('.', ' ');
+                        const dateStr = new Date(d.date).toLocaleString();
+                        const attachStr = d.hasAttachments ? ' 📎' : '';
+                        return `${fromName}${attachStr}\n${d.subject}\n${dateStr}\nClick to view message`;
+                    });
+
+                // Add mode indicator
+                svg.append("text")
+                    .attr("x", width - margin.right)
+                    .attr("y", margin.top)
+                    .attr("text-anchor", "end")
+                    .attr("font-size", "10px")
+                    .attr("fill", "#656d76")
+                    .attr("opacity", 0.7)
+                    .text(viewMode.charAt(0).toUpperCase() + viewMode.slice(1) + " View");
 
             }, [threadData, selectedMessageId, viewMode]);
 
@@ -789,6 +939,12 @@ Mike`,
                             onClick={() => setViewMode('tree')}
                         >
                             Tree
+                        </button>
+                        <button
+                            className={`nav-button ${viewMode === 'sankey' ? 'active' : ''}`}
+                            onClick={() => setViewMode('sankey')}
+                        >
+                            Sankey
                         </button>
                         <button
                             className="nav-button"
