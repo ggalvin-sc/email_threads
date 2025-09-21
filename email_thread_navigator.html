@@ -534,85 +534,472 @@
             }
         };
 
-        // Sample thread data
+        // Complex sample thread data with multiple branches and conversation paths
         const SAMPLE_THREAD_DATA = {
-            threadId: "ALPHA-2024-001",
-            subject: "Project Alpha Budget Discussion",
+            threadId: "MERGER-2024-001",
+            subject: "Project Phoenix - Merger & Acquisition Discussion",
             messages: [
+                // Root message
                 {
                     messageId: "msg001",
-                    from: "john.smith@company.com",
-                    to: ["team@company.com"],
-                    cc: [],
-                    subject: "Project Alpha Budget Discussion",
-                    date: "2024-01-15T10:00:00Z",
+                    from: "ceo@company.com",
+                    to: ["executive-team@company.com"],
+                    cc: ["board@company.com"],
+                    subject: "Project Phoenix - Merger & Acquisition Discussion",
+                    date: "2024-01-10T09:00:00Z",
                     hasAttachments: true,
                     parentMessageId: null,
-                    body: `Team,
+                    body: `Executive Team,
 
-I wanted to start a discussion about the budget allocation for Project Alpha. We need to review the current projections and make some adjustments.
+I'm initiating Project Phoenix - our strategic evaluation of the TechCorp acquisition opportunity. This is a confidential discussion that will require legal, financial, and technical due diligence.
 
-Key points to consider:
-- Development costs have increased by 15%
-- Timeline has been extended to Q3
-- Resource allocation needs review
+Key areas for evaluation:
+- Financial impact and synergies
+- Legal and regulatory compliance
+- Technology integration challenges
+- Cultural fit and HR considerations
 
-Please review the attached budget spreadsheet and provide your feedback.
+Please see the attached NDA and preliminary financial overview. We need to move quickly but carefully.
 
-Best regards,
-John`,
+Regards,
+CEO`,
                     attachments: [
-                        { name: "budget_q1_2024.xlsx", type: "application/xlsx", size: 45621 },
-                        { name: "timeline_updated.pdf", type: "application/pdf", size: 128304 }
+                        { name: "project_phoenix_nda.pdf", type: "application/pdf", size: 156789 },
+                        { name: "techcorp_financials_overview.xlsx", type: "application/xlsx", size: 234567 }
                     ]
                 },
+
+                // Financial branch
                 {
                     messageId: "msg002",
-                    from: "sarah.johnson@company.com",
-                    to: ["john.smith@company.com", "team@company.com"],
-                    cc: [],
-                    subject: "Re: Project Alpha Budget Discussion",
-                    date: "2024-01-15T14:30:00Z",
-                    hasAttachments: false,
-                    parentMessageId: "msg001",
-                    body: `John,
-
-Thanks for sharing the budget details. I've reviewed the spreadsheet and have a few concerns:
-
-1. The development cost increase seems higher than expected
-2. We should consider reallocating some resources from Phase 2
-3. The timeline extension might affect our Q4 deliverables
-
-I think we need a deeper dive into the development costs. Can we schedule a meeting this week?
-
-Sarah`
-                },
-                {
-                    messageId: "msg003",
-                    from: "mike.wilson@company.com",
-                    to: ["john.smith@company.com", "sarah.johnson@company.com", "team@company.com"],
-                    cc: [],
-                    subject: "Re: Project Alpha Budget Discussion",
-                    date: "2024-01-15T16:45:00Z",
+                    from: "cfo@company.com",
+                    to: ["ceo@company.com", "executive-team@company.com"],
+                    cc: ["finance-team@company.com"],
+                    subject: "Re: Project Phoenix - Financial Analysis Required",
+                    date: "2024-01-10T11:30:00Z",
                     hasAttachments: true,
-                    parentMessageId: "msg002",
+                    parentMessageId: "msg001",
                     body: `Team,
 
-I agree with Sarah's points. The development cost increase is concerning, but I think it's justified given the scope changes we discussed last month.
+I've completed the initial financial review. The numbers look promising but we need deeper analysis.
 
-Attached is a revised resource allocation proposal that might help address the budget constraints while maintaining our timeline.
+Initial findings:
+- Revenue synergies could reach $50M annually
+- Integration costs estimated at $25M
+- Break-even projected in 18 months
+- Strong cash flow improvement in Y2
 
-Key changes:
-- Reduce Phase 2 team size by 2 FTE
-- Extend Phase 1 by 3 weeks
-- Defer some non-critical features to Phase 3
+I'm bringing in our external M&A advisors for detailed due diligence.
 
-Let me know your thoughts.
-
-Mike`,
+CFO`,
                     attachments: [
-                        { name: "revised_allocation.docx", type: "application/docx", size: 78945 }
+                        { name: "initial_financial_analysis.xlsx", type: "application/xlsx", size: 445621 }
                     ]
+                },
+
+                // Legal branch from root
+                {
+                    messageId: "msg003",
+                    from: "legal@company.com",
+                    to: ["ceo@company.com", "executive-team@company.com"],
+                    cc: ["compliance@company.com"],
+                    subject: "Re: Project Phoenix - Legal and Regulatory Concerns",
+                    date: "2024-01-10T13:15:00Z",
+                    hasAttachments: true,
+                    parentMessageId: "msg001",
+                    body: `Executive Team,
+
+Legal has identified several critical areas requiring immediate attention:
+
+Regulatory Issues:
+- Antitrust review will be required (6-12 month process)
+- International subsidiaries have complex compliance requirements
+- Existing TechCorp litigation could impact valuation
+
+Recommendation: Engage external counsel specializing in tech M&A immediately.
+
+Legal Team`,
+                    attachments: [
+                        { name: "regulatory_compliance_summary.docx", type: "application/docx", size: 98765 },
+                        { name: "litigation_summary.pdf", type: "application/pdf", size: 67890 }
+                    ]
+                },
+
+                // Technical response to root
+                {
+                    messageId: "msg004",
+                    from: "cto@company.com",
+                    to: ["ceo@company.com", "executive-team@company.com"],
+                    cc: ["engineering@company.com"],
+                    subject: "Re: Project Phoenix - Technology Integration Assessment",
+                    date: "2024-01-10T15:45:00Z",
+                    hasAttachments: false,
+                    parentMessageId: "msg001",
+                    body: `CEO and Team,
+
+From a technical perspective, the TechCorp acquisition presents both opportunities and challenges:
+
+Opportunities:
+- Their AI/ML capabilities complement our platform
+- Strong engineering talent (200+ developers)
+- Proprietary algorithms in data processing
+
+Challenges:
+- Legacy infrastructure needs modernization
+- Different tech stacks require integration planning
+- Security review of their codebase essential
+
+I recommend a technical due diligence sprint with our architecture team.
+
+CTO`
+                },
+
+                // Financial sub-branch - external advisor response
+                {
+                    messageId: "msg005",
+                    from: "advisor@ma-consulting.com",
+                    to: ["cfo@company.com"],
+                    cc: ["ceo@company.com"],
+                    subject: "Re: Project Phoenix - Detailed Financial Due Diligence Plan",
+                    date: "2024-01-11T09:00:00Z",
+                    hasAttachments: true,
+                    parentMessageId: "msg002",
+                    body: `CFO,
+
+Thank you for engaging us on Project Phoenix. We've developed a comprehensive due diligence plan:
+
+Phase 1 (Week 1-2): Financial statement analysis and quality of earnings
+Phase 2 (Week 3-4): Working capital and cash flow modeling
+Phase 3 (Week 5-6): Synergy validation and integration planning
+
+We'll need access to TechCorp's data room and key management for interviews.
+
+Best regards,
+M&A Consulting Team`,
+                    attachments: [
+                        { name: "due_diligence_plan.pptx", type: "application/pptx", size: 2345678 },
+                        { name: "data_request_list.xlsx", type: "application/xlsx", size: 123456 }
+                    ]
+                },
+
+                // CFO response to advisor
+                {
+                    messageId: "msg006",
+                    from: "cfo@company.com",
+                    to: ["advisor@ma-consulting.com"],
+                    cc: ["ceo@company.com", "finance-team@company.com"],
+                    subject: "Re: Project Phoenix - Approved, Data Room Access Arranged",
+                    date: "2024-01-11T14:20:00Z",
+                    hasAttachments: false,
+                    parentMessageId: "msg005",
+                    body: `Team,
+
+Plan approved. I've arranged data room access for your team.
+
+Key contacts at TechCorp:
+- CFO: jane.doe@techcorp.com
+- VP Finance: bob.smith@techcorp.com
+
+Please coordinate directly and keep me updated on findings.
+
+CFO`
+                },
+
+                // Legal sub-branch - external counsel
+                {
+                    messageId: "msg007",
+                    from: "partner@lawfirm.com",
+                    to: ["legal@company.com"],
+                    cc: ["ceo@company.com"],
+                    subject: "Re: Project Phoenix - M&A Legal Strategy",
+                    date: "2024-01-11T10:30:00Z",
+                    hasAttachments: true,
+                    parentMessageId: "msg003",
+                    body: `Legal Team,
+
+We've reviewed the preliminary materials. Key legal workstreams:
+
+1. Antitrust filing strategy (HSR and international)
+2. Transaction structure optimization
+3. Due diligence coordination
+4. Purchase agreement drafting
+
+Timeline is aggressive but manageable. We recommend starting antitrust preparation immediately.
+
+Law Firm Partner`,
+                    attachments: [
+                        { name: "legal_workstream_plan.docx", type: "application/docx", size: 87654 }
+                    ]
+                },
+
+                // HR branch from root
+                {
+                    messageId: "msg008",
+                    from: "hr@company.com",
+                    to: ["ceo@company.com", "executive-team@company.com"],
+                    cc: [],
+                    subject: "Re: Project Phoenix - Human Resources Integration Concerns",
+                    date: "2024-01-11T16:00:00Z",
+                    hasAttachments: true,
+                    parentMessageId: "msg001",
+                    body: `Executive Team,
+
+HR has significant concerns about the people side of this acquisition:
+
+Cultural Integration:
+- TechCorp has a very different work culture (remote-first vs our hybrid model)
+- Compensation structures are not aligned
+- Different performance management systems
+
+Retention Risks:
+- Key talent may leave during transition
+- Redundancy planning needed for overlapping roles
+- Integration timeline affects retention packages
+
+We need a comprehensive people strategy before proceeding.
+
+HR Team`,
+                    attachments: [
+                        { name: "hr_integration_analysis.pptx", type: "application/pptx", size: 1234567 }
+                    ]
+                },
+
+                // Technical sub-branch - architecture review
+                {
+                    messageId: "msg009",
+                    from: "architect@company.com",
+                    to: ["cto@company.com"],
+                    cc: ["engineering@company.com"],
+                    subject: "Re: Project Phoenix - Technical Architecture Assessment",
+                    date: "2024-01-12T09:45:00Z",
+                    hasAttachments: true,
+                    parentMessageId: "msg004",
+                    body: `CTO,
+
+Completed initial technical assessment of TechCorp's architecture:
+
+Strengths:
+- Modern microservices architecture
+- Strong API design
+- Good test coverage and CI/CD practices
+
+Concerns:
+- Heavy reliance on AWS (we're Azure-focused)
+- Custom authentication system needs integration
+- Data models have some overlap but different schemas
+
+Estimated integration effort: 8-12 months with dedicated team.
+
+Chief Architect`,
+                    attachments: [
+                        { name: "technical_assessment.pdf", type: "application/pdf", size: 345678 }
+                    ]
+                },
+
+                // Security sub-branch from technical
+                {
+                    messageId: "msg010",
+                    from: "security@company.com",
+                    to: ["cto@company.com", "architect@company.com"],
+                    cc: ["compliance@company.com"],
+                    subject: "Re: Project Phoenix - Security Review Critical Findings",
+                    date: "2024-01-12T13:30:00Z",
+                    hasAttachments: true,
+                    parentMessageId: "msg009",
+                    body: `Technical Team,
+
+URGENT: Security review has identified critical issues:
+
+High Priority:
+- TechCorp has legacy systems with known vulnerabilities
+- Their data encryption standards below our requirements
+- Incident response procedures not documented
+
+Medium Priority:
+- Different identity management systems
+- API security needs standardization
+
+We cannot proceed without addressing high priority items.
+
+Security Team`,
+                    attachments: [
+                        { name: "security_findings.pdf", type: "application/pdf", size: 234567 }
+                    ]
+                },
+
+                // CEO response to security concerns
+                {
+                    messageId: "msg011",
+                    from: "ceo@company.com",
+                    to: ["security@company.com", "cto@company.com", "executive-team@company.com"],
+                    cc: [],
+                    subject: "Re: Project Phoenix - Security Issues Must Be Resolved",
+                    date: "2024-01-12T15:00:00Z",
+                    hasAttachments: false,
+                    parentMessageId: "msg010",
+                    body: `Team,
+
+Security issues are deal-breakers. I want a comprehensive remediation plan before we proceed with valuation.
+
+CTO - work with TechCorp to understand their security roadmap and timeline for fixes.
+
+This acquisition hinges on resolving these concerns satisfactorily.
+
+CEO`
+                },
+
+                // Board member weighs in (new branch from root)
+                {
+                    messageId: "msg012",
+                    from: "board.chair@company.com",
+                    to: ["ceo@company.com"],
+                    cc: ["board@company.com"],
+                    subject: "Re: Project Phoenix - Board Perspective on Strategic Fit",
+                    date: "2024-01-13T10:00:00Z",
+                    hasAttachments: false,
+                    parentMessageId: "msg001",
+                    body: `CEO,
+
+The board has discussed Project Phoenix in executive session. Key feedback:
+
+Strategic Alignment:
+- Strong fit with our AI/ML strategic initiatives
+- Market expansion opportunities are compelling
+- Competitive positioning would be significantly enhanced
+
+Concerns:
+- Integration complexity seems high
+- Timeline may be too aggressive
+- Cultural integration risks substantial
+
+Board recommendation: Proceed with caution, but don't let perfect be the enemy of good.
+
+Board Chair`
+                },
+
+                // New financial analysis branch
+                {
+                    messageId: "msg013",
+                    from: "analyst@company.com",
+                    to: ["cfo@company.com"],
+                    cc: ["finance-team@company.com"],
+                    subject: "Re: Project Phoenix - Market Analysis and Competitive Impact",
+                    date: "2024-01-13T14:20:00Z",
+                    hasAttachments: true,
+                    parentMessageId: "msg006",
+                    body: `CFO,
+
+Completed market analysis for the TechCorp acquisition:
+
+Market Impact:
+- Combined entity would be #3 player in AI/ML space
+- Significant barriers to entry for competitors
+- Customer cross-selling opportunities worth $30M annually
+
+Competitive Response:
+- Competitors likely to accelerate their own M&A
+- Talent war could intensify
+- Pricing pressure may increase short-term
+
+Strategic value exceeds financial metrics.
+
+Senior Analyst`,
+                    attachments: [
+                        { name: "market_analysis.pptx", type: "application/pptx", size: 1876543 }
+                    ]
+                },
+
+                // Final decision thread
+                {
+                    messageId: "msg014",
+                    from: "ceo@company.com",
+                    to: ["executive-team@company.com", "board@company.com"],
+                    cc: [],
+                    subject: "Project Phoenix - Executive Decision Required",
+                    date: "2024-01-15T09:00:00Z",
+                    hasAttachments: true,
+                    parentMessageId: "msg001",
+                    body: `Leadership Team,
+
+After extensive analysis, we need to make a go/no-go decision on Project Phoenix.
+
+Summary of findings attached. Key decision points:
+- Financial metrics are strong
+- Strategic fit is excellent
+- Integration risks are manageable but significant
+- Security issues must be resolved pre-closing
+
+I'm calling for an executive vote. Please review materials and be prepared to decide.
+
+CEO`,
+                    attachments: [
+                        { name: "executive_summary.pdf", type: "application/pdf", size: 3456789 },
+                        { name: "decision_matrix.xlsx", type: "application/xlsx", size: 234567 }
+                    ]
+                },
+
+                // Vote responses
+                {
+                    messageId: "msg015",
+                    from: "cfo@company.com",
+                    to: ["ceo@company.com", "executive-team@company.com"],
+                    cc: [],
+                    subject: "Re: Project Phoenix - CFO Vote: PROCEED",
+                    date: "2024-01-15T11:30:00Z",
+                    hasAttachments: false,
+                    parentMessageId: "msg014",
+                    body: `CEO,
+
+CFO VOTE: PROCEED with acquisition
+
+Financial case is compelling. Risk-adjusted NPV is strongly positive. Integration costs are within acceptable bounds.
+
+Recommend moving to final due diligence phase.
+
+CFO`
+                },
+
+                {
+                    messageId: "msg016",
+                    from: "cto@company.com",
+                    to: ["ceo@company.com", "executive-team@company.com"],
+                    cc: [],
+                    subject: "Re: Project Phoenix - CTO Vote: CONDITIONAL PROCEED",
+                    date: "2024-01-15T12:45:00Z",
+                    hasAttachments: false,
+                    parentMessageId: "msg014",
+                    body: `Team,
+
+CTO VOTE: CONDITIONAL PROCEED
+
+Technical integration is feasible but complex. Security issues MUST be resolved before signing.
+
+Recommend 6-month technology integration plan as condition of deal.
+
+CTO`
+                },
+
+                {
+                    messageId: "msg017",
+                    from: "hr@company.com",
+                    to: ["ceo@company.com", "executive-team@company.com"],
+                    cc: [],
+                    subject: "Re: Project Phoenix - HR Vote: PROCEED WITH CAUTION",
+                    date: "2024-01-15T14:00:00Z",
+                    hasAttachments: false,
+                    parentMessageId: "msg014",
+                    body: `Executive Team,
+
+HR VOTE: PROCEED WITH CAUTION
+
+People risks are significant but manageable with proper planning. Recommend:
+- 18-month integration timeline
+- Retention packages for key talent
+- Cultural integration program
+
+HR supports the strategic vision.
+
+HR Team`
                 }
             ]
         };
