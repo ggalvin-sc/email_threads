@@ -1,0 +1,883 @@
+<html><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <style>
+        ::-webkit-scrollbar { display: none; }
+        body { font-family: 'Inter', sans-serif; }
+        .thread-connector {
+            position: relative;
+        }
+        .thread-connector::before {
+            content: '';
+            position: absolute;
+            left: 16px;
+            top: 40px;
+            bottom: -20px;
+            width: 2px;
+            background: linear-gradient(to bottom, #e5e7eb, #e5e7eb 80%, transparent);
+        }
+        .branch-connector {
+            position: relative;
+        }
+        .branch-connector::after {
+            content: '';
+            position: absolute;
+            left: -24px;
+            top: 24px;
+            width: 24px;
+            height: 2px;
+            background: #e5e7eb;
+        }
+        .participant-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-right: 4px;
+        }
+        .cc-indicator { background-color: #fbbf24; }
+        .bcc-indicator { background-color: #f87171; }
+        .to-indicator { background-color: #34d399; }
+    </style>
+    <script>tailwind.config = {
+  "theme": {
+    "extend": {
+      "fontFamily": {
+        "inter": [
+          "Inter",
+          "sans-serif"
+        ]
+      },
+      "colors": {
+        "primary": "#2563eb",
+        "secondary": "#64748b",
+        "accent": "#f59e0b"
+      }
+    }
+  }
+};</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"><style>
+  .highlighted-section {
+    outline: 2px solid #3F20FB;
+    background-color: rgba(63, 32, 251, 0.1);
+  }
+
+  .edit-button {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html, body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  </style></head>
+<body class="bg-gray-50 font-custom">
+
+    <!-- Header -->
+    <header id="header" class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-envelope text-primary text-2xl"></i>
+                        <h1 class="text-2xl font-bold text-gray-900">ThreadView</h1>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-2 text-sm text-gray-500">
+                        <i class="fa-solid fa-chevron-right"></i>
+                        <span>Email Threads</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                        <span>Branch Analysis</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <input type="search" placeholder="Search threads..." class="w-80 px-4 py-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fa-solid fa-plus mr-2"></i>
+                        New Thread
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div id="main-container" class="flex h-screen pt-16">
+        
+        <!-- Sidebar -->
+        <aside id="sidebar" class="w-80 bg-white border-r border-gray-200 flex flex-col">
+            <div class="p-6 border-b border-gray-200">
+                <h2 class="text-lg font-semibold text-gray-900 mb-4">Thread Analysis</h2>
+                <div class="space-y-2">
+                    <button class="w-full text-left px-3 py-2 rounded-lg bg-primary text-white flex items-center justify-between">
+                        <span>Branch View</span>
+                        <i class="fa-solid fa-code-branch text-xs"></i>
+                    </button>
+                    <button class="w-full text-left px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">
+                        <span>Timeline View</span>
+                    </button>
+                    <button class="w-full text-left px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">
+                        <span>Participant Flow</span>
+                    </button>
+                    <button class="w-full text-left px-3 py-2 rounded-lg text-gray-700 hover:bg-gray-100">
+                        <span>CC/BCC Analysis</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="flex-1 overflow-y-auto p-4">
+                <div class="space-y-4">
+                    <div class="border-b border-gray-200 pb-4">
+                        <h3 class="font-semibold text-gray-900 mb-3">Branch Statistics</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Total Branches</span>
+                                <span class="font-medium">7</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Active Branches</span>
+                                <span class="font-medium">4</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Max Depth</span>
+                                <span class="font-medium">3 levels</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Unique Recipients</span>
+                                <span class="font-medium">12</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border-b border-gray-200 pb-4">
+                        <h3 class="font-semibold text-gray-900 mb-3">Participant Coverage</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 bg-green-100 rounded-full flex items-center justify-center">
+                                    <span class="text-xs font-medium text-green-800">SJ</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-900">Sarah Johnson</div>
+                                    <div class="text-xs text-gray-500">7/7 branches</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center">
+                                    <span class="text-xs font-medium text-blue-800">MR</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-900">Mike Rodriguez</div>
+                                    <div class="text-xs text-gray-500">5/7 branches</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center">
+                                    <span class="text-xs font-medium text-purple-800">EC</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-900">Emily Chen</div>
+                                    <div class="text-xs text-gray-500">3/7 branches</div>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <div class="w-6 h-6 bg-orange-100 rounded-full flex items-center justify-center">
+                                    <span class="text-xs font-medium text-orange-800">DW</span>
+                                </div>
+                                <div class="flex-1">
+                                    <div class="text-sm font-medium text-gray-900">David Wilson</div>
+                                    <div class="text-xs text-gray-500">4/7 branches</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <h3 class="font-semibold text-gray-900 mb-3">Legend</h3>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-center space-x-2">
+                                <span class="participant-indicator to-indicator"></span>
+                                <span class="text-gray-600">Direct recipient (TO)</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="participant-indicator cc-indicator"></span>
+                                <span class="text-gray-600">Carbon copy (CC)</span>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="participant-indicator bcc-indicator"></span>
+                                <span class="text-gray-600">Blind carbon copy (BCC)</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main id="main-content" class="flex-1 flex flex-col">
+            
+            <!-- Thread Header -->
+            <div id="thread-header" class="bg-white border-b border-gray-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Project Alpha Discussion - Branch Analysis</h2>
+                        <p class="text-gray-600 mt-1">Showing participant distribution across 7 conversation branches</p>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                            <i class="fa-solid fa-download mr-2"></i>
+                            Export
+                        </button>
+                        <button class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                            <i class="fa-solid fa-share mr-2"></i>
+                            Share
+                        </button>
+                        <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700">
+                            <i class="fa-solid fa-eye mr-2"></i>
+                            Switch to Timeline
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="flex items-center space-x-6 text-sm text-gray-600">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-code-branch"></i>
+                        <span>7 branches identified</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-users"></i>
+                        <span>12 unique participants</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-clock"></i>
+                        <span>Span: 4 days, 8 hours</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Branch Visualization Controls -->
+            <div id="branch-controls" class="bg-gray-50 border-b border-gray-200 p-4">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-4">
+                        <span class="text-sm font-medium text-gray-700">Display:</span>
+                        <div class="flex bg-white rounded-lg border border-gray-300">
+                            <button class="px-4 py-2 text-sm bg-primary text-white rounded-l-lg">Full Details</button>
+                            <button class="px-4 py-2 text-sm text-gray-600 hover:bg-gray-50">Compact</button>
+                            <button class="px-4 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded-r-lg">Summary</button>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4">
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox" id="show-cc" class="rounded border-gray-300" checked="">
+                            <label for="show-cc" class="text-sm text-gray-600">Show CC recipients</label>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <input type="checkbox" id="show-bcc" class="rounded border-gray-300">
+                            <label for="show-bcc" class="text-sm text-gray-600">Show BCC recipients</label>
+                        </div>
+                        <button class="text-sm text-primary hover:underline">
+                            <i class="fa-solid fa-expand mr-1"></i>
+                            Expand All Branches
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Branch Tree Visualization -->
+            <div id="branch-tree" class="flex-1 overflow-auto p-8 bg-white">
+                <div class="max-w-6xl mx-auto">
+                    
+                    <!-- Original Email (Root) -->
+                    <div id="branch-root" class="mb-8">
+                        <div class="flex items-start space-x-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-semibold">
+                                    SJ
+                                </div>
+                                <div class="w-1 h-8 bg-gray-300 mt-2"></div>
+                            </div>
+                            <div class="flex-1 bg-blue-50 border-2 border-blue-200 rounded-xl p-6">
+                                <div class="flex items-start justify-between mb-4">
+                                    <div>
+                                        <h3 class="text-lg font-bold text-gray-900">Original Email - Project Alpha Requirements</h3>
+                                        <p class="text-sm text-gray-600 mt-1">From: Sarah Johnson • Mar 15, 2024 at 9:30 AM</p>
+                                    </div>
+                                    <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">ROOT</span>
+                                </div>
+                                
+                                <div class="mb-4">
+                                    <h4 class="font-semibold text-gray-900 mb-2">Recipients in this email:</h4>
+                                    <div class="flex flex-wrap gap-2">
+                                        <div class="flex items-center space-x-1 bg-white px-3 py-1 rounded-full border">
+                                            <span class="participant-indicator to-indicator"></span>
+                                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Mike Rodriguez" class="w-5 h-5 rounded-full">
+                                            <span class="text-sm">Mike Rodriguez</span>
+                                        </div>
+                                        <div class="flex items-center space-x-1 bg-white px-3 py-1 rounded-full border">
+                                            <span class="participant-indicator to-indicator"></span>
+                                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" alt="Emily Chen" class="w-5 h-5 rounded-full">
+                                            <span class="text-sm">Emily Chen</span>
+                                        </div>
+                                        <div class="flex items-center space-x-1 bg-white px-3 py-1 rounded-full border">
+                                            <span class="participant-indicator to-indicator"></span>
+                                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" alt="David Wilson" class="w-5 h-5 rounded-full">
+                                            <span class="text-sm">David Wilson</span>
+                                        </div>
+                                        <div class="flex items-center space-x-1 bg-white px-3 py-1 rounded-full border">
+                                            <span class="participant-indicator cc-indicator"></span>
+                                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-7.jpg" alt="Anna Martinez" class="w-5 h-5 rounded-full">
+                                            <span class="text-sm">Anna Martinez</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <p class="text-gray-700 text-sm">Initial project requirements discussion with core team members and finance stakeholder in CC.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Branch Level 1 -->
+                    <div id="branch-level-1" class="ml-8 space-y-6">
+                        
+                        <!-- Branch 1.1 - Mike's Reply -->
+                        <div class="thread-connector">
+                            <div class="flex items-start space-x-4">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                                        MR
+                                    </div>
+                                    <div class="w-1 h-8 bg-gray-300 mt-2"></div>
+                                </div>
+                                <div class="flex-1 bg-green-50 border-2 border-green-200 rounded-xl p-5">
+                                    <div class="flex items-start justify-between mb-3">
+                                        <div>
+                                            <h4 class="font-bold text-gray-900">Reply: Resource Allocation Concerns</h4>
+                                            <p class="text-sm text-gray-600">From: Mike Rodriguez • Mar 15, 2024 at 10:15 AM</p>
+                                        </div>
+                                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">BRANCH 1.1</span>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <h5 class="font-semibold text-gray-900 mb-2 text-sm">Recipients in this reply:</h5>
+                                        <div class="flex flex-wrap gap-2">
+                                            <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                <span class="participant-indicator to-indicator"></span>
+                                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Sarah Johnson" class="w-4 h-4 rounded-full">
+                                                <span>Sarah Johnson</span>
+                                            </div>
+                                            <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                <span class="participant-indicator cc-indicator"></span>
+                                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" alt="Emily Chen" class="w-4 h-4 rounded-full">
+                                                <span>Emily Chen</span>
+                                            </div>
+                                            <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                <span class="participant-indicator cc-indicator"></span>
+                                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" alt="David Wilson" class="w-4 h-4 rounded-full">
+                                                <span>David Wilson</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="text-gray-700 text-sm">Concerns about Phase 2 timeline and resource allocation. Suggests call to discuss alternatives.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Branch 1.2 - David's Separate Reply -->
+                        <div class="thread-connector">
+                            <div class="flex items-start space-x-4">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-10 h-10 bg-purple-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                                        DW
+                                    </div>
+                                    <div class="w-1 h-8 bg-gray-300 mt-2"></div>
+                                </div>
+                                <div class="flex-1 bg-purple-50 border-2 border-purple-200 rounded-xl p-5">
+                                    <div class="flex items-start justify-between mb-3">
+                                        <div>
+                                            <h4 class="font-bold text-gray-900">Reply: Technical Implementation</h4>
+                                            <p class="text-sm text-gray-600">From: David Wilson • Mar 15, 2024 at 2:30 PM</p>
+                                        </div>
+                                        <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs">BRANCH 1.2</span>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <h5 class="font-semibold text-gray-900 mb-2 text-sm">Recipients in this reply:</h5>
+                                        <div class="flex flex-wrap gap-2">
+                                            <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                <span class="participant-indicator to-indicator"></span>
+                                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Sarah Johnson" class="w-4 h-4 rounded-full">
+                                                <span>Sarah Johnson</span>
+                                            </div>
+                                            <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                <span class="participant-indicator to-indicator"></span>
+                                                <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Mike Rodriguez" class="w-4 h-4 rounded-full">
+                                                <span>Mike Rodriguez</span>
+                                            </div>
+                                            <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                <span class="participant-indicator cc-indicator"></span>
+                                                <div class="w-4 h-4 bg-gray-300 rounded-full flex items-center justify-center text-xs">
+                                                    <span>+3</span>
+                                                </div>
+                                                <span>Tech Team</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="text-gray-700 text-sm">Technical challenges identified with API integration. Added tech team to CC for visibility.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Branch Level 2 - Sub-branches -->
+                        <div class="ml-8 space-y-6">
+                            
+                            <!-- Branch 2.1 - Emily's Reply to Mike -->
+                            <div class="branch-connector thread-connector">
+                                <div class="flex items-start space-x-4">
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-10 h-10 bg-pink-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                                            EC
+                                        </div>
+                                        <div class="w-1 h-8 bg-gray-300 mt-2"></div>
+                                    </div>
+                                    <div class="flex-1 bg-pink-50 border-2 border-pink-200 rounded-xl p-5">
+                                        <div class="flex items-start justify-between mb-3">
+                                            <div>
+                                                <h4 class="font-bold text-gray-900">Reply to Mike: Design Timeline Concerns</h4>
+                                                <p class="text-sm text-gray-600">From: Emily Chen • Mar 15, 2024 at 11:00 AM</p>
+                                            </div>
+                                            <span class="bg-pink-100 text-pink-800 px-2 py-1 rounded-full text-xs">BRANCH 2.1</span>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <h5 class="font-semibold text-gray-900 mb-2 text-sm">Recipients (Reply to Mike's thread):</h5>
+                                            <div class="flex flex-wrap gap-2">
+                                                <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                    <span class="participant-indicator to-indicator"></span>
+                                                    <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Mike Rodriguez" class="w-4 h-4 rounded-full">
+                                                    <span>Mike Rodriguez</span>
+                                                </div>
+                                                <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                    <span class="participant-indicator cc-indicator"></span>
+                                                    <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Sarah Johnson" class="w-4 h-4 rounded-full">
+                                                    <span>Sarah Johnson</span>
+                                                </div>
+                                                <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                    <span class="participant-indicator cc-indicator"></span>
+                                                    <div class="w-4 h-4 bg-gray-300 rounded-full flex items-center justify-center text-xs">
+                                                        <span>UX</span>
+                                                    </div>
+                                                    <span>UX Team</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <p class="text-gray-700 text-sm">Agrees with Mike's concerns. UX testing needs more time in Phase 2. UX team added to loop.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Branch 2.2 - Sarah's Response to David -->
+                            <div class="branch-connector thread-connector">
+                                <div class="flex items-start space-x-4">
+                                    <div class="flex flex-col items-center">
+                                        <div class="w-10 h-10 bg-indigo-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                                            SJ
+                                        </div>
+                                        <div class="w-1 h-8 bg-gray-300 mt-2"></div>
+                                    </div>
+                                    <div class="flex-1 bg-indigo-50 border-2 border-indigo-200 rounded-xl p-5">
+                                        <div class="flex items-start justify-between mb-3">
+                                            <div>
+                                                <h4 class="font-bold text-gray-900">Reply to David: Tech Review Needed</h4>
+                                                <p class="text-sm text-gray-600">From: Sarah Johnson • Mar 15, 2024 at 3:15 PM</p>
+                                            </div>
+                                            <span class="bg-indigo-100 text-indigo-800 px-2 py-1 rounded-full text-xs">BRANCH 2.2</span>
+                                        </div>
+                                        
+                                        <div class="mb-3">
+                                            <h5 class="font-semibold text-gray-900 mb-2 text-sm">Recipients (Reply to David's thread):</h5>
+                                            <div class="flex flex-wrap gap-2">
+                                                <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                    <span class="participant-indicator to-indicator"></span>
+                                                    <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" alt="David Wilson" class="w-4 h-4 rounded-full">
+                                                    <span>David Wilson</span>
+                                                </div>
+                                                <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                    <span class="participant-indicator to-indicator"></span>
+                                                    <div class="w-4 h-4 bg-orange-300 rounded-full flex items-center justify-center text-xs">
+                                                        <span>CTO</span>
+                                                    </div>
+                                                    <span>John Smith (CTO)</span>
+                                                </div>
+                                                <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                    <span class="participant-indicator cc-indicator"></span>
+                                                    <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Mike Rodriguez" class="w-4 h-4 rounded-full">
+                                                    <span>Mike Rodriguez</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <p class="text-gray-700 text-sm">Escalated to CTO for technical review. Need architecture approval before proceeding.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Branch Level 3 - Deep nested replies -->
+                            <div class="ml-8 space-y-4">
+                                
+                                <!-- Branch 3.1 - CTO Response -->
+                                <div class="branch-connector">
+                                    <div class="flex items-start space-x-4">
+                                        <div class="flex flex-col items-center">
+                                            <div class="w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-semibold text-xs">
+                                                JS
+                                            </div>
+                                        </div>
+                                        <div class="flex-1 bg-orange-50 border border-orange-200 rounded-lg p-4">
+                                            <div class="flex items-start justify-between mb-2">
+                                                <div>
+                                                    <h5 class="font-semibold text-gray-900 text-sm">CTO Approval &amp; Recommendations</h5>
+                                                    <p class="text-xs text-gray-600">From: John Smith • Mar 16, 2024 at 8:00 AM</p>
+                                                </div>
+                                                <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs">BRANCH 3.1</span>
+                                            </div>
+                                            
+                                            <div class="mb-2">
+                                                <div class="flex flex-wrap gap-1">
+                                                    <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                        <span class="participant-indicator to-indicator"></span>
+                                                        <span>Sarah, David, Mike</span>
+                                                    </div>
+                                                    <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                        <span class="participant-indicator cc-indicator"></span>
+                                                        <span>Architecture Team</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <p class="text-gray-700 text-xs">Architecture approved with modifications. See attached technical specifications.</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <!-- Branch 1.3 - Anna's Forward -->
+                        <div class="thread-connector">
+                            <div class="flex items-start space-x-4">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-10 h-10 bg-yellow-500 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                                        AM
+                                    </div>
+                                    <div class="w-1 h-8 bg-gray-300 mt-2"></div>
+                                </div>
+                                <div class="flex-1 bg-yellow-50 border-2 border-yellow-200 rounded-xl p-5">
+                                    <div class="flex items-start justify-between mb-3">
+                                        <div>
+                                            <h4 class="font-bold text-gray-900">Forward: Budget Approval Update</h4>
+                                            <p class="text-sm text-gray-600">From: Anna Martinez • Mar 16, 2024 at 9:00 AM</p>
+                                        </div>
+                                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">BRANCH 1.3</span>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <h5 class="font-semibold text-gray-900 mb-2 text-sm">Forward recipients:</h5>
+                                        <div class="flex flex-wrap gap-2">
+                                            <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                <span class="participant-indicator to-indicator"></span>
+                                                <span>All original recipients</span>
+                                            </div>
+                                            <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                <span class="participant-indicator cc-indicator"></span>
+                                                <div class="w-4 h-4 bg-green-300 rounded-full flex items-center justify-center text-xs">
+                                                    <span>FIN</span>
+                                                </div>
+                                                <span>Finance Team</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-yellow-100 border-l-4 border-yellow-400 p-3 mb-3 rounded">
+                                        <p class="text-xs text-gray-600 font-medium">FORWARDED FROM: finance@company.com</p>
+                                        <p class="text-xs text-gray-700">Budget approved with 15% contingency allocation</p>
+                                    </div>
+                                    
+                                    <p class="text-gray-700 text-sm">Budget approved with modifications. Finance team added for ongoing visibility.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Branch 1.4 - Final Summary from Sarah -->
+                        <div class="thread-connector">
+                            <div class="flex items-start space-x-4">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center text-white font-semibold text-sm">
+                                        SJ
+                                    </div>
+                                </div>
+                                <div class="flex-1 bg-green-50 border-2 border-green-200 rounded-xl p-5">
+                                    <div class="flex items-start justify-between mb-3">
+                                        <div>
+                                            <h4 class="font-bold text-gray-900">Summary: Updated Timeline &amp; Next Steps</h4>
+                                            <p class="text-sm text-gray-600">From: Sarah Johnson • Mar 16, 2024 at 2:00 PM</p>
+                                        </div>
+                                        <div class="flex items-center space-x-2">
+                                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">BRANCH 1.4</span>
+                                            <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs">LATEST</span>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="mb-3">
+                                        <h5 class="font-semibold text-gray-900 mb-2 text-sm">Reply All recipients:</h5>
+                                        <div class="flex flex-wrap gap-2">
+                                            <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                <span class="participant-indicator to-indicator"></span>
+                                                <span>All participants (12 people)</span>
+                                            </div>
+                                            <div class="flex items-center space-x-1 bg-white px-2 py-1 rounded-full border text-xs">
+                                                <span class="participant-indicator cc-indicator"></span>
+                                                <div class="w-4 h-4 bg-blue-300 rounded-full flex items-center justify-center text-xs">
+                                                    <span>PM</span>
+                                                </div>
+                                                <span>PMO Team</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    
+                                    <p class="text-gray-700 text-sm">Consolidated all feedback. Updated timeline incorporates all concerns. Meeting scheduled for tomorrow 10 AM.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Right Panel - Branch Analysis -->
+        <aside id="right-panel" class="w-96 bg-white border-l border-gray-200 flex flex-col">
+            
+            <!-- Branch Overview -->
+            <div id="branch-overview" class="p-6 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Branch Analysis</h3>
+                <div class="space-y-4">
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-medium text-gray-700">Thread Complexity</span>
+                            <span class="text-sm font-bold text-orange-600">High</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-orange-500 h-2 rounded-full" style="width: 75%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="bg-blue-50 rounded-lg p-3 text-center">
+                            <div class="text-2xl font-bold text-blue-600">7</div>
+                            <div class="text-xs text-blue-600">Total Branches</div>
+                        </div>
+                        <div class="bg-green-50 rounded-lg p-3 text-center">
+                            <div class="text-2xl font-bold text-green-600">3</div>
+                            <div class="text-xs text-green-600">Max Depth</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Participant Flow -->
+            <div id="participant-flow" class="p-6 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Participant Flow</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Sarah Johnson" class="w-8 h-8 rounded-full">
+                            <div>
+                                <div class="font-medium text-sm text-gray-900">Sarah Johnson</div>
+                                <div class="text-xs text-gray-500">Thread Initiator</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-bold text-gray-900">7/7</div>
+                            <div class="text-xs text-gray-500">branches</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Mike Rodriguez" class="w-8 h-8 rounded-full">
+                            <div>
+                                <div class="font-medium text-sm text-gray-900">Mike Rodriguez</div>
+                                <div class="text-xs text-gray-500">Most Active</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-bold text-gray-900">5/7</div>
+                            <div class="text-xs text-gray-500">branches</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" alt="David Wilson" class="w-8 h-8 rounded-full">
+                            <div>
+                                <div class="font-medium text-sm text-gray-900">David Wilson</div>
+                                <div class="text-xs text-gray-500">Branch Creator</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-bold text-gray-900">4/7</div>
+                            <div class="text-xs text-gray-500">branches</div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <div class="flex items-center space-x-3">
+                            <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" alt="Emily Chen" class="w-8 h-8 rounded-full">
+                            <div>
+                                <div class="font-medium text-sm text-gray-900">Emily Chen</div>
+                                <div class="text-xs text-gray-500">Sub-branch Creator</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-sm font-bold text-gray-900">3/7</div>
+                            <div class="text-xs text-gray-500">branches</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CC/BCC Analysis -->
+            <div id="cc-bcc-analysis" class="p-6 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">CC/BCC Distribution</h3>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-600">Direct Recipients (TO)</span>
+                            <span class="text-sm font-semibold">68%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: 68%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-600">Carbon Copy (CC)</span>
+                            <span class="text-sm font-semibold">28%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-yellow-500 h-2 rounded-full" style="width: 28%"></div>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm text-gray-600">Blind Copy (BCC)</span>
+                            <span class="text-sm font-semibold">4%</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-red-500 h-2 rounded-full" style="width: 4%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Branch Timeline -->
+            <div id="branch-timeline" class="p-6 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Branch Timeline</h3>
+                <div class="space-y-3 text-sm">
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 bg-blue-500 rounded-full"></div>
+                        <div class="flex-1">
+                            <div class="font-medium text-gray-900">Original Thread</div>
+                            <div class="text-xs text-gray-500">Mar 15, 9:30 AM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 bg-green-500 rounded-full"></div>
+                        <div class="flex-1">
+                            <div class="font-medium text-gray-900">First Branches (2)</div>
+                            <div class="text-xs text-gray-500">Mar 15, 10:15 AM - 2:30 PM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 bg-purple-500 rounded-full"></div>
+                        <div class="flex-1">
+                            <div class="font-medium text-gray-900">Sub-branches (3)</div>
+                            <div class="text-xs text-gray-500">Mar 15, 11:00 AM - 3:15 PM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 bg-orange-500 rounded-full"></div>
+                        <div class="flex-1">
+                            <div class="font-medium text-gray-900">Deep Branches (1)</div>
+                            <div class="text-xs text-gray-500">Mar 16, 8:00 AM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 bg-yellow-500 rounded-full"></div>
+                        <div class="flex-1">
+                            <div class="font-medium text-gray-900">Forward Branch</div>
+                            <div class="text-xs text-gray-500">Mar 16, 9:00 AM</div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3">
+                        <div class="w-2 h-2 bg-red-500 rounded-full"></div>
+                        <div class="flex-1">
+                            <div class="font-medium text-gray-900">Final Summary</div>
+                            <div class="text-xs text-gray-500">Mar 16, 2:00 PM</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Export Options -->
+            <div id="export-options" class="p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Export &amp; Share</h3>
+                <div class="space-y-2">
+                    <button class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg flex items-center">
+                        <i class="fa-solid fa-file-pdf mr-3 text-red-500"></i>
+                        Export Branch Analysis (PDF)
+                    </button>
+                    <button class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg flex items-center">
+                        <i class="fa-solid fa-table mr-3 text-green-500"></i>
+                        Export Participant Matrix (CSV)
+                    </button>
+                    <button class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg flex items-center">
+                        <i class="fa-solid fa-share-nodes mr-3 text-blue-500"></i>
+                        Share Branch Visualization
+                    </button>
+                    <button class="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg flex items-center">
+                        <i class="fa-solid fa-chart-line mr-3 text-purple-500"></i>
+                        Generate Analytics Report
+                    </button>
+                </div>
+            </div>
+
+        </aside>
+
+    </div>
+
+
+</body></html>

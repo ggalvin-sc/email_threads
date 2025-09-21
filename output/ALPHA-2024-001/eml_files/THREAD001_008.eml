@@ -1,0 +1,10 @@
+Message-ID: <008@company.com>
+From: john.smith@company.com
+To: security@company.com
+CC: bob.wilson@company.com, david.clark@company.com
+Subject: Fwd: Project Alpha - Security Review Needed
+Date: Wed, 17 Jan 2024 09:00:00 GMT
+In-Reply-To: <006@company.com>
+References: <001@company.com 003@company.com 006@company.com>
+
+Security Team, Bob raised an excellent point about early security involvement in Project Alpha. I'm forwarding the relevant discussion. Could someone from your team join our Monday kickoff? We're particularly concerned about the authentication module. John

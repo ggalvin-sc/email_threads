@@ -1,0 +1,10 @@
+Message-ID: <002@company.com>
+From: mary.jones@company.com
+To: john.smith@company.com
+CC: bob.wilson@company.com, alice.brown@company.com
+Subject: Re: Project Alpha - Initial Requirements
+Date: Mon, 15 Jan 2024 14:30:00 GMT
+In-Reply-To: <001@company.com>
+References: <001@company.com>
+
+John, Thanks for sharing the requirements. I have a few questions about the user authentication module. Can we schedule a call to discuss? I'm also adding Alice to this thread as she'll be handling the frontend development. Mary

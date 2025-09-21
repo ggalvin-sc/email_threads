@@ -1,0 +1,523 @@
+{
+  "threadId": "ALPHA-2024-001",
+  "tree": {
+    "threadId": "ALPHA-2024-001",
+    "roots": [
+      {
+        "id": "THREAD001_001",
+        "messageId": "<001@company.com>",
+        "references": [],
+        "threadId": "ALPHA-2024-001",
+        "from": "john.smith@company.com",
+        "to": [
+          "mary.jones@company.com",
+          "bob.wilson@company.com"
+        ],
+        "cc": [],
+        "bcc": [],
+        "subject": "Project Alpha - Initial Requirements",
+        "dateSent": "2024-01-15T09:00:00.000Z",
+        "custodian": "John.Smith",
+        "fileName": "email_001.eml",
+        "fullText": "Hi team, I wanted to discuss the initial requirements for Project Alpha. We need to establish the core functionality and timeline. Please review the attached specifications and let me know your thoughts. Best regards, John",
+        "confidentiality": "Internal",
+        "begBates": "THREAD001_001",
+        "endBates": "THREAD001_001",
+        "fileType": "email",
+        "hash": "abc123hash001",
+        "nativeLink": "link001",
+        "author": "john.smith@company.com",
+        "title": "Project Alpha - Initial Requirements",
+        "dateCreated": "2024-01-15T09:00:00.000Z",
+        "dateLastModified": "2024-01-15T09:00:00.000Z",
+        "children": [
+          {
+            "id": "THREAD001_002",
+            "messageId": "<002@company.com>",
+            "inReplyTo": "<001@company.com>",
+            "references": [
+              "<001@company.com>"
+            ],
+            "threadId": "ALPHA-2024-001",
+            "from": "mary.jones@company.com",
+            "to": [
+              "john.smith@company.com"
+            ],
+            "cc": [
+              "bob.wilson@company.com",
+              "alice.brown@company.com"
+            ],
+            "bcc": [],
+            "subject": "Re: Project Alpha - Initial Requirements",
+            "dateSent": "2024-01-15T14:30:00.000Z",
+            "custodian": "Mary.Jones",
+            "fileName": "email_002.eml",
+            "fullText": "John, Thanks for sharing the requirements. I have a few questions about the user authentication module. Can we schedule a call to discuss? I'm also adding Alice to this thread as she'll be handling the frontend development. Mary",
+            "confidentiality": "Internal",
+            "begBates": "THREAD001_002",
+            "endBates": "THREAD001_002",
+            "fileType": "email",
+            "hash": "def456hash002",
+            "nativeLink": "link002",
+            "author": "mary.jones@company.com",
+            "title": "Re: Project Alpha - Initial Requirements",
+            "dateCreated": "2024-01-15T14:30:00.000Z",
+            "dateLastModified": "2024-01-15T14:30:00.000Z",
+            "children": [
+              {
+                "id": "THREAD001_004",
+                "messageId": "<004@company.com>",
+                "inReplyTo": "<002@company.com>",
+                "references": [
+                  "<001@company.com",
+                  "002@company.com>"
+                ],
+                "threadId": "ALPHA-2024-001",
+                "from": "alice.brown@company.com",
+                "to": [
+                  "mary.jones@company.com"
+                ],
+                "cc": [
+                  "john.smith@company.com",
+                  "bob.wilson@company.com"
+                ],
+                "bcc": [],
+                "subject": "Re: Project Alpha - Initial Requirements",
+                "dateSent": "2024-01-16T08:15:00.000Z",
+                "custodian": "Alice.Brown",
+                "fileName": "email_004.eml",
+                "fullText": "Mary, I'm excited to join the project! I've reviewed the requirements and have some UI/UX suggestions. Should we set up a design review meeting? I can prepare some mockups by Thursday. Alice",
+                "confidentiality": "Internal",
+                "begBates": "THREAD001_004",
+                "endBates": "THREAD001_004",
+                "fileType": "email",
+                "hash": "jkl012hash004",
+                "nativeLink": "link004",
+                "author": "alice.brown@company.com",
+                "title": "Re: Project Alpha - Initial Requirements",
+                "dateCreated": "2024-01-16T08:15:00.000Z",
+                "dateLastModified": "2024-01-16T08:15:00.000Z",
+                "children": []
+              },
+              {
+                "id": "THREAD001_005",
+                "messageId": "<005@company.com>",
+                "inReplyTo": "<002@company.com>",
+                "references": [
+                  "<001@company.com",
+                  "002@company.com>"
+                ],
+                "threadId": "ALPHA-2024-001",
+                "from": "mary.jones@company.com",
+                "to": [
+                  "alice.brown@company.com",
+                  "david.clark@company.com"
+                ],
+                "cc": [
+                  "john.smith@company.com",
+                  "bob.wilson@company.com"
+                ],
+                "bcc": [],
+                "subject": "Fwd: Project Alpha - Initial Requirements",
+                "dateSent": "2024-01-16T10:30:00.000Z",
+                "custodian": "Mary.Jones",
+                "fileName": "email_005.eml",
+                "fullText": "David, I'm forwarding this thread about Project Alpha. Since you'll be the project manager, please review the discussion so far. Alice is preparing UI mockups for Thursday. Can you join our design review? Mary",
+                "confidentiality": "Internal",
+                "isForward": true,
+                "begBates": "THREAD001_005",
+                "endBates": "THREAD001_005",
+                "fileType": "email",
+                "hash": "mno345hash005",
+                "nativeLink": "link005",
+                "author": "mary.jones@company.com",
+                "title": "Fwd: Project Alpha - Initial Requirements",
+                "dateCreated": "2024-01-16T10:30:00.000Z",
+                "dateLastModified": "2024-01-16T10:30:00.000Z",
+                "children": [
+                  {
+                    "id": "THREAD001_007",
+                    "messageId": "<007@company.com>",
+                    "inReplyTo": "<005@company.com>",
+                    "references": [
+                      "<001@company.com",
+                      "002@company.com",
+                      "005@company.com>"
+                    ],
+                    "threadId": "ALPHA-2024-001",
+                    "from": "david.clark@company.com",
+                    "to": [
+                      "mary.jones@company.com"
+                    ],
+                    "cc": [
+                      "alice.brown@company.com",
+                      "john.smith@company.com",
+                      "bob.wilson@company.com"
+                    ],
+                    "bcc": [],
+                    "subject": "Re: Fwd: Project Alpha - Initial Requirements",
+                    "dateSent": "2024-01-16T15:45:00.000Z",
+                    "custodian": "David.Clark",
+                    "fileName": "email_007.eml",
+                    "fullText": "Mary, thanks for bringing me into this. I've reviewed the requirements and Bob's database schema. Let's schedule a kickoff meeting for Monday. Alice, I'd love to see those mockups on Thursday. I'll send out calendar invites. David",
+                    "confidentiality": "Internal",
+                    "begBates": "THREAD001_007",
+                    "endBates": "THREAD001_007",
+                    "fileType": "email",
+                    "hash": "stu901hash007",
+                    "nativeLink": "link007",
+                    "author": "david.clark@company.com",
+                    "title": "Re: Fwd: Project Alpha - Initial Requirements",
+                    "dateCreated": "2024-01-16T15:45:00.000Z",
+                    "dateLastModified": "2024-01-16T15:45:00.000Z",
+                    "children": [
+                      {
+                        "id": "THREAD001_009",
+                        "messageId": "<009@company.com>",
+                        "inReplyTo": "<007@company.com>",
+                        "references": [
+                          "<001@company.com",
+                          "002@company.com",
+                          "005@company.com",
+                          "007@company.com>"
+                        ],
+                        "threadId": "ALPHA-2024-001",
+                        "from": "alice.brown@company.com",
+                        "to": [
+                          "david.clark@company.com",
+                          "mary.jones@company.com"
+                        ],
+                        "cc": [
+                          "john.smith@company.com",
+                          "bob.wilson@company.com"
+                        ],
+                        "bcc": [],
+                        "subject": "Re: Fwd: Project Alpha - Initial Requirements - Mockups Ready",
+                        "dateSent": "2024-01-18T11:30:00.000Z",
+                        "custodian": "Alice.Brown",
+                        "fileName": "email_009.eml",
+                        "fullText": "David, I've completed the initial mockups as promised. I'm attaching the design files for the main dashboard and user authentication screens. The designs incorporate modern UX principles and accessibility standards. Looking forward to Thursday's review! Alice",
+                        "confidentiality": "Internal",
+                        "begBates": "THREAD001_009",
+                        "endBates": "THREAD001_009",
+                        "fileType": "email",
+                        "hash": "yza567hash009",
+                        "nativeLink": "link009",
+                        "author": "alice.brown@company.com",
+                        "title": "Re: Fwd: Project Alpha - Initial Requirements - Mockups Ready",
+                        "dateCreated": "2024-01-18T11:30:00.000Z",
+                        "dateLastModified": "2024-01-18T11:30:00.000Z",
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "THREAD001_003",
+            "messageId": "<003@company.com>",
+            "inReplyTo": "<001@company.com>",
+            "references": [
+              "<001@company.com>"
+            ],
+            "threadId": "ALPHA-2024-001",
+            "from": "bob.wilson@company.com",
+            "to": [
+              "john.smith@company.com"
+            ],
+            "cc": [
+              "mary.jones@company.com",
+              "alice.brown@company.com"
+            ],
+            "bcc": [],
+            "subject": "Re: Project Alpha - Initial Requirements",
+            "dateSent": "2024-01-15T16:45:00.000Z",
+            "custodian": "Bob.Wilson",
+            "fileName": "email_003.eml",
+            "fullText": "I agree with Mary's concerns about authentication. Additionally, we should consider the database architecture early on. I'm attaching a preliminary schema design for review. Bob",
+            "confidentiality": "Internal",
+            "begBates": "THREAD001_003",
+            "endBates": "THREAD001_003",
+            "fileType": "email",
+            "hash": "ghi789hash003",
+            "nativeLink": "link003",
+            "author": "bob.wilson@company.com",
+            "title": "Re: Project Alpha - Initial Requirements",
+            "dateCreated": "2024-01-15T16:45:00.000Z",
+            "dateLastModified": "2024-01-15T16:45:00.000Z",
+            "children": [
+              {
+                "id": "THREAD001_006",
+                "messageId": "<006@company.com>",
+                "inReplyTo": "<003@company.com>",
+                "references": [
+                  "<001@company.com",
+                  "003@company.com>"
+                ],
+                "threadId": "ALPHA-2024-001",
+                "from": "bob.wilson@company.com",
+                "to": [
+                  "david.clark@company.com",
+                  "mary.jones@company.com"
+                ],
+                "cc": [
+                  "john.smith@company.com",
+                  "alice.brown@company.com"
+                ],
+                "bcc": [],
+                "subject": "Re: Project Alpha - Initial Requirements",
+                "dateSent": "2024-01-16T13:20:00.000Z",
+                "custodian": "Bob.Wilson",
+                "fileName": "email_006.eml",
+                "fullText": "I think we should also involve the security team early in the process. The authentication module will need thorough security review. Should I reach out to the InfoSec team? Bob",
+                "confidentiality": "Internal",
+                "begBates": "THREAD001_006",
+                "endBates": "THREAD001_006",
+                "fileType": "email",
+                "hash": "pqr678hash006",
+                "nativeLink": "link006",
+                "author": "bob.wilson@company.com",
+                "title": "Re: Project Alpha - Initial Requirements",
+                "dateCreated": "2024-01-16T13:20:00.000Z",
+                "dateLastModified": "2024-01-16T13:20:00.000Z",
+                "children": [
+                  {
+                    "id": "THREAD001_008",
+                    "messageId": "<008@company.com>",
+                    "inReplyTo": "<006@company.com>",
+                    "references": [
+                      "<001@company.com",
+                      "003@company.com",
+                      "006@company.com>"
+                    ],
+                    "threadId": "ALPHA-2024-001",
+                    "from": "john.smith@company.com",
+                    "to": [
+                      "security@company.com"
+                    ],
+                    "cc": [
+                      "bob.wilson@company.com",
+                      "david.clark@company.com"
+                    ],
+                    "bcc": [],
+                    "subject": "Fwd: Project Alpha - Security Review Needed",
+                    "dateSent": "2024-01-17T09:00:00.000Z",
+                    "custodian": "John.Smith",
+                    "fileName": "email_008.eml",
+                    "fullText": "Security Team, Bob raised an excellent point about early security involvement in Project Alpha. I'm forwarding the relevant discussion. Could someone from your team join our Monday kickoff? We're particularly concerned about the authentication module. John",
+                    "confidentiality": "Internal",
+                    "isForward": true,
+                    "begBates": "THREAD001_008",
+                    "endBates": "THREAD001_008",
+                    "fileType": "email",
+                    "hash": "vwx234hash008",
+                    "nativeLink": "link008",
+                    "author": "john.smith@company.com",
+                    "title": "Fwd: Project Alpha - Security Review Needed",
+                    "dateCreated": "2024-01-17T09:00:00.000Z",
+                    "dateLastModified": "2024-01-17T09:00:00.000Z",
+                    "children": [
+                      {
+                        "id": "THREAD001_010",
+                        "messageId": "<010@company.com>",
+                        "inReplyTo": "<008@company.com>",
+                        "references": [
+                          "<001@company.com",
+                          "003@company.com",
+                          "006@company.com",
+                          "008@company.com>"
+                        ],
+                        "threadId": "ALPHA-2024-001",
+                        "from": "sarah.white@company.com",
+                        "to": [
+                          "john.smith@company.com"
+                        ],
+                        "cc": [
+                          "bob.wilson@company.com",
+                          "david.clark@company.com",
+                          "mary.jones@company.com"
+                        ],
+                        "bcc": [],
+                        "subject": "Re: Fwd: Project Alpha - Security Review Needed",
+                        "dateSent": "2024-01-18T14:15:00.000Z",
+                        "custodian": "Security.Team",
+                        "fileName": "email_010.eml",
+                        "fullText": "John, I'll be representing the security team for Project Alpha. I've reviewed the authentication requirements and have some recommendations. I'll attend Monday's kickoff meeting. Please ensure we discuss data encryption, session management, and compliance requirements. Sarah White, InfoSec",
+                        "confidentiality": "Internal",
+                        "begBates": "THREAD001_010",
+                        "endBates": "THREAD001_010",
+                        "fileType": "email",
+                        "hash": "bcd890hash010",
+                        "nativeLink": "link010",
+                        "author": "sarah.white@company.com",
+                        "title": "Re: Fwd: Project Alpha - Security Review Needed",
+                        "dateCreated": "2024-01-18T14:15:00.000Z",
+                        "dateLastModified": "2024-01-18T14:15:00.000Z",
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "id": "THREAD001_011",
+                "messageId": "<011@company.com>",
+                "inReplyTo": "<003@company.com>",
+                "references": [
+                  "<001@company.com",
+                  "003@company.com>"
+                ],
+                "threadId": "ALPHA-2024-001",
+                "from": "bob.wilson@company.com",
+                "to": [
+                  "external.vendor@partner.com"
+                ],
+                "cc": [
+                  "david.clark@company.com",
+                  "mary.jones@company.com"
+                ],
+                "bcc": [],
+                "subject": "Fwd: Project Alpha Database Architecture",
+                "dateSent": "2024-01-19T10:00:00.000Z",
+                "custodian": "Bob.Wilson",
+                "fileName": "email_011.eml",
+                "fullText": "Hi External Team, I'm forwarding our internal discussion about Project Alpha's database architecture. We may need your cloud infrastructure expertise. Can someone from your team review our schema and provide feedback on scalability? We're planning for 100K+ users. Bob",
+                "confidentiality": "Confidential",
+                "isForward": true,
+                "isExternal": true,
+                "begBates": "THREAD001_011",
+                "endBates": "THREAD001_011",
+                "fileType": "email",
+                "hash": "efg123hash011",
+                "nativeLink": "link011",
+                "author": "bob.wilson@company.com",
+                "title": "Fwd: Project Alpha Database Architecture",
+                "dateCreated": "2024-01-19T10:00:00.000Z",
+                "dateLastModified": "2024-01-19T10:00:00.000Z",
+                "children": [
+                  {
+                    "id": "THREAD001_013",
+                    "messageId": "<013@company.com>",
+                    "inReplyTo": "<011@company.com>",
+                    "references": [
+                      "<001@company.com",
+                      "003@company.com",
+                      "011@company.com>"
+                    ],
+                    "threadId": "ALPHA-2024-001",
+                    "from": "tom.smith@partner.com",
+                    "to": [
+                      "bob.wilson@company.com"
+                    ],
+                    "cc": [
+                      "cloud-team@partner.com"
+                    ],
+                    "bcc": [],
+                    "subject": "Re: Fwd: Project Alpha Database Architecture",
+                    "dateSent": "2024-01-20T08:45:00.000Z",
+                    "custodian": "External.Vendor",
+                    "fileName": "email_013.eml",
+                    "fullText": "Bob, thanks for sharing the architecture details. Our cloud team has reviewed your schema and we have some recommendations for optimization. We suggest implementing database sharding for the user table and using Redis for session caching. I'll send detailed recommendations separately. Tom Smith, Partner Solutions",
+                    "confidentiality": "Confidential",
+                    "isExternal": true,
+                    "begBates": "THREAD001_013",
+                    "endBates": "THREAD001_013",
+                    "fileType": "email",
+                    "hash": "klm789hash013",
+                    "nativeLink": "link013",
+                    "author": "tom.smith@partner.com",
+                    "title": "Re: Fwd: Project Alpha Database Architecture",
+                    "dateCreated": "2024-01-20T08:45:00.000Z",
+                    "dateLastModified": "2024-01-20T08:45:00.000Z",
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "id": "THREAD001_012",
+            "messageId": "<012@company.com>",
+            "inReplyTo": "<001@company.com>",
+            "references": [
+              "<001@company.com>"
+            ],
+            "threadId": "ALPHA-2024-001",
+            "from": "mary.jones@company.com",
+            "to": [
+              "john.smith@company.com"
+            ],
+            "cc": [
+              "alice.brown@company.com",
+              "david.clark@company.com",
+              "bob.wilson@company.com",
+              "sarah.white@company.com"
+            ],
+            "bcc": [],
+            "subject": "Re: Project Alpha - Additional Thoughts",
+            "dateSent": "2024-01-19T16:30:00.000Z",
+            "custodian": "Mary.Jones",
+            "fileName": "email_012.eml",
+            "fullText": "John, after thinking about this over the weekend, I have some additional ideas about the user onboarding flow. We should consider a progressive disclosure approach. Also, we should discuss API rate limiting with the security team. Can we add these topics to Monday's agenda? Mary",
+            "confidentiality": "Internal",
+            "begBates": "THREAD001_012",
+            "endBates": "THREAD001_012",
+            "fileType": "email",
+            "hash": "hij456hash012",
+            "nativeLink": "link012",
+            "author": "mary.jones@company.com",
+            "title": "Re: Project Alpha - Additional Thoughts",
+            "dateCreated": "2024-01-19T16:30:00.000Z",
+            "dateLastModified": "2024-01-19T16:30:00.000Z",
+            "children": []
+          }
+        ]
+      }
+    ],
+    "totalEmails": 13,
+    "participants": [
+      "john.smith@company.com",
+      "mary.jones@company.com",
+      "bob.wilson@company.com",
+      "alice.brown@company.com",
+      "david.clark@company.com",
+      "security@company.com",
+      "sarah.white@company.com",
+      "external.vendor@partner.com",
+      "tom.smith@partner.com",
+      "cloud-team@partner.com"
+    ],
+    "dateRange": {
+      "start": "2024-01-15T09:00:00.000Z",
+      "end": "2024-01-20T08:45:00.000Z"
+    }
+  },
+  "stats": {
+    "threadId": "ALPHA-2024-001",
+    "totalEmails": 13,
+    "participants": [
+      "john.smith@company.com",
+      "mary.jones@company.com",
+      "bob.wilson@company.com",
+      "alice.brown@company.com",
+      "david.clark@company.com",
+      "security@company.com",
+      "sarah.white@company.com",
+      "external.vendor@partner.com",
+      "tom.smith@partner.com",
+      "cloud-team@partner.com"
+    ],
+    "participantCount": 10,
+    "maxDepth": 5,
+    "branchCount": 7,
+    "forwardCount": 3,
+    "replyCount": 12,
+    "externalCount": 2,
+    "dateRange": {
+      "start": "2024-01-15T09:00:00.000Z",
+      "end": "2024-01-20T08:45:00.000Z"
+    }
+  }
+}

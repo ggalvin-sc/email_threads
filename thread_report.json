@@ -1,0 +1,35 @@
+{
+  "summary": {
+    "totalEmails": 13,
+    "totalThreads": 1,
+    "generatedAt": "2025-09-21T14:03:58.169Z"
+  },
+  "threads": {
+    "ALPHA-2024-001": {
+      "threadId": "ALPHA-2024-001",
+      "totalEmails": 13,
+      "participants": [
+        "john.smith@company.com",
+        "mary.jones@company.com",
+        "bob.wilson@company.com",
+        "alice.brown@company.com",
+        "david.clark@company.com",
+        "security@company.com",
+        "sarah.white@company.com",
+        "external.vendor@partner.com",
+        "tom.smith@partner.com",
+        "cloud-team@partner.com"
+      ],
+      "participantCount": 10,
+      "maxDepth": 5,
+      "branchCount": 7,
+      "forwardCount": 3,
+      "replyCount": 12,
+      "externalCount": 2,
+      "dateRange": {
+        "start": "2024-01-15T09:00:00.000Z",
+        "end": "2024-01-20T08:45:00.000Z"
+      }
+    }
+  }
+}

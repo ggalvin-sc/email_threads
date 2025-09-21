@@ -1,0 +1,10 @@
+Message-ID: <011@company.com>
+From: bob.wilson@company.com
+To: external.vendor@partner.com
+CC: david.clark@company.com, mary.jones@company.com
+Subject: Fwd: Project Alpha Database Architecture
+Date: Fri, 19 Jan 2024 10:00:00 GMT
+In-Reply-To: <003@company.com>
+References: <001@company.com 003@company.com>
+
+Hi External Team, I'm forwarding our internal discussion about Project Alpha's database architecture. We may need your cloud infrastructure expertise. Can someone from your team review our schema and provide feedback on scalability? We're planning for 100K+ users. Bob

@@ -1,0 +1,965 @@
+<html><head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script> window.FontAwesomeConfig = { autoReplaceSvg: 'nest'};</script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    <style>
+        ::-webkit-scrollbar { display: none; }
+        body { font-family: 'Inter', sans-serif; }
+        .thread-connector {
+            position: relative;
+        }
+        .thread-connector::before {
+            content: '';
+            position: absolute;
+            left: -20px;
+            top: 20px;
+            width: 20px;
+            height: 2px;
+            background: #d1d5db;
+        }
+        .thread-line-vertical {
+            position: relative;
+        }
+        .thread-line-vertical::after {
+            content: '';
+            position: absolute;
+            left: 16px;
+            top: 40px;
+            width: 2px;
+            height: calc(100% - 20px);
+            background: #d1d5db;
+        }
+        .branch-indicator {
+            position: relative;
+        }
+        .branch-indicator::before {
+            content: '';
+            position: absolute;
+            left: 16px;
+            top: 40px;
+            width: 2px;
+            height: 20px;
+            background: #d1d5db;
+        }
+        .message-hover:hover {
+            transform: translateX(2px);
+            transition: transform 0.2s ease;
+        }
+    </style>
+    <script>tailwind.config = {
+  "theme": {
+    "extend": {
+      "fontFamily": {
+        "inter": [
+          "Inter",
+          "sans-serif"
+        ]
+      },
+      "colors": {
+        "primary": "#2563eb",
+        "secondary": "#64748b",
+        "accent": "#f59e0b"
+      }
+    }
+  }
+};</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin=""><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&amp;display=swap"><style>
+  .highlighted-section {
+    outline: 2px solid #3F20FB;
+    background-color: rgba(63, 32, 251, 0.1);
+  }
+
+  .edit-button {
+    position: absolute;
+    z-index: 1000;
+  }
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+
+  html, body {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  </style></head>
+<body class="bg-gray-50 font-custom">
+
+    <!-- Header -->
+    <header id="header" class="bg-white border-b border-gray-200 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="flex items-center space-x-3">
+                        <i class="fa-solid fa-envelope text-primary text-2xl"></i>
+                        <h1 class="text-2xl font-bold text-gray-900">ThreadView</h1>
+                    </div>
+                    <div class="hidden md:flex items-center space-x-2 text-sm text-gray-500">
+                        <i class="fa-solid fa-chevron-right"></i>
+                        <span>Email Threads</span>
+                        <i class="fa-solid fa-chevron-right"></i>
+                        <span class="text-primary font-medium">Project Alpha Discussion</span>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <input type="search" placeholder="Search in thread..." class="w-80 px-4 py-2 pl-10 pr-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <i class="fa-solid fa-search absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400"></i>
+                    </div>
+                    <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700 transition-colors">
+                        <i class="fa-solid fa-reply mr-2"></i>
+                        Reply to Thread
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div id="main-container" class="flex h-screen pt-16">
+        
+        <!-- Left Sidebar - Thread Navigation -->
+        <aside id="sidebar" class="w-80 bg-white border-r border-gray-200 flex flex-col">
+            <div class="p-6 border-b border-gray-200">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-lg font-semibold text-gray-900">Thread Navigation</h2>
+                    <button class="text-gray-400 hover:text-gray-600">
+                        <i class="fa-solid fa-compress"></i>
+                    </button>
+                </div>
+                
+                <!-- Thread Overview -->
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                    <h3 class="font-semibold text-gray-900 mb-2">Project Alpha Discussion</h3>
+                    <div class="flex items-center space-x-4 text-sm text-gray-600">
+                        <span><i class="fa-solid fa-users mr-1"></i>5 participants</span>
+                        <span><i class="fa-solid fa-comments mr-1"></i>12 messages</span>
+                    </div>
+                </div>
+
+                <!-- View Controls -->
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-gray-700">View Mode:</span>
+                        <div class="flex bg-gray-100 rounded-lg p-1">
+                            <button class="px-3 py-1 text-xs bg-white text-gray-900 rounded shadow-sm">Tree</button>
+                            <button class="px-3 py-1 text-xs text-gray-600 hover:text-gray-900">Timeline</button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-gray-700">Sort:</span>
+                        <select class="text-sm border border-gray-300 rounded px-2 py-1">
+                            <option>Chronological</option>
+                            <option>By Participant</option>
+                            <option>By Branch</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Thread Structure Overview -->
+            <div class="flex-1 overflow-y-auto p-4">
+                <h3 class="text-sm font-semibold text-gray-900 mb-3">Thread Structure</h3>
+                <div class="space-y-2">
+                    
+                    <!-- Root Message -->
+                    <div class="flex items-center space-x-3 p-2 rounded-lg bg-blue-100 border border-blue-200">
+                        <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-xs font-semibold">
+                            SJ
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <p class="text-sm font-medium text-gray-900 truncate">Initial Requirements</p>
+                            <p class="text-xs text-gray-500">Mar 15, 9:30 AM</p>
+                        </div>
+                        <i class="fa-solid fa-chevron-right text-xs text-gray-400"></i>
+                    </div>
+
+                    <!-- First Level Replies -->
+                    <div class="ml-4 space-y-2">
+                        <div class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer">
+                            <div class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs font-semibold">
+                                MR
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate">Resource Concerns</p>
+                                <p class="text-xs text-gray-500">Mar 15, 10:15 AM</p>
+                            </div>
+                        </div>
+
+                        <!-- Branched Reply -->
+                        <div class="ml-4">
+                            <div class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer">
+                                <div class="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-xs font-semibold">
+                                    EC
+                                </div>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium text-gray-900 truncate">Design Perspective</p>
+                                    <p class="text-xs text-gray-500">Mar 15, 11:00 AM</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer">
+                            <div class="w-6 h-6 bg-purple-500 rounded-full flex items-center justify-center text-white text-xs font-semibold">
+                                DW
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate">Technical Brief</p>
+                                <p class="text-xs text-gray-500">Mar 15, 2:30 PM</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-50 cursor-pointer">
+                            <div class="w-6 h-6 bg-orange-500 rounded-full flex items-center justify-center text-white text-xs font-semibold">
+                                AM
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate">Budget Approval</p>
+                                <p class="text-xs text-gray-500">Mar 16, 9:00 AM</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center space-x-3 p-2 rounded-lg bg-green-50 border border-green-200">
+                            <div class="w-6 h-6 bg-primary rounded-full flex items-center justify-center text-white text-xs font-semibold">
+                                SJ
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate">Updated Timeline</p>
+                                <p class="text-xs text-gray-500">Mar 16, 2:00 PM</p>
+                            </div>
+                            <span class="text-xs bg-green-600 text-white px-2 py-1 rounded-full">Latest</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thread Statistics -->
+                <div class="mt-6 p-4 bg-gray-50 rounded-lg">
+                    <h4 class="text-sm font-semibold text-gray-900 mb-3">Thread Metrics</h4>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Messages:</span>
+                            <span class="font-medium">12</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Branches:</span>
+                            <span class="font-medium">4</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Duration:</span>
+                            <span class="font-medium">1.2 days</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Attachments:</span>
+                            <span class="font-medium">3</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area - Thread Visualization -->
+        <main id="main-content" class="flex-1 flex flex-col">
+            
+            <!-- Thread Header -->
+            <div id="thread-header" class="bg-white border-b border-gray-200 p-6">
+                <div class="flex items-center justify-between mb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-900">Project Alpha Discussion</h2>
+                        <p class="text-gray-600 mt-1">Chronological thread view with branching visualization</p>
+                    </div>
+                    <div class="flex items-center space-x-3">
+                        <button class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                            <i class="fa-solid fa-expand mr-2"></i>
+                            Expand All
+                        </button>
+                        <button class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">
+                            <i class="fa-solid fa-compress mr-2"></i>
+                            Collapse All
+                        </button>
+                        <button class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-blue-700">
+                            <i class="fa-solid fa-plus mr-2"></i>
+                            Add Reply
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Thread Timeline -->
+                <div class="flex items-center space-x-6 text-sm text-gray-600">
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-calendar"></i>
+                        <span>Started: Mar 15, 2024</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-clock"></i>
+                        <span>Last updated: 2 hours ago</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <i class="fa-solid fa-code-branch"></i>
+                        <span>4 conversation branches</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thread Content with Tree Visualization -->
+            <div id="thread-content" class="flex-1 overflow-auto bg-gray-50">
+                <div class="max-w-5xl mx-auto p-6">
+                    
+                    <!-- Root Email Message -->
+                    <div id="message-root" class="relative mb-8">
+                        <div class="flex items-start space-x-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-semibold">
+                                    SJ
+                                </div>
+                                <div class="w-0.5 h-20 bg-gray-300 mt-3"></div>
+                            </div>
+                            
+                            <div class="flex-1 bg-white rounded-xl shadow-sm border border-gray-200 p-6 message-hover">
+                                <div class="flex items-start justify-between mb-4">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Sarah Johnson" class="w-12 h-12 rounded-full">
+                                        <div>
+                                            <h3 class="font-semibold text-gray-900">Sarah Johnson</h3>
+                                            <p class="text-sm text-gray-600">sarah.johnson@company.com</p>
+                                            <p class="text-xs text-gray-500 mt-1">Project Manager</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-sm text-gray-900 font-medium">March 15, 2024</div>
+                                        <div class="text-sm text-gray-500">9:30 AM</div>
+                                        <div class="flex items-center space-x-2 mt-2">
+                                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">Original</span>
+                                            <span class="bg-gray-100 text-gray-700 px-2 py-1 rounded-full text-xs">Root</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h4 class="text-lg font-semibold text-gray-900 mb-3">Project Alpha - Initial Requirements Discussion</h4>
+                                <div class="prose prose-sm text-gray-700 mb-4">
+                                    <p>Hi team,</p>
+                                    <p>I wanted to start a discussion about the Project Alpha requirements. We need to finalize the scope and timeline by the end of this week. Please review the attached documents and share your thoughts on:</p>
+                                    <ul class="list-disc pl-5 space-y-1">
+                                        <li>Resource allocation for each phase</li>
+                                        <li>Timeline feasibility</li>
+                                        <li>Technical requirements and constraints</li>
+                                        <li>Budget considerations</li>
+                                    </ul>
+                                    <p>Looking forward to your feedback!</p>
+                                </div>
+                                
+                                <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                                    <div class="flex items-center space-x-4 text-sm text-gray-600">
+                                        <span><i class="fa-solid fa-users mr-1"></i>To: 4 recipients</span>
+                                        <span><i class="fa-solid fa-paperclip mr-1"></i>2 attachments</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="text-primary hover:bg-blue-50 px-3 py-1 rounded text-sm">Reply</button>
+                                        <button class="text-gray-600 hover:bg-gray-50 px-3 py-1 rounded text-sm">Forward</button>
+                                        <button class="text-gray-600 hover:bg-gray-50 px-3 py-1 rounded text-sm">
+                                            <i class="fa-solid fa-ellipsis"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- First Branch - Mike's Reply -->
+                    <div id="message-branch-1" class="relative mb-8 ml-8">
+                        <div class="absolute -left-8 top-6 w-8 h-0.5 bg-gray-300"></div>
+                        <div class="flex items-start space-x-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-semibold">
+                                    MR
+                                </div>
+                                <div class="w-0.5 h-20 bg-gray-300 mt-3"></div>
+                            </div>
+                            
+                            <div class="flex-1 bg-blue-50 rounded-xl border border-blue-200 p-6 message-hover">
+                                <div class="flex items-start justify-between mb-4">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Mike Rodriguez" class="w-12 h-12 rounded-full">
+                                        <div>
+                                            <h3 class="font-semibold text-gray-900">Mike Rodriguez</h3>
+                                            <p class="text-sm text-gray-600">mike.rodriguez@company.com</p>
+                                            <p class="text-xs text-gray-500 mt-1">Senior Developer</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-sm text-gray-900 font-medium">March 15, 2024</div>
+                                        <div class="text-sm text-gray-500">10:15 AM</div>
+                                        <div class="flex items-center space-x-2 mt-2">
+                                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">Reply</span>
+                                            <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-xs">Branch A</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h4 class="text-lg font-semibold text-gray-900 mb-3">Re: Resource Allocation Concerns</h4>
+                                <div class="prose prose-sm text-gray-700 mb-4">
+                                    <p>Thanks Sarah!</p>
+                                    <p>I've reviewed the documents thoroughly. The timeline looks aggressive but achievable with the right resource allocation. However, I have some concerns about Phase 2:</p>
+                                    <ul class="list-disc pl-5 space-y-1">
+                                        <li>API integration complexity might require additional development time</li>
+                                        <li>Testing phase seems compressed given the scope</li>
+                                        <li>We might need an additional backend developer</li>
+                                    </ul>
+                                    <p>Can we schedule a quick call to discuss these points in detail?</p>
+                                </div>
+                                
+                                <div class="flex items-center justify-between pt-4 border-t border-blue-100">
+                                    <div class="flex items-center space-x-4 text-sm text-gray-600">
+                                        <span><i class="fa-solid fa-reply mr-1"></i>Reply to Sarah</span>
+                                        <span><i class="fa-solid fa-users mr-1"></i>CC: 3 people</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="text-primary hover:bg-blue-50 px-3 py-1 rounded text-sm">Reply</button>
+                                        <button class="text-gray-600 hover:bg-gray-50 px-3 py-1 rounded text-sm">Forward</button>
+                                        <button class="text-gray-600 hover:bg-gray-50 px-3 py-1 rounded text-sm">
+                                            <i class="fa-solid fa-ellipsis"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sub-branch - Emily's Reply to Mike -->
+                    <div id="message-subbranch-1" class="relative mb-8 ml-16">
+                        <div class="absolute -left-8 top-6 w-8 h-0.5 bg-gray-300"></div>
+                        <div class="flex items-start space-x-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-semibold">
+                                    EC
+                                </div>
+                                <div class="w-0.5 h-20 bg-gray-300 mt-3"></div>
+                            </div>
+                            
+                            <div class="flex-1 bg-green-50 rounded-xl border border-green-200 p-6 message-hover">
+                                <div class="flex items-start justify-between mb-4">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" alt="Emily Chen" class="w-12 h-12 rounded-full">
+                                        <div>
+                                            <h3 class="font-semibold text-gray-900">Emily Chen</h3>
+                                            <p class="text-sm text-gray-600">emily.chen@company.com</p>
+                                            <p class="text-xs text-gray-500 mt-1">UX Designer</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-sm text-gray-900 font-medium">March 15, 2024</div>
+                                        <div class="text-sm text-gray-500">11:00 AM</div>
+                                        <div class="flex items-center space-x-2 mt-2">
+                                            <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">Reply to Mike</span>
+                                            <span class="bg-purple-100 text-purple-700 px-2 py-1 rounded-full text-xs">Sub-branch</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h4 class="text-lg font-semibold text-gray-900 mb-3">Design Perspective on Timeline</h4>
+                                <div class="prose prose-sm text-gray-700 mb-4">
+                                    <p>I completely agree with Mike's concerns.</p>
+                                    <p>From the design perspective, we'll need adequate time for:</p>
+                                    <ul class="list-disc pl-5 space-y-1">
+                                        <li>User research and persona development</li>
+                                        <li>Iterative prototyping and user testing</li>
+                                        <li>Design system documentation</li>
+                                        <li>Handoff and developer collaboration</li>
+                                    </ul>
+                                    <p>I can join the call to discuss how we can optimize the design process without compromising quality.</p>
+                                </div>
+                                
+                                <div class="flex items-center justify-between pt-4 border-t border-green-100">
+                                    <div class="flex items-center space-x-4 text-sm text-gray-600">
+                                        <span><i class="fa-solid fa-reply mr-1"></i>Reply to Mike &amp; Sarah</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="text-primary hover:bg-green-50 px-3 py-1 rounded text-sm">Reply</button>
+                                        <button class="text-gray-600 hover:bg-gray-50 px-3 py-1 rounded text-sm">Forward</button>
+                                        <button class="text-gray-600 hover:bg-gray-50 px-3 py-1 rounded text-sm">
+                                            <i class="fa-solid fa-ellipsis"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Second Branch - David's Direct Reply to Sarah -->
+                    <div id="message-branch-2" class="relative mb-8 ml-8">
+                        <div class="absolute -left-8 top-6 w-8 h-0.5 bg-gray-300"></div>
+                        <div class="flex items-start space-x-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-semibold">
+                                    DW
+                                </div>
+                                <div class="w-0.5 h-20 bg-gray-300 mt-3"></div>
+                            </div>
+                            
+                            <div class="flex-1 bg-purple-50 rounded-xl border border-purple-200 p-6 message-hover">
+                                <div class="flex items-start justify-between mb-4">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" alt="David Wilson" class="w-12 h-12 rounded-full">
+                                        <div>
+                                            <h3 class="font-semibold text-gray-900">David Wilson</h3>
+                                            <p class="text-sm text-gray-600">david.wilson@company.com</p>
+                                            <p class="text-xs text-gray-500 mt-1">Technical Lead</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-sm text-gray-900 font-medium">March 15, 2024</div>
+                                        <div class="text-sm text-gray-500">2:30 PM</div>
+                                        <div class="flex items-center space-x-2 mt-2">
+                                            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded-full text-xs font-medium">Reply</span>
+                                            <span class="bg-orange-100 text-orange-700 px-2 py-1 rounded-full text-xs">Branch B</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h4 class="text-lg font-semibold text-gray-900 mb-3">Technical Implementation Analysis</h4>
+                                <div class="prose prose-sm text-gray-700 mb-4">
+                                    <p>Sarah, I've completed a detailed technical analysis of the requirements.</p>
+                                    <p>Key findings and recommendations:</p>
+                                    <ul class="list-disc pl-5 space-y-1">
+                                        <li>Database architecture needs revision for scalability</li>
+                                        <li>Third-party integrations present security considerations</li>
+                                        <li>Performance optimization should be planned from Phase 1</li>
+                                        <li>DevOps pipeline setup requires 2-week lead time</li>
+                                    </ul>
+                                    <p>I've prepared a comprehensive technical brief with risk assessment and mitigation strategies. This should help inform our timeline discussions.</p>
+                                </div>
+                                
+                                <div class="flex items-center justify-between pt-4 border-t border-purple-100">
+                                    <div class="flex items-center space-x-4 text-sm text-gray-600">
+                                        <span><i class="fa-solid fa-reply mr-1"></i>Reply to Sarah</span>
+                                        <span><i class="fa-solid fa-paperclip mr-1"></i>1 attachment</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="text-primary hover:bg-purple-50 px-3 py-1 rounded text-sm">Reply</button>
+                                        <button class="text-gray-600 hover:bg-gray-50 px-3 py-1 rounded text-sm">Forward</button>
+                                        <button class="text-gray-600 hover:bg-gray-50 px-3 py-1 rounded text-sm">
+                                            <i class="fa-solid fa-ellipsis"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Third Branch - Anna's Forward -->
+                    <div id="message-branch-3" class="relative mb-8 ml-8">
+                        <div class="absolute -left-8 top-6 w-8 h-0.5 bg-gray-300"></div>
+                        <div class="flex items-start space-x-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center text-white font-semibold">
+                                    AM
+                                </div>
+                                <div class="w-0.5 h-20 bg-gray-300 mt-3"></div>
+                            </div>
+                            
+                            <div class="flex-1 bg-orange-50 rounded-xl border border-orange-200 p-6 message-hover">
+                                <div class="flex items-start justify-between mb-4">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-7.jpg" alt="Anna Martinez" class="w-12 h-12 rounded-full">
+                                        <div>
+                                            <h3 class="font-semibold text-gray-900">Anna Martinez</h3>
+                                            <p class="text-sm text-gray-600">anna.martinez@company.com</p>
+                                            <p class="text-xs text-gray-500 mt-1">Finance Manager</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-sm text-gray-900 font-medium">March 16, 2024</div>
+                                        <div class="text-sm text-gray-500">9:00 AM</div>
+                                        <div class="flex items-center space-x-2 mt-2">
+                                            <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs font-medium">Forward</span>
+                                            <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-xs">External</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h4 class="text-lg font-semibold text-gray-900 mb-3">Budget Approval Update</h4>
+                                <div class="prose prose-sm text-gray-700 mb-4">
+                                    <p>Great news team!</p>
+                                    <p>I'm forwarding the budget approval from the finance department. The Project Alpha budget has been approved with some modifications:</p>
+                                    
+                                    <div class="bg-gray-100 border-l-4 border-orange-400 p-4 my-4 rounded">
+                                        <p class="text-sm font-medium text-gray-700 mb-2">Forwarded Message:</p>
+                                        <p class="text-sm text-gray-600 italic">From: finance@company.com</p>
+                                        <p class="text-sm text-gray-600 italic">Subject: Budget Approval - Project Alpha</p>
+                                        <p class="text-sm text-gray-700 mt-2">Budget approved: $150,000 (reduced from $180,000 requested). Additional resources can be allocated if Phase 1 milestones are met on schedule.</p>
+                                    </div>
+                                    
+                                    <p>This should help address some of the resource concerns raised by Mike and David. Let's discuss how to optimize our approach within this budget.</p>
+                                </div>
+                                
+                                <div class="flex items-center justify-between pt-4 border-t border-orange-100">
+                                    <div class="flex items-center space-x-4 text-sm text-gray-600">
+                                        <span><i class="fa-solid fa-forward mr-1"></i>Forwarded to team</span>
+                                        <span><i class="fa-solid fa-paperclip mr-1"></i>1 attachment</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="text-primary hover:bg-orange-50 px-3 py-1 rounded text-sm">Reply</button>
+                                        <button class="text-gray-600 hover:bg-gray-50 px-3 py-1 rounded text-sm">Forward</button>
+                                        <button class="text-gray-600 hover:bg-gray-50 px-3 py-1 rounded text-sm">
+                                            <i class="fa-solid fa-ellipsis"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Latest Reply - Sarah's Summary -->
+                    <div id="message-latest" class="relative mb-8 ml-8">
+                        <div class="absolute -left-8 top-6 w-8 h-0.5 bg-gray-300"></div>
+                        <div class="flex items-start space-x-4">
+                            <div class="flex flex-col items-center">
+                                <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center text-white font-semibold border-4 border-blue-200">
+                                    SJ
+                                </div>
+                            </div>
+                            
+                            <div class="flex-1 bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl border-2 border-blue-300 p-6 message-hover shadow-md">
+                                <div class="flex items-start justify-between mb-4">
+                                    <div class="flex items-center space-x-3">
+                                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Sarah Johnson" class="w-12 h-12 rounded-full">
+                                        <div>
+                                            <h3 class="font-semibold text-gray-900">Sarah Johnson</h3>
+                                            <p class="text-sm text-gray-600">sarah.johnson@company.com</p>
+                                            <p class="text-xs text-gray-500 mt-1">Project Manager</p>
+                                        </div>
+                                    </div>
+                                    <div class="text-right">
+                                        <div class="text-sm text-gray-900 font-medium">March 16, 2024</div>
+                                        <div class="text-sm text-gray-500">2:00 PM</div>
+                                        <div class="flex items-center space-x-2 mt-2">
+                                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">Reply All</span>
+                                            <span class="bg-red-100 text-red-800 px-2 py-1 rounded-full text-xs font-semibold">Latest</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <h4 class="text-lg font-semibold text-gray-900 mb-3">Updated Timeline and Next Steps</h4>
+                                <div class="prose prose-sm text-gray-700 mb-4">
+                                    <p>Thank you all for the comprehensive feedback and analysis!</p>
+                                    <p>Based on everyone's input and Anna's budget update, I've revised our approach:</p>
+                                    
+                                    <div class="bg-white border border-blue-200 rounded-lg p-4 my-4">
+                                        <h5 class="font-semibold text-gray-900 mb-2">Revised Action Plan:</h5>
+                                        <ul class="list-disc pl-5 space-y-1">
+                                            <li>Extended Phase 2 timeline by 2 weeks (addressing Mike &amp; Emily's concerns)</li>
+                                            <li>Incorporated David's technical recommendations into Phase 1</li>
+                                            <li>Budget optimization to work within $150K approval</li>
+                                            <li>Weekly checkpoint meetings to ensure milestone alignment</li>
+                                        </ul>
+                                    </div>
+                                    
+                                    <p><strong>Next Steps:</strong> Team meeting scheduled for tomorrow at 10:00 AM to finalize assignments and kick off Phase 1. Please come prepared with your availability and any final concerns.</p>
+                                    <p>Looking forward to making Project Alpha a success! 🚀</p>
+                                </div>
+                                
+                                <div class="flex items-center justify-between pt-4 border-t border-blue-200">
+                                    <div class="flex items-center space-x-4 text-sm text-gray-600">
+                                        <span><i class="fa-solid fa-users mr-1"></i>Reply to all participants</span>
+                                        <span><i class="fa-solid fa-calendar mr-1"></i>Meeting scheduled</span>
+                                    </div>
+                                    <div class="flex items-center space-x-2">
+                                        <button class="text-primary hover:bg-blue-50 px-3 py-1 rounded text-sm">Reply</button>
+                                        <button class="text-gray-600 hover:bg-gray-50 px-3 py-1 rounded text-sm">Forward</button>
+                                        <button class="text-gray-600 hover:bg-gray-50 px-3 py-1 rounded text-sm">
+                                            <i class="fa-solid fa-ellipsis"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </main>
+
+        <!-- Right Panel - Thread Analytics & Actions -->
+        <aside id="right-panel" class="w-80 bg-white border-l border-gray-200 flex flex-col">
+            
+            <!-- Participants Section -->
+            <div id="participants-section" class="p-6 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Participants (5)</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-5.jpg" alt="Sarah Johnson" class="w-10 h-10 rounded-full">
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900">Sarah Johnson</h4>
+                            <p class="text-sm text-gray-600">Project Manager</p>
+                            <p class="text-xs text-blue-600 font-medium">Thread Initiator</p>
+                        </div>
+                        <div class="text-xs text-gray-500">3 msgs</div>
+                    </div>
+                    
+                    <div class="flex items-center space-x-3 p-3 hover:bg-gray-50 rounded-lg">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-2.jpg" alt="Mike Rodriguez" class="w-10 h-10 rounded-full">
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900">Mike Rodriguez</h4>
+                            <p class="text-sm text-gray-600">Senior Developer</p>
+                            <div class="flex items-center space-x-1 mt-1">
+                                <span class="w-2 h-2 bg-yellow-500 rounded-full"></span>
+                                <span class="text-xs text-gray-500">Active in branch</span>
+                            </div>
+                        </div>
+                        <div class="text-xs text-gray-500">1 msg</div>
+                    </div>
+
+                    <div class="flex items-center space-x-3 p-3 hover:bg-gray-50 rounded-lg">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-6.jpg" alt="Emily Chen" class="w-10 h-10 rounded-full">
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900">Emily Chen</h4>
+                            <p class="text-sm text-gray-600">UX Designer</p>
+                            <div class="flex items-center space-x-1 mt-1">
+                                <span class="w-2 h-2 bg-green-500 rounded-full"></span>
+                                <span class="text-xs text-gray-500">Sub-branch reply</span>
+                            </div>
+                        </div>
+                        <div class="text-xs text-gray-500">1 msg</div>
+                    </div>
+
+                    <div class="flex items-center space-x-3 p-3 hover:bg-gray-50 rounded-lg">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-3.jpg" alt="David Wilson" class="w-10 h-10 rounded-full">
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900">David Wilson</h4>
+                            <p class="text-sm text-gray-600">Technical Lead</p>
+                            <div class="flex items-center space-x-1 mt-1">
+                                <span class="w-2 h-2 bg-purple-500 rounded-full"></span>
+                                <span class="text-xs text-gray-500">Technical analysis</span>
+                            </div>
+                        </div>
+                        <div class="text-xs text-gray-500">1 msg</div>
+                    </div>
+
+                    <div class="flex items-center space-x-3 p-3 hover:bg-gray-50 rounded-lg">
+                        <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/avatars/avatar-7.jpg" alt="Anna Martinez" class="w-10 h-10 rounded-full">
+                        <div class="flex-1">
+                            <h4 class="font-medium text-gray-900">Anna Martinez</h4>
+                            <p class="text-sm text-gray-600">Finance Manager</p>
+                            <div class="flex items-center space-x-1 mt-1">
+                                <span class="w-2 h-2 bg-orange-500 rounded-full"></span>
+                                <span class="text-xs text-gray-500">Forwarded message</span>
+                            </div>
+                        </div>
+                        <div class="text-xs text-gray-500">1 msg</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thread Analysis -->
+            <div id="thread-analysis" class="p-6 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Thread Analysis</h3>
+                <div class="space-y-4">
+                    
+                    <!-- Message Flow -->
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-900 mb-2">Message Flow</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Total Messages:</span>
+                                <span class="font-medium">7</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Main Branches:</span>
+                                <span class="font-medium">3</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Sub-branches:</span>
+                                <span class="font-medium">1</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Forwards:</span>
+                                <span class="font-medium">1</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Timeline Stats -->
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-900 mb-2">Timeline</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Duration:</span>
+                                <span class="font-medium">1.2 days</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Avg Response:</span>
+                                <span class="font-medium">3.5 hours</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Last Activity:</span>
+                                <span class="font-medium">2 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Engagement -->
+                    <div>
+                        <h4 class="text-sm font-semibold text-gray-900 mb-2">Engagement</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Most Active:</span>
+                                <span class="font-medium">Sarah (3)</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Attachments:</span>
+                                <span class="font-medium">3 files</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Thread Status:</span>
+                                <span class="font-medium text-green-600">Active</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Attachments -->
+            <div id="attachments-section" class="p-6 border-b border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Attachments (3)</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer">
+                        <div class="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-file-pdf text-red-600"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-medium text-gray-900 text-sm truncate">Project_Requirements.pdf</h4>
+                            <p class="text-xs text-gray-500">From Sarah • 2.4 MB</p>
+                        </div>
+                        <button class="text-gray-400 hover:text-gray-600">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                    </div>
+
+                    <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer">
+                        <div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-file-word text-blue-600"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-medium text-gray-900 text-sm truncate">Technical_Brief.docx</h4>
+                            <p class="text-xs text-gray-500">From David • 892 KB</p>
+                        </div>
+                        <button class="text-gray-400 hover:text-gray-600">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                    </div>
+
+                    <div class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 cursor-pointer">
+                        <div class="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fa-solid fa-file-excel text-green-600"></i>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <h4 class="font-medium text-gray-900 text-sm truncate">Budget_Breakdown.xlsx</h4>
+                            <p class="text-xs text-gray-500">From Anna • 156 KB</p>
+                        </div>
+                        <button class="text-gray-400 hover:text-gray-600">
+                            <i class="fa-solid fa-download"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Thread Actions -->
+            <div id="thread-actions" class="p-6">
+                <h3 class="text-lg font-semibold text-gray-900 mb-4">Thread Actions</h3>
+                <div class="space-y-2">
+                    <button class="w-full text-left px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-700 rounded-lg flex items-center transition-colors">
+                        <i class="fa-solid fa-reply mr-3"></i>
+                        Reply to thread
+                    </button>
+                    <button class="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg flex items-center">
+                        <i class="fa-solid fa-bell mr-3"></i>
+                        Watch thread
+                    </button>
+                    <button class="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg flex items-center">
+                        <i class="fa-solid fa-star mr-3"></i>
+                        Star thread
+                    </button>
+                    <button class="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg flex items-center">
+                        <i class="fa-solid fa-share mr-3"></i>
+                        Share thread
+                    </button>
+                    <button class="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg flex items-center">
+                        <i class="fa-solid fa-download mr-3"></i>
+                        Export thread
+                    </button>
+                    <hr class="my-3">
+                    <button class="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-50 rounded-lg flex items-center">
+                        <i class="fa-solid fa-archive mr-3"></i>
+                        Archive thread
+                    </button>
+                    <button class="w-full text-left px-4 py-3 text-red-600 hover:bg-red-50 rounded-lg flex items-center">
+                        <i class="fa-solid fa-trash mr-3"></i>
+                        Delete thread
+                    </button>
+                </div>
+            </div>
+
+        </aside>
+
+    </div>
+
+    <script>
+        // Thread interaction functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Message hover effects
+            const messages = document.querySelectorAll('.message-hover');
+            messages.forEach(message => {
+                message.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateX(4px)';
+                    this.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.1)';
+                });
+                
+                message.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateX(0)';
+                    this.style.boxShadow = '';
+                });
+            });
+
+            // Thread navigation clicks
+            const navItems = document.querySelectorAll('#sidebar .cursor-pointer');
+            navItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove active state from all items
+                    navItems.forEach(nav => nav.classList.remove('bg-blue-100', 'border-blue-200'));
+                    // Add active state to clicked item
+                    this.classList.add('bg-blue-100', 'border-blue-200');
+                });
+            });
+
+            // Expand/Collapse functionality
+            const expandBtn = document.querySelector('button:has(i.fa-expand)');
+            const collapseBtn = document.querySelector('button:has(i.fa-compress)');
+            
+            if (expandBtn) {
+                expandBtn.addEventListener('click', function() {
+                    const messages = document.querySelectorAll('#thread-content .prose');
+                    messages.forEach(msg => {
+                        msg.style.maxHeight = 'none';
+                        msg.style.overflow = 'visible';
+                    });
+                });
+            }
+
+            if (collapseBtn) {
+                collapseBtn.addEventListener('click', function() {
+                    const messages = document.querySelectorAll('#thread-content .prose');
+                    messages.forEach(msg => {
+                        msg.style.maxHeight = '120px';
+                        msg.style.overflow = 'hidden';
+                    });
+                });
+            }
+        });
+    </script>
+
+
+</body></html>

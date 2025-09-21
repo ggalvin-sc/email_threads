@@ -1,0 +1,37 @@
+{
+  "name": "email-threads-processor",
+  "version": "1.0.0",
+  "description": "Email thread processing and visualization using python-emailthreads",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "process-threads": "node src/threadProcessor.js",
+    "test": "npx playwright test",
+    "test:headed": "npx playwright test --headed",
+    "test:ui": "npx playwright test --ui",
+    "test:report": "npx playwright show-report"
+  },
+  "dependencies": {
+    "child_process": "^1.0.2",
+    "csv-parser": "^3.0.0",
+    "csv-writer": "^1.6.0",
+    "duckdb": "^1.4.0",
+    "fs-extra": "^11.0.0",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.55.0",
+    "nodemon": "^3.0.0",
+    "playwright": "^1.55.0",
+    "pytest": "^1.0.0"
+  },
+  "keywords": [
+    "email",
+    "threading",
+    "python-emailthreads",
+    "visualization"
+  ],
+  "author": "Greg",
+  "license": "MIT"
+}
