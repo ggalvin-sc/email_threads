@@ -1443,7 +1443,7 @@ HR Team`
         }
 
         // Top Navigator Component
-        function TopNavigator({ threadData, selectedMessageId, onSelectMessage, viewMode, setViewMode }) {
+        function TopNavigator({ threadData, selectedMessageId, onSelectMessage, viewMode, setViewMode, ratedMessages, totalMessages, progressPercentage }) {
 
             return (
                 <div className="top-navigator">
@@ -2104,6 +2104,9 @@ HR Team`
                         onSelectMessage={setSelectedMessageId}
                         viewMode={viewMode}
                         setViewMode={setViewMode}
+                        ratedMessages={ratedMessages}
+                        totalMessages={totalMessages}
+                        progressPercentage={progressPercentage}
                     />
 
                     {/* Main Content Area */}
