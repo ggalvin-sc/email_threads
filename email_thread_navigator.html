@@ -53,6 +53,13 @@
             color: #656d76;
         }
 
+        .thread-progress {
+            font-size: 11px;
+            color: #0969da;
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
         .visualization-container {
             flex: 1;
             margin: 0 20px;
@@ -130,7 +137,40 @@
             border-radius: 6px;
             font-size: 14px;
             background: white;
+            margin-bottom: 8px;
         }
+
+        .rating-filter {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .filter-chip {
+            padding: 4px 8px;
+            border: 1px solid #d0d7de;
+            border-radius: 12px;
+            font-size: 10px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .filter-chip:hover {
+            border-color: #0969da;
+        }
+
+        .filter-chip.active {
+            background: #0969da;
+            color: white;
+            border-color: #0969da;
+        }
+
+        .filter-chip.hot { border-color: #dc3545; }
+        .filter-chip.medium { border-color: #fd7e14; }
+        .filter-chip.cold { border-color: #198754; }
+        .filter-chip.unrated { border-color: #6c757d; }
 
         .thread-tree {
             flex: 1;
@@ -159,11 +199,65 @@
         }
 
         .thread-node.unrated {
-            border-left: 3px solid #fd7e14;
+            border-left: 4px solid #6c757d;
+            background: #f8f9fa;
         }
 
         .thread-node.rated {
-            border-left: 3px solid #198754;
+            border-left: 4px solid #198754;
+        }
+
+        /* Rating-based color coding */
+        .thread-node.rating-hot {
+            border-left: 4px solid #dc3545;
+            background: linear-gradient(90deg, rgba(220,53,69,0.1) 0%, transparent 100%);
+        }
+
+        .thread-node.rating-privileged {
+            border-left: 4px solid #dc3545;
+            background: linear-gradient(90deg, rgba(220,53,69,0.1) 0%, transparent 100%);
+        }
+
+        .thread-node.rating-confidential {
+            border-left: 4px solid #fd7e14;
+            background: linear-gradient(90deg, rgba(253,126,20,0.1) 0%, transparent 100%);
+        }
+
+        .thread-node.rating-review_complete,
+        .thread-node.rating-relevant {
+            border-left: 4px solid #198754;
+            background: linear-gradient(90deg, rgba(25,135,84,0.1) 0%, transparent 100%);
+        }
+
+        .thread-node.rating-irrelevant {
+            border-left: 4px solid #6c757d;
+            background: linear-gradient(90deg, rgba(108,117,125,0.1) 0%, transparent 100%);
+        }
+
+        /* Enhanced focus states for accessibility */
+        .thread-node:focus {
+            outline: 3px solid #0969da;
+            outline-offset: 2px;
+            background: #f6f8fa;
+            box-shadow: 0 0 0 1px #0969da;
+        }
+
+        .thread-node:focus-visible {
+            outline: 3px solid #0969da;
+            outline-offset: 2px;
+        }
+
+        .nav-button:focus-visible,
+        .rating-button:focus-visible,
+        .filter-chip:focus-visible {
+            outline: 3px solid #0969da;
+            outline-offset: 2px;
+        }
+
+        .thread-search:focus {
+            outline: 3px solid #0969da;
+            outline-offset: 2px;
+            border-color: #0969da;
         }
 
         .node-avatar {
@@ -404,6 +498,62 @@
             display: flex;
             gap: 8px;
             margin-top: 12px;
+        }
+
+        .keyboard-shortcuts {
+            margin-top: 16px;
+            padding: 12px;
+            background: #f6f8fa;
+            border-radius: 6px;
+            font-size: 11px;
+        }
+
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 4px 0;
+        }
+
+        .shortcut-key {
+            background: #24292f;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        /* Mini preview tooltip */
+        .message-preview {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            max-width: 300px;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            line-height: 1.4;
+        }
+
+        .message-preview.visible {
+            opacity: 1;
+        }
+
+        .preview-meta {
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding-bottom: 4px;
+            margin-bottom: 4px;
+            font-size: 10px;
+            opacity: 0.8;
+        }
+
+        .preview-body {
+            max-height: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .btn {
@@ -1293,8 +1443,7 @@ HR Team`
         }
 
         // Top Navigator Component
-        function TopNavigator({ threadData, selectedMessageId, onSelectMessage }) {
-            const [viewMode, setViewMode] = useState('timeline');
+        function TopNavigator({ threadData, selectedMessageId, onSelectMessage, viewMode, setViewMode }) {
 
             return (
                 <div className="top-navigator">
@@ -1302,6 +1451,9 @@ HR Team`
                         <div className="nav-title">Email Thread Navigator</div>
                         <div className="nav-subtitle">
                             Thread: {threadData.threadId} • {threadData.messages.length} messages
+                        </div>
+                        <div className="thread-progress" aria-live="polite" aria-atomic="true">
+                            Review Progress: {ratedMessages}/{totalMessages} messages rated ({progressPercentage}%)
                         </div>
                     </div>
 
@@ -1404,6 +1556,37 @@ HR Team`
                 });
             };
 
+            // Keyboard shortcuts for ratings
+            useEffect(() => {
+                const handleKeyDown = (event) => {
+                    // Only handle shortcuts when not typing in inputs
+                    if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') return;
+
+                    const key = event.key;
+                    const numKey = parseInt(key);
+
+                    // Map number keys to rating options
+                    if (numKey >= 1 && numKey <= schema.messageOptions.length) {
+                        event.preventDefault();
+                        const option = schema.messageOptions[numKey - 1];
+                        if (option) {
+                            toggleMessageRating(option.key);
+                        }
+                    }
+
+                    // Special shortcuts
+                    if (event.ctrlKey || event.metaKey) {
+                        if (key === 's') {
+                            event.preventDefault();
+                            saveAndNext();
+                        }
+                    }
+                };
+
+                document.addEventListener('keydown', handleKeyDown);
+                return () => document.removeEventListener('keydown', handleKeyDown);
+            }, [currentMessageRating, schema.messageOptions]);
+
             const saveAndNext = () => {
                 // Check if note is required
                 const requiresNote = currentMessageRating.selected.some(key =>
@@ -1462,13 +1645,15 @@ HR Team`
 
                     {/* Message Rating Section */}
                     <div className="rating-section">
-                        <div className="rating-title">Message Rating</div>
-                        <div className="rating-options">
-                            {schema.messageOptions.map(option => (
+                        <div id="message-rating-title" className="rating-title">Message Rating</div>
+                        <div className="rating-options" role="group" aria-labelledby="message-rating-title">
+                            {schema.messageOptions.map((option, index) => (
                                 <button
                                     key={option.key}
                                     className={`rating-button ${currentMessageRating.selected.includes(option.key) ? 'selected' : ''}`}
                                     onClick={() => toggleMessageRating(option.key)}
+                                    aria-pressed={currentMessageRating.selected.includes(option.key)}
+                                    aria-label={`${option.label} (Press ${index + 1} for quick access)`}
                                     title={option.description}
                                 >
                                     {option.label}
@@ -1497,13 +1682,25 @@ HR Team`
                     {/* Navigation Help */}
                     <div className="rating-section">
                         <div className="rating-title">Keyboard Shortcuts</div>
-                        <div style={{fontSize: '11px', color: '#656d76'}}>
-                            <div>↑/↓ - Navigate messages</div>
-                            <div>←/→ - Expand/collapse thread</div>
-                            <div>Space/Enter - Open message</div>
-                            <div>N - Next unrated</div>
-                            <div>Shift+N - Previous unrated</div>
-                            <div>/ - Search</div>
+                        <div className="keyboard-shortcuts">
+                            {schema.messageOptions.map((option, index) => (
+                                <div key={option.key} className="shortcut-item">
+                                    <span>{option.label}</span>
+                                    <span className="shortcut-key">{index + 1}</span>
+                                </div>
+                            ))}
+                            <div className="shortcut-item">
+                                <span>Save & Next</span>
+                                <span className="shortcut-key">Ctrl+S</span>
+                            </div>
+                            <div className="shortcut-item">
+                                <span>Navigate</span>
+                                <span className="shortcut-key">↑/↓</span>
+                            </div>
+                            <div className="shortcut-item">
+                                <span>Search</span>
+                                <span className="shortcut-key">/</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -1511,8 +1708,9 @@ HR Team`
         }
 
         // Thread Tree Component
-        function ThreadTree({ threadData, selectedMessageId, onSelectMessage, ratings, searchQuery }) {
+        function ThreadTree({ threadData, selectedMessageId, onSelectMessage, ratings, searchQuery, ratingFilter }) {
             const [expandedNodes, setExpandedNodes] = useState(new Set(['msg001']));
+            const [previewData, setPreviewData] = useState({ visible: false, x: 0, y: 0, message: null });
 
             const toggleExpanded = (messageId) => {
                 const newExpanded = new Set(expandedNodes);
@@ -1528,6 +1726,20 @@ HR Team`
                 return threadData.messages.filter(msg => msg.parentMessageId === parentId);
             };
 
+            const handleMouseEnter = (event, message) => {
+                const rect = event.target.getBoundingClientRect();
+                setPreviewData({
+                    visible: true,
+                    x: rect.right + 10,
+                    y: rect.top,
+                    message: message
+                });
+            };
+
+            const handleMouseLeave = () => {
+                setPreviewData(prev => ({ ...prev, visible: false }));
+            };
+
             const renderMessage = (message, depth = 0) => {
                 const hasChildren = getChildMessages(message.messageId).length > 0;
                 const isExpanded = expandedNodes.has(message.messageId);
@@ -1535,10 +1747,27 @@ HR Team`
                 const messageRating = ratings.messages[message.messageId];
                 const isRated = messageRating && messageRating.selected.length > 0;
 
+                // Determine rating class for color coding
+                let ratingClass = '';
+                if (messageRating && messageRating.selected.length > 0) {
+                    const primaryRating = messageRating.selected[0]; // Use first rating for color
+                    ratingClass = `rating-${primaryRating}`;
+                } else {
+                    ratingClass = 'unrated';
+                }
+
                 // Filter by search query
                 if (searchQuery && !message.from.toLowerCase().includes(searchQuery.toLowerCase()) &&
                     !message.subject.toLowerCase().includes(searchQuery.toLowerCase())) {
                     return null;
+                }
+
+                // Filter by rating
+                if (ratingFilter !== 'all') {
+                    if (ratingFilter === 'unrated' && isRated) return null;
+                    if (ratingFilter === 'hot' && !messageRating?.selected.includes('hot') && !messageRating?.selected.includes('privileged')) return null;
+                    if (ratingFilter === 'medium' && !messageRating?.selected.includes('confidential')) return null;
+                    if (ratingFilter === 'cold' && !messageRating?.selected.includes('relevant') && !messageRating?.selected.includes('review_complete')) return null;
                 }
 
                 const senderInitials = message.from.split('@')[0]
@@ -1551,13 +1780,17 @@ HR Team`
                 return (
                     <div key={message.messageId}>
                         <div
-                            className={`thread-node ${isSelected ? 'selected' : ''} ${isRated ? 'rated' : 'unrated'}`}
+                            className={`thread-node ${isSelected ? 'selected' : ''} ${ratingClass}`}
                             style={{paddingLeft: `${depth * 20 + 12}px`}}
                             onClick={() => onSelectMessage(message.messageId)}
+                            onMouseEnter={(e) => handleMouseEnter(e, message)}
+                            onMouseLeave={handleMouseLeave}
                             tabIndex={0}
                             role="treeitem"
                             aria-selected={isSelected}
                             aria-expanded={hasChildren ? isExpanded : undefined}
+                            aria-label={`Email from ${message.from}, subject: ${message.subject}, sent ${message.date}${messageRating && messageRating.selected.length > 0 ? `, rated as ${messageRating.selected.join(', ')}` : ', unrated'}`}
+                            aria-describedby={`message-${message.messageId}-details`}
                         >
                             {hasChildren && (
                                 <span
@@ -1612,8 +1845,30 @@ HR Team`
             const rootMessages = threadData.messages.filter(msg => !msg.parentMessageId);
 
             return (
-                <div className="thread-tree" role="tree" aria-label="Email thread tree">
-                    {rootMessages.map(message => renderMessage(message))}
+                <div style={{ position: 'relative' }}>
+                    <div className="thread-tree" role="tree" aria-label="Email thread tree">
+                        {rootMessages.map(message => renderMessage(message))}
+                    </div>
+
+                    {/* Mini preview tooltip */}
+                    {previewData.visible && previewData.message && (
+                        <div
+                            className={`message-preview ${previewData.visible ? 'visible' : ''}`}
+                            style={{
+                                left: previewData.x,
+                                top: previewData.y,
+                                position: 'fixed'
+                            }}
+                        >
+                            <div className="preview-meta">
+                                <strong>{previewData.message.from}</strong> • {previewData.message.date}
+                            </div>
+                            <div className="preview-body">
+                                {previewData.message.body.split('\n').slice(0, 2).join('\n')}
+                                {previewData.message.body.split('\n').length > 2 && '...'}
+                            </div>
+                        </div>
+                    )}
                 </div>
             );
         }
@@ -1714,6 +1969,8 @@ HR Team`
             const [searchQuery, setSearchQuery] = useState('');
             const [showShortcuts, setShowShortcuts] = useState(false);
             const [performanceMetrics, setPerformanceMetrics] = useState({ renderTime: 0 });
+            const [ratingFilter, setRatingFilter] = useState('all'); // all, hot, medium, cold, unrated
+            const [viewMode, setViewMode] = useState('timeline');
 
             // Rating state
             const [ratings, setRatings] = useState({
@@ -1728,6 +1985,14 @@ HR Team`
             const selectedMessage = threadData.messages.find(msg => msg.messageId === selectedMessageId);
             const currentMessageRating = ratings.messages[selectedMessageId] ||
                 { messageId: selectedMessageId, selected: [], note: '', version: 1, updatedBy: '', updatedAt: '' };
+
+            // Calculate review progress
+            const totalMessages = threadData.messages.length;
+            const ratedMessages = threadData.messages.filter(msg => {
+                const rating = ratings.messages[msg.messageId];
+                return rating && rating.selected.length > 0;
+            }).length;
+            const progressPercentage = Math.round((ratedMessages / totalMessages) * 100);
 
             // Performance measurement
             useEffect(() => {
@@ -1837,6 +2102,8 @@ HR Team`
                         threadData={threadData}
                         selectedMessageId={selectedMessageId}
                         onSelectMessage={setSelectedMessageId}
+                        viewMode={viewMode}
+                        setViewMode={setViewMode}
                     />
 
                     {/* Main Content Area */}
@@ -1852,6 +2119,23 @@ HR Team`
                                 onChange={(e) => setSearchQuery(e.target.value)}
                                 aria-label="Search messages"
                             />
+                            <div className="rating-filter">
+                                {['all', 'hot', 'medium', 'cold', 'unrated'].map(filter => (
+                                    <button
+                                        key={filter}
+                                        className={`filter-chip ${filter} ${ratingFilter === filter ? 'active' : ''}`}
+                                        onClick={() => setRatingFilter(filter)}
+                                        aria-pressed={ratingFilter === filter}
+                                        aria-label={`Filter messages by ${filter} priority ${ratingFilter === filter ? '(currently active)' : ''}`}
+                                        title={`Filter by ${filter} priority`}
+                                    >
+                                        {filter === 'all' ? 'All' :
+                                         filter === 'hot' ? 'Hot' :
+                                         filter === 'medium' ? 'Medium' :
+                                         filter === 'cold' ? 'Cold' : 'Unrated'}
+                                    </button>
+                                ))}
+                            </div>
                         </div>
                         <ThreadTree
                             threadData={threadData}
@@ -1859,6 +2143,7 @@ HR Team`
                             onSelectMessage={setSelectedMessageId}
                             ratings={ratings}
                             searchQuery={searchQuery}
+                            ratingFilter={ratingFilter}
                         />
                     </div>
 
@@ -1916,6 +2201,16 @@ HR Team`
                     <div className="perf-indicator">
                         Render: {performanceMetrics.renderTime.toFixed(1)}ms
                         {performanceMetrics.renderTime > 200 && ' ⚠️'}
+                    </div>
+
+                    {/* Screen reader announcements */}
+                    <div
+                        aria-live="assertive"
+                        aria-atomic="true"
+                        className="sr-only"
+                        style={{ position: 'absolute', left: '-10000px', width: '1px', height: '1px', overflow: 'hidden' }}
+                    >
+                        {selectedMessage && `Selected message from ${selectedMessage.from}: ${selectedMessage.subject}`}
                     </div>
                 </div>
             );
