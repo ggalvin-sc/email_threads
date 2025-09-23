@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear Storage</title>
+</head>
+<body>
+    <h1>Clear Email Thread Navigator Storage</h1>
+    <button onclick="clearStorage()">Clear Storage</button>
+    <div id="result"></div>
+
+    <script>
+        function clearStorage() {
+            try {
+                localStorage.removeItem('emailThreadNavigator_layout');
+                document.getElementById('result').innerHTML = '<p style="color: green;">Storage cleared successfully!</p>';
+                console.log('Storage cleared');
+            } catch (e) {
+                document.getElementById('result').innerHTML = '<p style="color: red;">Error: ' + e.message + '</p>';
+                console.error('Clear storage error:', e);
+            }
+        }
+
+        // Auto-clear on load
+        clearStorage();
+    </script>
+</body>
+</html>
