@@ -1,0 +1,81 @@
+{
+  "threadId": "4.2.2.20010824164719.00aef8c0@jhsph.edu",
+  "tree": {
+    "threadId": "4.2.2.20010824164719.00aef8c0@jhsph.edu",
+    "roots": [
+      {
+        "id": "5279412",
+        "messageId": "4.2.2.20010824164719.00aef8c0@jhsph.edu",
+        "inReplyTo": "OFE5F1A77B.711B0280-ON86256A7E.0056DA1C@mmm.com",
+        "references": [],
+        "threadId": "4.2.2.20010824164719.00aef8c0@jhsph.edu",
+        "from": "Han-Yao Huang <hyhuang@jhsph.edu>",
+        "to": [
+          "CN=Geary Olsen/OU=US-Corporate/O=3M/C=US@3M-Corporate"
+        ],
+        "cc": [],
+        "bcc": [],
+        "subject": "draft on the fluorochemical study/methods and results",
+        "dateSent": "2001-08-25T01:57:47.000Z",
+        "custodian": "Hybrid Solr Import",
+        "fileName": "email_5279412.eml",
+        "fullText": "NotesID: EFD71657D567A08E86256AB20072D4E9\nPostedDate:\n08/24/2001 09:57:47 PM\nDeliveredDate:\n08/24/2001 09:54:26 PM\nCategories:\n\nFrom:\nHan-Yao Huang <hyhuang@jhsph.edu>\nSendTo:\nCN=Geary Olsen/OU=US-Corporate/O=3M/C=US@3M-Corporate\nCopyTo:\nkhelzlso@jhsph.edu\nBCC:\nSubject:\ndraft on the fluorochemical study/methods and results\nBody:\nGeary,\n\nWe have prepared the first draft on methods/results.  Please review the\nattached files.  I have decided to report the results from non-parametric\nstatistical analyses as the compounds.\n\nWe may need to combine some of the tables.  The figures are for your\nreference - may or may not need to include them in the manuscript.\n\nLook forward to receiving your and your colleagues' input.\n\nRegards,\nHan Yao\n\n\n - method.wpd\n - pfosgraph.wpd\nInternetID:\n<OFEFD71657.D567A08E-ON86256AB2.0072D4E9@LocalDomain>\n\n<$AdditionalHeaders>  Received: from leslie.mmm.com ([192.28.4.11]) by em-stpmta-05.mmm.com (Lotus SMTP MTA v4.6.5  (863.2 5-20-1999)) with SMTP id 86256AB2.0072D49C; Fri, 24 Aug 2001 15:54:15 -0500   Received: from ens1.is.jhsph.edu (ens1.is.jhsph.edu [162.129.40.11])    by leslie.mmm.com (8.8.6 (PHNE_17135)/8.8.7) with ESMTP id PAA17967    for <gwolsen@mmm.com>; Fri, 24 Aug 2001 15:54:20 -0500 (CDT)   Received: from ins1.is.jhsph.edu (ins1.is.jhsph.edu [162.129.44.11])    by ens1.is.jhsph.edu (8.9.1a/8.9.1) with ESMTP id QAA21008    for <gwolsen@mmm.com>; Fri, 24 Aug 2001 16:53:46 -0400 (EDT)   Received: from webmail (webmail.jhsph.edu [172.30.34.205])    by ins1.is.jhsph.edu (8.9.1/8.9.1) with ESMTP id QAA16971    for <gwolsen@mmm.com>; Fri, 24 Aug 2001 16:53:15 -0400 (EDT)   Received: from hyhuang ([172.30.165.109])    by webmail.jhsph.edu (iPlanet Messaging Server 5.1 (built May  7 2001))    with ESMTP id <0GIL00G03BCRIB@webmail.jhsph.edu> for gwolsen@mmm.com; Fri,    24 Aug 2001 16:53:17 -0400 (EDT)   Date: Fri, 24 Aug 2001 16:57:47 -0400   From: Han-Yao Huang <hyhuang@jhsph.edu>   Subject: draft on the fluorochemical study/methods and results   In-reply-to: <OFE5F1A77B.711B0280-ON86256A7E.0056DA1C@mmm.com>   X-Sender: hyhuang@jhsph.edu   To: gwolsen@mmm.com   Cc: khelzlso@jhsph.edu   Message-id: <4.2.2.20010824164719.00aef8c0@jhsph.edu>   MIME-version: 1.0   X-Mailer: QUALCOMM Windows Eudora Pro Version 4.2.2   Content-type: multipart/mixed; boundary=\"Boundary_(ID_umr6GBSVDfIWdsUCHp6BGg)\"        <\\$AdditionalHeaders>\n<SMTPOriginator>  hyhuang@jhsph.edu  <\\SMTPOriginator>\n<RouteServers>  CN=EM-STPMTA-05/OU=EM-EMI/O=3M/C=US;CN=US-Hitchcock/OU=US-Corporate/O=3M/C=US  <\\RouteServers>\n<RouteTimes>  08/24/2001 09:54:16 PM-08/24/2001 09:54:18 PM;08/24/2001 09:54:24 PM-08/24/2001 09:54:26 PM  <\\RouteTimes>\n<$Orig>  EFD71657D567A08E86256AB20072D4E9  <\\$Orig>\n<RoutingState>    <\\RoutingState>\n<$MsgTrackFlags>  0  <\\$MsgTrackFlags>\n<$FolderRef>  A2D096422E026EE086256CE00026FB50  <\\$FolderRef>\n<$FolderRefID>  0;0;0;57  <\\$FolderRefID>\n<$FolderRefFlags>  0;0;0;0  <\\$FolderRefFlags>\n<Form>  Memo  <\\Form>\n<AltFrom>    <\\AltFrom>\n<Logo>  StdNotesLtrGateway  <\\Logo>\n<useApplet>  True  <\\useApplet>\n<tmpImp2>    <\\tmpImp2>\n<DefaultMailSaveOptions>  1  <\\DefaultMailSaveOptions>\n<Query_String>    <\\Query_String>\n<WebSubject>  draft on the fluorochemical study/methods and results  <\\WebSubject>\n<FaxToList>    <\\FaxToList>\n<$KeepPrivate>    <\\$KeepPrivate>\n<Encrypt>  0  <\\Encrypt>\n<Sign>  0  <\\Sign>\n<ReturnReceipt>  0  <\\ReturnReceipt>\n<EnterSendTo>  CN=Geary Olsen/OU=US-Corporate/O=3M/C=US@3M-Corporate  <\\EnterSendTo>\n<EnterCopyTo>  khelzlso@jhsph.edu  <\\EnterCopyTo>\n<EnterBlindCopyTo>    <\\EnterBlindCopyTo>\n<$UpdatedBy>  CN=EM-STPMTA-05/OU=EM-EMI/O=3M/C=US;CN=US-Hitchcock/OU=US-Corporate/O=3M/C=US;CN=Legal ProcessingCenter/OU=LA-Legal/O=3M/C=US  <\\$UpdatedBy>\n<$Revisions>  08/24/2001 09:54:25 PM;08/01/2005 05:21:12 PM;08/01/2005 05:21:12 PM  <\\$Revisions>",
+        "confidentiality": "",
+        "begBates": "5279412",
+        "dateCreated": null,
+        "dateLastModified": null,
+        "children": []
+      },
+      {
+        "id": "4879288",
+        "messageId": "4.2.2.20010824170110.00af0850@jhsph.edu",
+        "inReplyTo": "",
+        "references": [],
+        "threadId": "4.2.2.20010824164719.00aef8c0@jhsph.edu",
+        "from": "Han-Yao Huang <hyhuang@jhsph.edu>",
+        "to": [
+          "CN=Geary Olsen/OU=US-Corporate/O=3M/C=US@3M-Corporate"
+        ],
+        "cc": [],
+        "bcc": [],
+        "subject": "Fwd: draft on the fluorochemical study/methods and results",
+        "dateSent": "2001-08-25T02:02:28.000Z",
+        "custodian": "Hybrid Solr Import",
+        "fileName": "email_4879288.eml",
+        "fullText": "NotesID: FF6455733F606B6C86256AB60049E424\nPostedDate:\n08/24/2001 10:02:28 PM\nDeliveredDate:\n08/24/2001 09:56:56 PM\nCategories:\n\nFrom:\nHan-Yao Huang <hyhuang@jhsph.edu>\nSendTo:\nCN=Geary Olsen/OU=US-Corporate/O=3M/C=US@3M-Corporate\nCopyTo:\nBCC:\nSubject:\nFwd: draft on the fluorochemical study/methods and results\nBody:\nRe-sending the email after deletion of unwanted words.\n\n\n\n>Geary,\n>\n>We have prepared the first draft on methods/results.  Please review the\n>attached files.  I have decided to report the results from non-parametric\n>statistical analyses.\n>\n>We may need to combine some of the tables.  The figures are for your\n>reference - may or may not need to include them in the manuscript.\n>\n>Look forward to receiving your and your colleagues' input.\n>\n>Regards,\n>Han Yao\n>\n<< File method.wpd not included with reply >><< File pfosgraph.wpd not included with reply >>\nInternetID:\n<OFE88BD00A.CA69E81B-ON86256AB2.0073103E@LocalDomain>\n\n<$AdditionalHeaders>  Received: from leslie.mmm.com ([192.28.4.11]) by em-stpmta-05.mmm.com (Lotus SMTP MTA v4.6.5  (863.2 5-20-1999)) with SMTP id 86256AB2.00730D0D; Fri, 24 Aug 2001 15:56:39 -0500   Received: from ens1.is.jhsph.edu (ens1.is.jhsph.edu [162.129.40.11])    by leslie.mmm.com (8.8.6 (PHNE_17135)/8.8.7) with ESMTP id PAA18631    for <gwolsen@mmm.com>; Fri, 24 Aug 2001 15:56:44 -0500 (CDT)   Received: from ins1.is.jhsph.edu (ins1.is.jhsph.edu [162.129.44.11])    by ens1.is.jhsph.edu (8.9.1a/8.9.1) with ESMTP id QAA21208    for <gwolsen@mmm.com>; Fri, 24 Aug 2001 16:56:10 -0400 (EDT)   Received: from webmail (webmail.jhsph.edu [172.30.34.205])    by ins1.is.jhsph.edu (8.9.1/8.9.1) with ESMTP id QAA17174    for <gwolsen@mmm.com>; Fri, 24 Aug 2001 16:55:39 -0400 (EDT)   Received: from hyhuang ([172.30.165.109])    by webmail.jhsph.edu (iPlanet Messaging Server 5.1 (built May  7 2001))    with ESMTP id <0GIL00G0VBGRIK@webmail.jhsph.edu> for gwolsen@mmm.com; Fri,    24 Aug 2001 16:55:41 -0400 (EDT)   Date: Fri, 24 Aug 2001 17:02:28 -0400   From: Han-Yao Huang <hyhuang@jhsph.edu>   Subject: Fwd: draft on the fluorochemical study/methods and results   X-Sender: hyhuang@jhsph.edu   To: gwolsen@mmm.com   Message-id: <4.2.2.20010824170110.00af0850@jhsph.edu>   MIME-version: 1.0   X-Mailer: QUALCOMM Windows Eudora Pro Version 4.2.2   Content-type: multipart/mixed; boundary=\"Boundary_(ID_hYXSS16M+H4nxAfP19/Q/w)\"        <\\$AdditionalHeaders>\n<SMTPOriginator>  hyhuang@jhsph.edu  <\\SMTPOriginator>\n<RouteServers>  CN=EM-STPMTA-05/OU=EM-EMI/O=3M/C=US;CN=US-Hitchcock/OU=US-Corporate/O=3M/C=US  <\\RouteServers>\n<RouteTimes>  08/24/2001 09:56:48 PM-08/24/2001 09:56:49 PM;08/24/2001 09:56:55 PM-08/24/2001 09:56:56 PM  <\\RouteTimes>\n<$Orig>  E88BD00ACA69E81B86256AB20073103E  <\\$Orig>\n<RoutingState>    <\\RoutingState>\n<$MsgTrackFlags>  0  <\\$MsgTrackFlags>\n<Form>  Memo  <\\Form>\n<AltFrom>    <\\AltFrom>\n<Logo>  StdNotesLtrGateway  <\\Logo>\n<DefaultMailSaveOptions>  1  <\\DefaultMailSaveOptions>\n<Query_String>    <\\Query_String>\n<WebSubject>  Fwd: draft on the fluorochemical study/methods and results  <\\WebSubject>\n<TEMPREPLYCOPY>  1  <\\TEMPREPLYCOPY>\n<useApplet>  True  <\\useApplet>\n<tmpImp2>    <\\tmpImp2>\n<FaxToList>    <\\FaxToList>\n<$KeepPrivate>    <\\$KeepPrivate>\n<Encrypt>  0  <\\Encrypt>\n<Sign>  0  <\\Sign>\n<ReturnReceipt>  0  <\\ReturnReceipt>\n<EnterSendTo>  CN=Geary Olsen/OU=US-Corporate/O=3M/C=US@3M-Corporate  <\\EnterSendTo>\n<EnterCopyTo>    <\\EnterCopyTo>\n<EnterBlindCopyTo>    <\\EnterBlindCopyTo>\n<$UpdatedBy>  CN=EM-STPMTA-05/OU=EM-EMI/O=3M/C=US;CN=US-Hitchcock/OU=US-Corporate/O=3M/C=US;CN=Geary Olsen/OU=US-Corporate/O=3M/C=US;CN=Legal ProcessingCenter/OU=LA-Legal/O=3M/C=US  <\\$UpdatedBy>\n<$Revisions>  08/28/2001 02:27:04 PM;08/01/2005 05:18:56 PM  <\\$Revisions>",
+        "confidentiality": "",
+        "begBates": "4879288",
+        "dateCreated": null,
+        "dateLastModified": null,
+        "children": []
+      }
+    ],
+    "totalEmails": 2,
+    "participants": [
+      "Han-Yao Huang <hyhuang@jhsph.edu>",
+      "CN=Geary Olsen/OU=US-Corporate/O=3M/C=US@3M-Corporate"
+    ],
+    "dateRange": {
+      "start": "2001-08-25T01:57:47.000Z",
+      "end": "2001-08-25T02:02:28.000Z"
+    }
+  },
+  "stats": {
+    "threadId": "4.2.2.20010824164719.00aef8c0@jhsph.edu",
+    "totalEmails": 2,
+    "participants": [
+      "Han-Yao Huang <hyhuang@jhsph.edu>",
+      "CN=Geary Olsen/OU=US-Corporate/O=3M/C=US@3M-Corporate"
+    ],
+    "participantCount": 2,
+    "maxDepth": 1,
+    "branchCount": 0,
+    "forwardCount": 0,
+    "replyCount": 1,
+    "externalCount": 0,
+    "dateRange": {
+      "start": "2001-08-25T01:57:47.000Z",
+      "end": "2001-08-25T02:02:28.000Z"
+    }
+  }
+}

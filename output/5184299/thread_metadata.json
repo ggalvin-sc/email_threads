@@ -1,0 +1,134 @@
+{
+  "threadId": "5184299",
+  "tree": {
+    "threadId": "5184299",
+    "roots": [
+      {
+        "id": "5267009",
+        "messageId": "",
+        "inReplyTo": "",
+        "references": [],
+        "threadId": "5184299",
+        "from": "3M",
+        "to": [
+          "JKM",
+          "McLaughlin",
+          "Joseph",
+          "ws",
+          "iei"
+        ],
+        "cc": [],
+        "bcc": [],
+        "subject": "Re: Fwd: PFOA/PFOS",
+        "dateSent": "2006-06-06T00:00:00.000Z",
+        "custodian": "Hybrid Solr Import",
+        "fileName": "email_5267009.eml",
+        "fullText": "",
+        "confidentiality": "",
+        "begBates": "5267009",
+        "dateCreated": null,
+        "dateLastModified": null,
+        "children": []
+      },
+      {
+        "id": "5267009",
+        "messageId": "",
+        "inReplyTo": "",
+        "references": [],
+        "threadId": "5184299",
+        "from": "3M",
+        "to": [
+          "JKM",
+          "McLaughlin",
+          "Joseph",
+          "ws",
+          "iei"
+        ],
+        "cc": [],
+        "bcc": [],
+        "subject": "Re: Fwd: PFOA/PFOS",
+        "dateSent": "2006-06-06T00:00:00.000Z",
+        "custodian": "Hybrid Solr Import",
+        "fileName": "email_5267009.eml",
+        "fullText": "",
+        "confidentiality": "",
+        "begBates": "5267009",
+        "dateCreated": null,
+        "dateLastModified": null,
+        "children": []
+      },
+      {
+        "id": "5267009",
+        "messageId": "",
+        "inReplyTo": "",
+        "references": [],
+        "threadId": "5184299",
+        "from": "3M",
+        "to": [
+          "JKM",
+          "McLaughlin",
+          "Joseph",
+          "ws",
+          "iei"
+        ],
+        "cc": [],
+        "bcc": [],
+        "subject": "Re: Fwd: PFOA/PFOS",
+        "dateSent": "2006-06-06T00:00:00.000Z",
+        "custodian": "Hybrid Solr Import",
+        "fileName": "email_5267009.eml",
+        "fullText": "",
+        "confidentiality": "",
+        "begBates": "5267009",
+        "dateCreated": null,
+        "dateLastModified": null,
+        "children": []
+      }
+    ],
+    "totalEmails": 3,
+    "participants": [
+      "jkm",
+      "gwolsen",
+      "MMM",
+      "CN=Geary Olsen/OU=US-Corporate/O=3M/C=US",
+      "Joseph McLaughlin <jkm@iei.ws>",
+      "3M",
+      "JKM",
+      "McLaughlin",
+      "Joseph",
+      "ws",
+      "iei"
+    ],
+    "dateRange": {
+      "start": "2006-04-04T00:00:00.000Z",
+      "end": "2006-06-06T00:00:00.000Z"
+    }
+  },
+  "stats": {
+    "threadId": "5184299",
+    "totalEmails": 3,
+    "participants": [
+      "jkm",
+      "gwolsen",
+      "MMM",
+      "CN=Geary Olsen/OU=US-Corporate/O=3M/C=US",
+      "Joseph McLaughlin <jkm@iei.ws>",
+      "3M",
+      "JKM",
+      "McLaughlin",
+      "Joseph",
+      "ws",
+      "iei"
+    ],
+    "participantCount": 11,
+    "maxDepth": 1,
+    "branchCount": 0,
+    "forwardCount": 0,
+    "replyCount": 0,
+    "externalCount": 0,
+    "dateRange": {
+      "start": "2006-04-04T00:00:00.000Z",
+      "end": "2006-06-06T00:00:00.000Z"
+    }
+  }
+}

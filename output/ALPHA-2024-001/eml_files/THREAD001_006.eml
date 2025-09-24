@@ -1,0 +1,10 @@
+Message-ID: <006@company.com>
+From: bob.wilson@company.com
+To: david.clark@company.com, mary.jones@company.com
+CC: john.smith@company.com, alice.brown@company.com
+Subject: Re: Project Alpha - Initial Requirements
+Date: Tue, 16 Jan 2024 13:20:00 GMT
+In-Reply-To: <003@company.com>
+References: <001@company.com 003@company.com>
+
+I think we should also involve the security team early in the process. The authentication module will need thorough security review. Should I reach out to the InfoSec team? Bob

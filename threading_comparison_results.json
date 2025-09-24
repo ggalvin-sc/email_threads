@@ -1,0 +1,29 @@
+{
+  "messageIdOnly": {
+    "threads": {},
+    "stats": {
+      "totalThreads": 140,
+      "totalEmails": 150,
+      "averageThreadSize": 1.0714285714285714,
+      "threadsWithMultipleEmails": 4
+    }
+  },
+  "messageIdWithProximity": {
+    "threads": {},
+    "stats": {
+      "totalThreads": 121,
+      "totalEmails": 150,
+      "averageThreadSize": 1.2396694214876034,
+      "threadsWithMultipleEmails": 19
+    }
+  },
+  "hybrid": {
+    "threads": {},
+    "stats": {
+      "totalThreads": 108,
+      "totalEmails": 150,
+      "averageThreadSize": 1.3888888888888888,
+      "threadsWithMultipleEmails": 25
+    }
+  }
+}

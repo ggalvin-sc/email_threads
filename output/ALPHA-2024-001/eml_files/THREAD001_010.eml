@@ -1,0 +1,10 @@
+Message-ID: <010@company.com>
+From: sarah.white@company.com
+To: john.smith@company.com
+CC: bob.wilson@company.com, david.clark@company.com, mary.jones@company.com
+Subject: Re: Fwd: Project Alpha - Security Review Needed
+Date: Thu, 18 Jan 2024 14:15:00 GMT
+In-Reply-To: <008@company.com>
+References: <001@company.com 003@company.com 006@company.com 008@company.com>
+
+John, I'll be representing the security team for Project Alpha. I've reviewed the authentication requirements and have some recommendations. I'll attend Monday's kickoff meeting. Please ensure we discuss data encryption, session management, and compliance requirements. Sarah White, InfoSec

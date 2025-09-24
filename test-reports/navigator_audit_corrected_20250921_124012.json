@@ -1,0 +1,438 @@
+{
+  "audit_timestamp": "2025-09-21T12:40:12.686240",
+  "auditor_version": "2.1.0-corrected",
+  "test_environment": {
+    "browser": "Chromium",
+    "viewport": "1920x1080",
+    "platform": "Windows",
+    "working_directory": "C:\\Users\\gregg\\Documents\\Code\\email_threads",
+    "application_under_test": "Email Thread Navigator - CORRECTED AUDIT"
+  },
+  "tests": {
+    "application_load": {
+      "timestamp": "2025-09-21T12:39:51.695971",
+      "load_successful": true,
+      "panels_visible": {
+        "thread_panel": true,
+        "message_panel": true,
+        "rating_panel": true
+      },
+      "initial_state": {
+        "thread_nodes_count": 2,
+        "rating_buttons_count": 7,
+        "search_box_present": true,
+        "selected_message": true,
+        "has_thread_data": true
+      },
+      "rating_schema_valid": true,
+      "screenshots": [
+        "test-screenshots\\navigator_initial_load_20250921_123959.png"
+      ],
+      "errors": [],
+      "schema_details": {
+        "valid": true,
+        "version": "1.0.0",
+        "message_options_count": 5,
+        "thread_options_count": 2
+      }
+    },
+    "thread_tree_rendering_performance": {
+      "timestamp": "2025-09-21T12:39:59.573045",
+      "tree_structure_valid": true,
+      "node_analysis": {
+        "total_nodes": 2,
+        "node_data": [
+          {
+            "index": 0,
+            "depth": 12,
+            "hasChildren": true,
+            "isSelected": true,
+            "isRated": false,
+            "senderText": "john smith",
+            "subjectText": "1/15/2024 - Project Alpha Budget Discussion"
+          },
+          {
+            "index": 1,
+            "depth": 32,
+            "hasChildren": true,
+            "isSelected": false,
+            "isRated": false,
+            "senderText": "sarah johnson",
+            "subjectText": "1/15/2024 - Re: Project Alpha Budget Discussion"
+          }
+        ],
+        "root_nodes": [
+          {
+            "index": 0,
+            "depth": 12,
+            "hasChildren": true,
+            "isSelected": true,
+            "isRated": false,
+            "senderText": "john smith",
+            "subjectText": "1/15/2024 - Project Alpha Budget Discussion"
+          }
+        ],
+        "child_nodes": [
+          {
+            "index": 1,
+            "depth": 32,
+            "hasChildren": true,
+            "isSelected": false,
+            "isRated": false,
+            "senderText": "sarah johnson",
+            "subjectText": "1/15/2024 - Re: Project Alpha Budget Discussion"
+          }
+        ]
+      },
+      "hierarchy_test": {
+        "expand_worked": true
+      },
+      "render_performance": {
+        "analysis_time_ms": 16.76201820373535,
+        "expansion_time_ms": 605.8008670806885,
+        "total_time_ms": 622.5628852844238,
+        "meets_spec": false
+      },
+      "screenshots": [
+        "test-screenshots\\tree_expanded_20250921_124000.png"
+      ],
+      "errors": []
+    },
+    "keyboard_navigation_comprehensive": {
+      "timestamp": "2025-09-21T12:40:00.392278",
+      "keyboard_tests": {
+        "arrow_down": true,
+        "arrow_up": false,
+        "search_focus": true,
+        "next_unrated": true,
+        "previous_unrated": true,
+        "help_toggle": false,
+        "help_close": true
+      },
+      "navigation_working": false,
+      "edge_cases": {
+        "navigation_bounds": true
+      },
+      "shortcuts_complete": false,
+      "screenshots": [
+        "test-screenshots\\keyboard_navigation_20250921_124004.png"
+      ],
+      "errors": []
+    },
+    "rating_panel_workflow_complete": {
+      "timestamp": "2025-09-21T12:40:04.443949",
+      "rating_tests": {
+        "thread_rating": true,
+        "auto_advance": false
+      },
+      "validation_tests": {},
+      "workflow_complete": false,
+      "screenshots": [
+        "test-screenshots\\rating_workflow_complete_20250921_124005.png"
+      ],
+      "errors": []
+    },
+    "message_view_display": {
+      "timestamp": "2025-09-21T12:40:05.582320",
+      "message_display": {
+        "headers_count": 4,
+        "required_headers_present": true,
+        "missing_headers": [],
+        "body_has_content": true,
+        "body_word_count": 53,
+        "body_character_count": 372,
+        "attachments_count": 2,
+        "attachment_has_icon": true,
+        "attachment_has_name": true
+      },
+      "content_validation": {},
+      "screenshots": [
+        "test-screenshots\\message_view_display_20250921_124005.png"
+      ],
+      "errors": []
+    },
+    "search_and_filtering": {
+      "timestamp": "2025-09-21T12:40:05.861616",
+      "search_tests": {
+        "initial_message_count": 0,
+        "search_john_count": 2,
+        "search_reduces_results": false,
+        "no_results_count": 0,
+        "clear_search_restores": false,
+        "case_insensitive": true
+      },
+      "filtering_effective": false,
+      "edge_cases": {
+        "search_@": 3,
+        "search_123": 0,
+        "search_!!!": 0,
+        "search_   ": 0,
+        "search_empty": 3
+      },
+      "screenshots": [
+        "test-screenshots\\search_john_results_20250921_124006.png"
+      ],
+      "errors": []
+    },
+    "performance_requirements": {
+      "timestamp": "2025-09-21T12:40:10.680957",
+      "performance_tests": {
+        "average_render_time_ms": 89.83116000890732,
+        "min_render_time_ms": 46.01710004499182,
+        "max_render_time_ms": 108.25089999707416,
+        "individual_times": [
+          46.01710004499182,
+          92.21570001682267,
+          108.25089999707416,
+          97.90210000937805,
+          104.7699999762699
+        ],
+        "average_message_selection_ms": 82.19163333221029
+      },
+      "spec_compliance": {
+        "meets_200ms_requirement": true,
+        "consistent_performance": true,
+        "message_selection_fast": true
+      },
+      "measurements": [],
+      "cdp_data": {
+        "baseline": {
+          "cdp_metrics": {
+            "Timestamp": 356303.32038,
+            "AudioHandlers": 0,
+            "AudioWorkletProcessors": 0,
+            "Documents": 1,
+            "Frames": 1,
+            "JSEventListeners": 262,
+            "LayoutObjects": 474,
+            "MediaKeySessions": 0,
+            "MediaKeys": 0,
+            "Nodes": 560,
+            "Resources": 4,
+            "ContextLifecycleStateObservers": 4,
+            "V8PerContextDatas": 2,
+            "WorkerGlobalScopes": 0,
+            "UACSSResources": 0,
+            "RTCPeerConnections": 0,
+            "ResourceFetchers": 1,
+            "AdSubframes": 0,
+            "DetachedScriptStates": 2,
+            "ArrayBufferContents": 9,
+            "LayoutCount": 42,
+            "RecalcStyleCount": 168,
+            "LayoutDuration": 0.117695,
+            "RecalcStyleDuration": 0.07234,
+            "DevToolsCommandDuration": 0.302564,
+            "ScriptDuration": 1.303063,
+            "V8CompileDuration": 0.002517,
+            "TaskDuration": 2.278284,
+            "TaskOtherDuration": 0.480105,
+            "ThreadTime": 1.816213,
+            "ProcessTime": 2.980351,
+            "JSHeapUsedSize": 15289836,
+            "JSHeapTotalSize": 23814144,
+            "FirstMeaningfulPaint": 356289.907089,
+            "DomContentLoaded": 356288.88497,
+            "NavigationStart": 356284.362904
+          },
+          "browser_metrics": {
+            "navigation_timing": {
+              "dom_content_loaded": 722.8000000119209,
+              "load_complete": 0.10000002384185791,
+              "dom_interactive": 4519.599999964237
+            },
+            "paint_timing": [
+              {
+                "name": "first-paint",
+                "time": 4528
+              },
+              {
+                "name": "first-contentful-paint",
+                "time": 5548
+              }
+            ],
+            "memory": {
+              "used": 21700000,
+              "total": 31200000,
+              "limit": 3760000000
+            }
+          },
+          "timestamp": "2025-09-21T12:40:10.711786"
+        },
+        "final": {
+          "cdp_metrics": {
+            "Timestamp": 356304.716764,
+            "AudioHandlers": 0,
+            "AudioWorkletProcessors": 0,
+            "Documents": 1,
+            "Frames": 1,
+            "JSEventListeners": 343,
+            "LayoutObjects": 774,
+            "MediaKeySessions": 0,
+            "MediaKeys": 0,
+            "Nodes": 840,
+            "Resources": 4,
+            "ContextLifecycleStateObservers": 4,
+            "V8PerContextDatas": 2,
+            "WorkerGlobalScopes": 0,
+            "UACSSResources": 0,
+            "RTCPeerConnections": 0,
+            "ResourceFetchers": 1,
+            "AdSubframes": 0,
+            "DetachedScriptStates": 2,
+            "ArrayBufferContents": 9,
+            "LayoutCount": 81,
+            "RecalcStyleCount": 214,
+            "LayoutDuration": 0.14105,
+            "RecalcStyleDuration": 0.087826,
+            "DevToolsCommandDuration": 0.415636,
+            "ScriptDuration": 1.420546,
+            "V8CompileDuration": 0.002517,
+            "TaskDuration": 2.689677,
+            "TaskOtherDuration": 0.622102,
+            "ThreadTime": 2.137394,
+            "ProcessTime": 3.408063,
+            "JSHeapUsedSize": 17685252,
+            "JSHeapTotalSize": 25649152,
+            "FirstMeaningfulPaint": 356289.907089,
+            "DomContentLoaded": 356288.88497,
+            "NavigationStart": 356284.362904
+          },
+          "browser_metrics": {
+            "navigation_timing": {
+              "dom_content_loaded": 722.8000000119209,
+              "load_complete": 0.10000002384185791,
+              "dom_interactive": 4519.599999964237
+            },
+            "paint_timing": [
+              {
+                "name": "first-paint",
+                "time": 4528
+              },
+              {
+                "name": "first-contentful-paint",
+                "time": 5548
+              }
+            ],
+            "memory": {
+              "used": 21700000,
+              "total": 31200000,
+              "limit": 3760000000
+            }
+          },
+          "timestamp": "2025-09-21T12:40:12.095157"
+        }
+      },
+      "errors": []
+    },
+    "accessibility_compliance": {
+      "timestamp": "2025-09-21T12:40:12.095221",
+      "accessibility_tests": {
+        "keyboard_accessible": {
+          "total_interactive_elements": 13,
+          "accessible_elements": 13,
+          "accessibility_percentage": 100,
+          "accessibility_issues": []
+        },
+        "focus_management": {
+          "tab_navigation_works": true,
+          "focus_visible": true
+        },
+        "landmarks": {
+          "landmark_count": 0,
+          "heading_count": 0,
+          "has_main_content": false,
+          "has_skip_links": false
+        }
+      },
+      "wcag_compliance": {
+        "score": 7,
+        "percentage": 87.5,
+        "passes_basic_requirements": true
+      },
+      "aria_validation": {
+        "has_tree_role": true,
+        "tree_has_aria_label": true,
+        "treeitem_count": 3,
+        "treeitem_aria_selected_count": 3,
+        "treeitem_aria_expanded_count": 2,
+        "buttons_with_text": 9,
+        "inputs_with_labels": 1,
+        "total_buttons": 9,
+        "total_inputs": 1
+      },
+      "color_contrast": {
+        "selected_thread_node": {
+          "background_color": "rgba(9, 105, 218, 0.576)",
+          "text_color": "rgb(255, 255, 255)",
+          "font_size": 16,
+          "has_contrast": true
+        },
+        "selected_rating_button": {
+          "background_color": "rgb(9, 105, 218)",
+          "text_color": "rgb(255, 255, 255)",
+          "font_size": 12,
+          "has_contrast": true
+        },
+        "search_input": {
+          "background_color": "rgb(255, 255, 255)",
+          "text_color": "rgb(0, 0, 0)",
+          "font_size": 14,
+          "has_contrast": true
+        },
+        "message_body": {
+          "background_color": "rgba(0, 0, 0, 0)",
+          "text_color": "rgb(36, 41, 47)",
+          "font_size": 16,
+          "has_contrast": true
+        }
+      },
+      "screenshots": [
+        "test-screenshots\\accessibility_compliance_20250921_124012.png"
+      ],
+      "errors": []
+    },
+    "rating_persistence": {
+      "timestamp": "2025-09-21T12:40:12.666931",
+      "persistence_tests": {},
+      "rating_state": {},
+      "screenshots": [],
+      "errors": []
+    },
+    "thread_expansion_collapse": {
+      "timestamp": "2025-09-21T12:40:12.674446",
+      "expansion_tests": {},
+      "tree_state_changes": {},
+      "screenshots": [],
+      "errors": [
+        "Tree expansion test failed: Page.evaluate: SyntaxError: Failed to execute 'querySelectorAll' on 'Document': 'span:has-text(\"\u25b6\")' is not a valid selector.\n    at eval (eval at evaluate (:291:30), <anonymous>:3:52)\n    at UtilityScript.evaluate (<anonymous>:298:18)\n    at UtilityScript.<anonymous> (<anonymous>:1:44)"
+      ]
+    }
+  },
+  "console_logs": [
+    {
+      "timestamp": "2025-09-21T12:39:52.292636",
+      "type": "info",
+      "text": "%cDownload the React DevTools for a better development experience: https://reactjs.org/link/react-devtools\nYou might need to use a local HTTP server (instead of file://): https://reactjs.org/link/react-devtools-faq font-weight:bold",
+      "location": "https://unpkg.com/react-dom@18/umd/react-dom.development.js:29904"
+    },
+    {
+      "timestamp": "2025-09-21T12:39:56.263419",
+      "type": "warning",
+      "text": "You are using the in-browser Babel transformer. Be sure to precompile your scripts for production - https://babeljs.io/docs/setup/",
+      "location": "https://unpkg.com/@babel/standalone/babel.min.js:2"
+    },
+    {
+      "timestamp": "2025-09-21T12:39:56.896312",
+      "type": "error",
+      "text": "Warning: ReactDOM.render is no longer supported in React 18. Use createRoot instead. Until you switch to the new API, your app will behave as if it's running React 17. Learn more: https://reactjs.org/link/switch-to-createroot",
+      "location": "https://unpkg.com/react-dom@18/umd/react-dom.development.js:72"
+    }
+  ],
+  "summary": {
+    "total_tests": 10,
+    "successful_tests": 10,
+    "screenshots_captured": 7,
+    "success_rate": 100.0
+  }
+}

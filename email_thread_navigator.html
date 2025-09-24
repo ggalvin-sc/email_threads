@@ -1,0 +1,3092 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Thread Tree Navigator - Legal Review</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/primeng@17.0.0/resources/themes/lara-light-blue/theme.css">
+    <link rel="stylesheet" href="https://unpkg.com/primeng@17.0.0/resources/primeng.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/primeicons@6.0.1/primeicons.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f8f9fa;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* Top Navigator with Visualization */
+        .top-navigator {
+            background: white;
+            border-bottom: 2px solid #e0e4e7;
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 80px;
+            max-height: 100px;
+        }
+
+        .top-navigator.compact {
+            padding: 4px 8px;
+            min-height: 60px;
+            max-height: 70px;
+        }
+
+        .nav-title {
+            font-size: 20px;
+            font-weight: 600;
+            color: #24292f;
+            margin-bottom: 4px;
+        }
+
+        .nav-subtitle {
+            font-size: 12px;
+            color: #656d76;
+        }
+
+        .thread-progress {
+            font-size: 11px;
+            color: #0969da;
+            margin-top: 2px;
+            font-weight: 500;
+        }
+
+        .visualization-container {
+            flex: 1;
+            margin: 0 20px;
+            height: 80px;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            background: #f6f8fa;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .viz-timeline {
+            width: 100%;
+            height: 100%;
+        }
+
+        .nav-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+            z-index: 200;
+        }
+
+        .nav-button {
+            padding: 6px 12px;
+            border: 1px solid #d0d7de;
+            border-radius: 4px;
+            background: white;
+            color: #24292f;
+            font-size: 11px;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+            z-index: 100;
+        }
+
+        .nav-button:hover {
+            background: #f6f8fa;
+            border-color: #0969da;
+        }
+
+        .nav-button.active {
+            background: #0969da;
+            color: white;
+            border-color: #0969da;
+        }
+
+        .main-content {
+            display: flex;
+            flex: 1;
+            min-height: 0;
+        }
+
+        /* Left Panel - Thread Tree */
+        .thread-panel {
+            width: 350px;
+            min-width: 300px;
+            background: white;
+            border-right: 1px solid #e0e4e7;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .thread-header {
+            padding: 16px;
+            border-bottom: 1px solid #e0e4e7;
+            background: #f8f9fa;
+        }
+
+        .thread-search {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+            margin-bottom: 8px;
+        }
+
+        .rating-filter {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-bottom: 8px;
+        }
+
+        .filter-chip {
+            padding: 4px 8px;
+            border: 1px solid #d0d7de;
+            border-radius: 12px;
+            font-size: 10px;
+            cursor: pointer;
+            background: white;
+            transition: all 0.2s;
+        }
+
+        .filter-chip:hover {
+            border-color: #0969da;
+        }
+
+        .filter-chip.active {
+            background: #0969da;
+            color: white;
+            border-color: #0969da;
+        }
+
+        .filter-chip.hot { border-color: #dc3545; }
+        .filter-chip.medium { border-color: #fd7e14; }
+        .filter-chip.cold { border-color: #198754; }
+        .filter-chip.unrated { border-color: #6c757d; }
+
+        .thread-tree {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .thread-node {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            margin: 2px 0;
+            border-radius: 6px;
+            cursor: pointer;
+            position: relative;
+            transition: background-color 0.2s;
+        }
+
+        .thread-node:hover {
+            background: #f6f8fa;
+        }
+
+        .thread-node.selected {
+            background: #0969da;
+            color: white;
+        }
+
+        .thread-node.unrated {
+            border-left: 4px solid #6c757d;
+            background: #f8f9fa;
+        }
+
+        .thread-node.rated {
+            border-left: 4px solid #198754;
+        }
+
+        /* Rating-based color coding */
+        .thread-node.rating-hot {
+            border-left: 4px solid #dc3545;
+            background: linear-gradient(90deg, rgba(220,53,69,0.1) 0%, transparent 100%);
+        }
+
+        .thread-node.rating-privileged {
+            border-left: 4px solid #dc3545;
+            background: linear-gradient(90deg, rgba(220,53,69,0.1) 0%, transparent 100%);
+        }
+
+        .thread-node.rating-confidential {
+            border-left: 4px solid #fd7e14;
+            background: linear-gradient(90deg, rgba(253,126,20,0.1) 0%, transparent 100%);
+        }
+
+        .thread-node.rating-review_complete,
+        .thread-node.rating-relevant {
+            border-left: 4px solid #198754;
+            background: linear-gradient(90deg, rgba(25,135,84,0.1) 0%, transparent 100%);
+        }
+
+        .thread-node.rating-irrelevant {
+            border-left: 4px solid #6c757d;
+            background: linear-gradient(90deg, rgba(108,117,125,0.1) 0%, transparent 100%);
+        }
+
+        /* Enhanced focus states for accessibility */
+        .thread-node:focus {
+            outline: 3px solid #0969da;
+            outline-offset: 2px;
+            background: #f6f8fa;
+            box-shadow: 0 0 0 1px #0969da;
+        }
+
+        .thread-node:focus-visible {
+            outline: 3px solid #0969da;
+            outline-offset: 2px;
+        }
+
+        .nav-button:focus-visible,
+        .rating-button:focus-visible,
+        .filter-chip:focus-visible {
+            outline: 3px solid #0969da;
+            outline-offset: 2px;
+        }
+
+        .thread-search:focus {
+            outline: 3px solid #0969da;
+            outline-offset: 2px;
+            border-color: #0969da;
+        }
+
+        .node-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #6f42c1;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+
+        .node-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .node-sender {
+            font-size: 12px;
+            font-weight: 600;
+            color: #24292f;
+        }
+
+        .thread-node.selected .node-sender {
+            color: white;
+        }
+
+        .node-subject {
+            font-size: 11px;
+            color: #656d76;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .thread-node.selected .node-subject {
+            color: rgba(255,255,255,0.8);
+        }
+
+        .node-badges {
+            display: flex;
+            gap: 4px;
+            margin-left: 8px;
+        }
+
+        .badge {
+            width: 16px;
+            height: 16px;
+            border-radius: 3px;
+            font-size: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .badge.attachment {
+            background: #0969da;
+        }
+
+        .badge.forward {
+            background: #8250df;
+        }
+
+        .badge.reply-all {
+            background: #1f883d;
+        }
+
+        /* Center Panel - Message View */
+        .message-panel {
+            flex: 1;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #e0e4e7;
+        }
+
+        .message-header {
+            padding: 16px;
+            border-bottom: 1px solid #e0e4e7;
+            background: #f8f9fa;
+        }
+
+        .message-subject {
+            font-size: 18px;
+            font-weight: 600;
+            color: #24292f;
+            margin-bottom: 8px;
+        }
+
+        .message-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            color: #656d76;
+        }
+
+        .message-content {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px;
+        }
+
+        .email-headers {
+            background: #f6f8fa;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 16px;
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 12px;
+        }
+
+        .header-row {
+            display: flex;
+            margin-bottom: 4px;
+        }
+
+        .header-label {
+            font-weight: 600;
+            width: 80px;
+            color: #656d76;
+        }
+
+        .header-value {
+            flex: 1;
+            color: #24292f;
+        }
+
+        .message-body {
+            line-height: 1.6;
+            color: #24292f;
+        }
+
+        .quote-block {
+            border-left: 3px solid #d0d7de;
+            padding-left: 16px;
+            margin: 16px 0;
+            color: #656d76;
+        }
+
+        .attachment-list {
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            padding: 12px;
+            margin: 16px 0;
+            background: #f6f8fa;
+        }
+
+        .attachment-item {
+            display: flex;
+            align-items: center;
+            padding: 8px;
+            margin: 4px 0;
+            background: white;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .attachment-icon {
+            width: 20px;
+            height: 20px;
+            background: #0969da;
+            color: white;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            margin-right: 8px;
+        }
+
+        /* Right Panel - Rating Panel */
+        .rating-panel {
+            width: 320px;
+            min-width: 280px;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .rating-section {
+            padding: 16px;
+            border-bottom: 1px solid #e0e4e7;
+        }
+
+        .rating-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #24292f;
+            margin-bottom: 12px;
+        }
+
+        .rating-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .rating-button {
+            padding: 6px 12px;
+            border: 1px solid #d0d7de;
+            border-radius: 20px;
+            background: white;
+            color: #24292f;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .rating-button:hover {
+            background: #f6f8fa;
+        }
+
+        .rating-button.selected {
+            background: #0969da;
+            color: white;
+            border-color: #0969da;
+        }
+
+        .rating-note {
+            width: 100%;
+            min-height: 60px;
+            padding: 8px;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            font-size: 12px;
+            resize: vertical;
+        }
+
+        .rating-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .keyboard-shortcuts {
+            margin-top: 16px;
+            padding: 12px;
+            background: #f6f8fa;
+            border-radius: 6px;
+            font-size: 11px;
+        }
+
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            margin: 4px 0;
+        }
+
+        .shortcut-key {
+            background: #24292f;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        /* Mini preview tooltip */
+        .message-preview {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            max-width: 300px;
+            z-index: 1000;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s;
+            line-height: 1.4;
+        }
+
+        .message-preview.visible {
+            opacity: 1;
+        }
+
+        .preview-meta {
+            border-bottom: 1px solid rgba(255,255,255,0.3);
+            padding-bottom: 4px;
+            margin-bottom: 4px;
+            font-size: 10px;
+            opacity: 0.8;
+        }
+
+        .preview-body {
+            max-height: 60px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* Configurable Layout System */
+        .layout-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            position: relative;
+        }
+
+        .draggable-panel {
+            position: relative;
+            border: 1px solid #e0e4e7;
+            border-radius: 6px;
+            background: white;
+            margin: 4px;
+            min-height: 100px;
+            transition: all 0.2s ease;
+        }
+
+        .draggable-panel:hover {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .draggable-panel.sortable-ghost {
+            opacity: 0.5;
+            background: #f0f0f0;
+        }
+
+        .draggable-panel.sortable-chosen {
+            box-shadow: 0 4px 12px rgba(9, 105, 218, 0.3);
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e4e7;
+            border-radius: 6px 6px 0 0;
+            cursor: move;
+            user-select: none;
+        }
+
+        .panel-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: #24292f;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .panel-controls {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+
+        .panel-control-btn {
+            background: none;
+            border: none;
+            padding: 4px;
+            border-radius: 4px;
+            cursor: pointer;
+            color: #656d76;
+            font-size: 12px;
+            transition: all 0.2s;
+        }
+
+        .panel-control-btn:hover {
+            background: #e0e4e7;
+            color: #24292f;
+        }
+
+        .panel-content {
+            padding: 0;
+            height: calc(100% - 41px);
+            overflow: auto;
+        }
+
+        .layout-grid {
+            display: grid;
+            gap: 8px;
+            padding: 8px;
+            min-height: calc(100vh - 200px);
+        }
+
+        .layout-grid.grid-1-column {
+            grid-template-columns: 1fr;
+        }
+
+        .layout-grid.grid-2-columns {
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .layout-grid.grid-3-columns {
+            grid-template-columns: 1fr 1fr 1fr;
+        }
+
+        .layout-grid.grid-custom {
+            grid-template-columns: 300px 1fr 350px;
+            grid-template-rows: auto 1fr;
+        }
+
+        /* Vertical Stacking Layouts */
+        .layout-grid.grid-vertical-stack {
+            grid-template-columns: 300px 1fr 350px;
+            grid-template-rows: auto auto 1fr;
+            grid-template-areas:
+                "sidebar timeline-header sidebar2"
+                "sidebar timeline sidebar2"
+                "sidebar content sidebar2";
+        }
+
+        .layout-grid.grid-center-stack {
+            grid-template-columns: 1fr 800px 1fr;
+            grid-template-rows: auto auto 1fr;
+            grid-template-areas:
+                ". timeline-header ."
+                ". timeline ."
+                ". content .";
+        }
+
+        .layout-grid.grid-timeline-content {
+            grid-template-columns: 200px 1fr 200px;
+            grid-template-rows: 300px 1fr;
+            grid-template-areas:
+                "sidebar timeline sidebar2"
+                "sidebar content sidebar2";
+        }
+
+        /* Compact Layouts - Optimized for Screen Space */
+        .layout-grid.grid-compact {
+            grid-template-columns: 250px 1fr 250px;
+            grid-template-rows: 1fr;
+            gap: 4px;
+            padding: 4px;
+            min-height: calc(100vh - 140px);
+        }
+
+        .layout-grid.grid-full-width {
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr;
+            gap: 2px;
+            padding: 2px;
+            min-height: calc(100vh - 120px);
+        }
+
+        .layout-grid.grid-sidebar-focus {
+            grid-template-columns: 200px 1fr;
+            grid-template-rows: 1fr;
+            gap: 4px;
+            padding: 4px;
+            min-height: calc(100vh - 140px);
+        }
+
+        .layout-grid.grid-timeline-focus {
+            grid-template-columns: 150px 1fr 150px;
+            grid-template-rows: 250px 1fr;
+            grid-template-areas:
+                "nav timeline nav2"
+                "content content content";
+            gap: 4px;
+            padding: 4px;
+            min-height: calc(100vh - 140px);
+        }
+
+        /* Compact Spacing Override */
+        .layout-grid.compact-spacing {
+            gap: 2px !important;
+            padding: 2px !important;
+            min-height: calc(100vh - 80px) !important;
+        }
+
+        .layout-grid.compact-spacing .panel {
+            margin: 1px !important;
+        }
+
+        .layout-grid.compact-spacing .panel-header {
+            padding: 4px 8px !important;
+            font-size: 12px !important;
+        }
+
+        .layout-grid.compact-spacing .panel-content {
+            padding: 4px !important;
+        }
+
+        /* Layout Configuration Panel */
+        .layout-config {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            border: 1px solid #e0e4e7;
+            border-radius: 8px;
+            padding: 16px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            min-width: 250px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .layout-config.hidden {
+            display: none;
+        }
+
+        .config-section {
+            margin-bottom: 16px;
+        }
+
+        .config-title {
+            font-weight: 600;
+            font-size: 14px;
+            color: #24292f;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .config-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+        }
+
+        .config-btn {
+            padding: 6px 12px;
+            border: 1px solid #d0d7de;
+            border-radius: 4px;
+            background: white;
+            color: #24292f;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .config-btn:hover {
+            background: #f6f8fa;
+            border-color: #0969da;
+        }
+
+        .config-btn.active {
+            background: #0969da;
+            color: white;
+            border-color: #0969da;
+        }
+
+        .config-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1001;
+            background: #0969da;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            cursor: pointer;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s;
+        }
+
+        .config-toggle:hover {
+            background: #0860ca;
+            transform: scale(1.05);
+        }
+
+        .reset-layout-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            width: 100%;
+            margin-top: 8px;
+        }
+
+        .reset-layout-btn:hover {
+            background: #bb2d3b;
+        }
+
+        /* Panel Resize Handles */
+        .panel-resizer {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 12px;
+            height: 12px;
+            background: #d0d7de;
+            cursor: se-resize;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+
+        .draggable-panel:hover .panel-resizer {
+            opacity: 1;
+        }
+
+        /* Responsive Layout Adjustments */
+        @media (max-width: 768px) {
+            .layout-grid.grid-3-columns,
+            .layout-grid.grid-2-columns {
+                grid-template-columns: 1fr;
+            }
+
+            .layout-config {
+                right: 10px;
+                top: 10px;
+                max-width: calc(100vw - 20px);
+            }
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            border: 1px solid #d0d7de;
+            background: white;
+            color: #24292f;
+            transition: all 0.2s;
+        }
+
+        .btn:hover {
+            background: #f6f8fa;
+        }
+
+        .btn-primary {
+            background: #0969da;
+            color: white;
+            border-color: #0969da;
+        }
+
+        .btn-primary:hover {
+            background: #0860ca;
+        }
+
+        /* Navigation shortcuts overlay */
+        .shortcuts-help {
+            position: fixed;
+            top: 160px;
+            right: 16px;
+            background: rgba(0,0,0,0.8);
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .shortcuts-help.visible {
+            opacity: 1;
+        }
+
+        .shortcut-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 2px 0;
+        }
+
+        .shortcut-key {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-right: 8px;
+        }
+
+        /* Focus indicators for accessibility */
+        .thread-node:focus,
+        .rating-button:focus,
+        .btn:focus,
+        .thread-search:focus {
+            outline: 2px solid #0969da;
+            outline-offset: 2px;
+        }
+
+        /* Status indicators */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            color: #656d76;
+        }
+
+        .error {
+            background: #f85149;
+            color: white;
+            padding: 12px;
+            border-radius: 6px;
+            margin: 8px;
+        }
+
+        /* Performance indicator */
+        .perf-indicator {
+            position: fixed;
+            bottom: 16px;
+            left: 16px;
+            background: rgba(0,0,0,0.7);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            z-index: 1000;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef, useCallback } = React;
+
+        // Layout Management System
+        const LayoutManager = {
+            saveLayout: (layoutConfig) => {
+                try {
+                    localStorage.setItem('emailThreadNavigator_layout', JSON.stringify(layoutConfig));
+                    console.log('Layout saved:', layoutConfig);
+                } catch (e) {
+                    console.error('Failed to save layout:', e);
+                }
+            },
+
+            loadLayout: () => {
+                try {
+                    const saved = localStorage.getItem('emailThreadNavigator_layout');
+                    if (!saved) return null;
+
+                    const layout = JSON.parse(saved);
+                    // Migrate old layout to new panel structure
+                    return LayoutManager.migrateLayout(layout);
+                } catch (e) {
+                    console.error('Failed to load layout:', e);
+                    return null;
+                }
+            },
+
+            migrateLayout: (layout) => {
+                // Check if this is an old layout format
+                if (layout.panelOrder && layout.panelOrder.includes('top_navigator')) {
+                    console.log('Migrating layout from old format...');
+
+                    // Update panel order
+                    const newPanelOrder = layout.panelOrder.map(panelId => {
+                        if (panelId === 'top_navigator') {
+                            return ['navigation_panel', 'timeline_panel'];
+                        }
+                        return panelId;
+                    }).flat();
+
+                    // Update panel visibility
+                    const newPanelVisibility = { ...layout.panelVisibility };
+                    if ('top_navigator' in newPanelVisibility) {
+                        newPanelVisibility.navigation_panel = newPanelVisibility.top_navigator;
+                        newPanelVisibility.timeline_panel = newPanelVisibility.top_navigator;
+                        delete newPanelVisibility.top_navigator;
+                    }
+
+                    // Ensure all required panels have visibility settings
+                    const defaultVisibility = {
+                        navigation_panel: true,
+                        timeline_panel: true,
+                        thread_panel: true,
+                        message_panel: true,
+                        rating_panel: true
+                    };
+
+                    const migratedLayout = {
+                        ...layout,
+                        panelOrder: newPanelOrder,
+                        panelVisibility: { ...defaultVisibility, ...newPanelVisibility }
+                    };
+
+                    // Save the migrated layout
+                    LayoutManager.saveLayout(migratedLayout);
+                    return migratedLayout;
+                }
+
+                return layout;
+            },
+
+            getDefaultLayout: () => ({
+                gridType: 'custom',
+                panelOrder: ['navigation_panel', 'timeline_panel', 'thread_panel', 'message_panel', 'rating_panel'],
+                panelVisibility: {
+                    navigation_panel: true,
+                    timeline_panel: true,
+                    thread_panel: true,
+                    message_panel: true,
+                    rating_panel: true
+                },
+                panelSizes: {
+                    navigation_panel: { width: '300px', height: 'auto' },
+                    timeline_panel: { width: '1fr', height: 'auto' },
+                    thread_panel: { width: '300px', height: 'auto' },
+                    message_panel: { width: '1fr', height: 'auto' },
+                    rating_panel: { width: '350px', height: 'auto' }
+                }
+            })
+        };
+
+        // Draggable Panel Component
+        function DraggablePanel({
+            id,
+            title,
+            icon,
+            children,
+            onToggleVisibility,
+            onResize,
+            isVisible = true,
+            className = '',
+            style = {}
+        }) {
+            const [isCollapsed, setIsCollapsed] = useState(false);
+            const panelRef = useRef(null);
+
+            const handleToggleCollapse = () => {
+                setIsCollapsed(!isCollapsed);
+            };
+
+            const handleToggleVisibility = () => {
+                if (onToggleVisibility) {
+                    onToggleVisibility(id, !isVisible);
+                }
+            };
+
+            return (
+                <div
+                    ref={panelRef}
+                    className={`draggable-panel ${className}`}
+                    style={{ ...style, display: isVisible ? 'block' : 'none' }}
+                    data-panel-id={id}
+                >
+                    <div className="panel-header">
+                        <div className="panel-title">
+                            {icon && <i className={`pi ${icon}`}></i>}
+                            {title}
+                        </div>
+                        <div className="panel-controls">
+                            <button
+                                className="panel-control-btn"
+                                onClick={handleToggleCollapse}
+                                title={isCollapsed ? 'Expand' : 'Collapse'}
+                            >
+                                <i className={`pi ${isCollapsed ? 'pi-chevron-down' : 'pi-chevron-up'}`}></i>
+                            </button>
+                            <button
+                                className="panel-control-btn"
+                                onClick={handleToggleVisibility}
+                                title="Hide Panel"
+                            >
+                                <i className="pi pi-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div
+                        className="panel-content"
+                        style={{ display: isCollapsed ? 'none' : 'block' }}
+                    >
+                        {children}
+                    </div>
+                    <div className="panel-resizer"></div>
+                </div>
+            );
+        }
+
+        // Layout Configuration Panel Component
+        function LayoutConfigPanel({
+            layoutConfig,
+            onLayoutChange,
+            onSaveLayout,
+            onResetLayout,
+            isVisible,
+            onToggle
+        }) {
+            const handleGridTypeChange = (gridType) => {
+                onLayoutChange({
+                    ...layoutConfig,
+                    gridType: gridType
+                });
+            };
+
+            const handlePanelVisibilityChange = (panelId, visible) => {
+                onLayoutChange({
+                    ...layoutConfig,
+                    panelVisibility: {
+                        ...layoutConfig.panelVisibility,
+                        [panelId]: visible
+                    }
+                });
+            };
+
+            const panelConfigs = [
+                { id: 'navigation_panel', label: 'Navigation & Controls', icon: 'pi-home' },
+                { id: 'timeline_panel', label: 'Timeline Visualization', icon: 'pi-chart-line' },
+                { id: 'thread_panel', label: 'Thread Panel', icon: 'pi-list' },
+                { id: 'message_panel', label: 'Message Panel', icon: 'pi-envelope' },
+                { id: 'rating_panel', label: 'Rating Panel', icon: 'pi-star' }
+            ];
+
+            return (
+                <>
+                    <button
+                        className="config-toggle"
+                        onClick={onToggle}
+                        title="Layout Configuration"
+                    >
+                        <i className="pi pi-cog"></i>
+                    </button>
+
+                    <div className={`layout-config ${isVisible ? '' : 'hidden'}`}>
+                        <div className="config-section">
+                            <div className="config-title">
+                                <i className="pi pi-th-large"></i>
+                                Grid Layout
+                            </div>
+                            <div className="config-buttons">
+                                <button
+                                    className={`config-btn ${layoutConfig.gridType === '1-column' ? 'active' : ''}`}
+                                    onClick={() => handleGridTypeChange('1-column')}
+                                >
+                                    1 Column
+                                </button>
+                                <button
+                                    className={`config-btn ${layoutConfig.gridType === '2-columns' ? 'active' : ''}`}
+                                    onClick={() => handleGridTypeChange('2-columns')}
+                                >
+                                    2 Columns
+                                </button>
+                                <button
+                                    className={`config-btn ${layoutConfig.gridType === '3-columns' ? 'active' : ''}`}
+                                    onClick={() => handleGridTypeChange('3-columns')}
+                                >
+                                    3 Columns
+                                </button>
+                                <button
+                                    className={`config-btn ${layoutConfig.gridType === 'custom' ? 'active' : ''}`}
+                                    onClick={() => handleGridTypeChange('custom')}
+                                >
+                                    Custom
+                                </button>
+                                <button
+                                    className={`config-btn ${layoutConfig.gridType === 'vertical-stack' ? 'active' : ''}`}
+                                    onClick={() => handleGridTypeChange('vertical-stack')}
+                                >
+                                    Vertical Stack
+                                </button>
+                                <button
+                                    className={`config-btn ${layoutConfig.gridType === 'center-stack' ? 'active' : ''}`}
+                                    onClick={() => handleGridTypeChange('center-stack')}
+                                >
+                                    Center Stack
+                                </button>
+                                <button
+                                    className={`config-btn ${layoutConfig.gridType === 'timeline-content' ? 'active' : ''}`}
+                                    onClick={() => handleGridTypeChange('timeline-content')}
+                                >
+                                    Timeline/Content
+                                </button>
+                            </div>
+                            <div className="config-section">
+                                <div className="config-title">
+                                    <i className="pi pi-compress"></i>
+                                    Compact Layouts
+                                </div>
+                                <div className="config-buttons">
+                                    <button
+                                        className={`config-btn ${layoutConfig.gridType === 'compact' ? 'active' : ''}`}
+                                        onClick={() => handleGridTypeChange('compact')}
+                                    >
+                                        Compact 3-Col
+                                    </button>
+                                    <button
+                                        className={`config-btn ${layoutConfig.gridType === 'full-width' ? 'active' : ''}`}
+                                        onClick={() => handleGridTypeChange('full-width')}
+                                    >
+                                        Full Width
+                                    </button>
+                                    <button
+                                        className={`config-btn ${layoutConfig.gridType === 'sidebar-focus' ? 'active' : ''}`}
+                                        onClick={() => handleGridTypeChange('sidebar-focus')}
+                                    >
+                                        Sidebar Focus
+                                    </button>
+                                    <button
+                                        className={`config-btn ${layoutConfig.gridType === 'timeline-focus' ? 'active' : ''}`}
+                                        onClick={() => handleGridTypeChange('timeline-focus')}
+                                    >
+                                        Timeline Focus
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="config-section">
+                            <div className="config-title">
+                                <i className="pi pi-eye"></i>
+                                Panel Visibility
+                            </div>
+                            {panelConfigs.map(panel => (
+                                <label key={panel.id} style={{ display: 'flex', alignItems: 'center', margin: '4px 0' }}>
+                                    <input
+                                        type="checkbox"
+                                        checked={layoutConfig.panelVisibility[panel.id]}
+                                        onChange={(e) => handlePanelVisibilityChange(panel.id, e.target.checked)}
+                                        style={{ marginRight: '8px' }}
+                                    />
+                                    <i className={`pi ${panel.icon}`} style={{ marginRight: '6px', fontSize: '12px' }}></i>
+                                    <span style={{ fontSize: '12px' }}>{panel.label}</span>
+                                </label>
+                            ))}
+                        </div>
+
+                        <div className="config-section">
+                            <div className="config-title">
+                                <i className="pi pi-arrows-h"></i>
+                                Space Optimization
+                            </div>
+                            <label style={{ display: 'flex', alignItems: 'center', margin: '8px 0' }}>
+                                <input
+                                    type="checkbox"
+                                    checked={layoutConfig.compactMode || false}
+                                    onChange={(e) => onLayoutChange({...layoutConfig, compactMode: e.target.checked})}
+                                    style={{ marginRight: '8px' }}
+                                />
+                                <span style={{ fontSize: '12px' }}>Compact Mode (Minimal Spacing)</span>
+                            </label>
+                        </div>
+
+                        <div className="config-section">
+                            <div className="config-title">
+                                <i className="pi pi-save"></i>
+                                Actions
+                            </div>
+                            <div className="config-buttons" style={{ flexDirection: 'column', gap: '8px' }}>
+                                <button className="save-layout-btn" onClick={onSaveLayout} style={{
+                                    background: '#28a745',
+                                    color: 'white',
+                                    border: 'none',
+                                    padding: '8px 16px',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}>
+                                    <i className="pi pi-save" style={{ marginRight: '6px' }}></i>
+                                    Save Current Layout
+                                </button>
+                                <button className="reset-layout-btn" onClick={onResetLayout} style={{
+                                    background: '#dc3545',
+                                    color: 'white',
+                                    border: 'none',
+                                    padding: '8px 16px',
+                                    borderRadius: '4px',
+                                    cursor: 'pointer',
+                                    fontSize: '12px'
+                                }}>
+                                    <i className="pi pi-refresh" style={{ marginRight: '6px' }}></i>
+                                    Reset to Default
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            );
+        }
+
+        // Rating schema as per spec
+        const DEFAULT_RATING_SCHEMA = {
+            version: "1.0.0",
+            messageOptions: [
+                { key: "relevant", label: "Relevant", color: "#198754", severity: 70 },
+                { key: "irrelevant", label: "Irrelevant", color: "#6c757d", severity: 10, exclusiveGroup: "relevance" },
+                { key: "privileged", label: "Privileged", color: "#dc3545", severity: 90, requiresNote: true },
+                { key: "confidential", label: "Confidential", color: "#fd7e14", severity: 80 },
+                { key: "responsive", label: "Responsive", color: "#0dcaf0", severity: 60 }
+            ],
+            threadOptions: [
+                { key: "hot", label: "Hot", color: "#dc3545", severity: 100 },
+                { key: "review_complete", label: "Review Complete", color: "#198754", severity: 50 }
+            ],
+            rollupPolicy: {
+                mode: "maxSeverity",
+                rules: [
+                    { ifAny: ["privileged"], thenThread: "privileged" },
+                    { ifAny: ["relevant"], thenThread: "relevant" }
+                ]
+            }
+        };
+
+        // Complex sample thread data with multiple branches and conversation paths
+        const SAMPLE_THREAD_DATA = {
+            threadId: "MERGER-2024-001",
+            subject: "Project Phoenix - Merger & Acquisition Discussion",
+            messages: [
+                // Root message
+                {
+                    messageId: "msg001",
+                    from: "ceo@company.com",
+                    to: ["executive-team@company.com"],
+                    cc: ["board@company.com"],
+                    subject: "Project Phoenix - Merger & Acquisition Discussion",
+                    date: "2024-01-10T09:00:00Z",
+                    hasAttachments: true,
+                    parentMessageId: null,
+                    body: `Executive Team,
+
+I'm initiating Project Phoenix - our strategic evaluation of the TechCorp acquisition opportunity. This is a confidential discussion that will require legal, financial, and technical due diligence.
+
+Key areas for evaluation:
+- Financial impact and synergies
+- Legal and regulatory compliance
+- Technology integration challenges
+- Cultural fit and HR considerations
+
+Please see the attached NDA and preliminary financial overview. We need to move quickly but carefully.
+
+Regards,
+CEO`,
+                    attachments: [
+                        { name: "project_phoenix_nda.pdf", type: "application/pdf", size: 156789 },
+                        { name: "techcorp_financials_overview.xlsx", type: "application/xlsx", size: 234567 }
+                    ]
+                },
+
+                // Financial branch
+                {
+                    messageId: "msg002",
+                    from: "cfo@company.com",
+                    to: ["ceo@company.com", "executive-team@company.com"],
+                    cc: ["finance-team@company.com"],
+                    subject: "Re: Project Phoenix - Financial Analysis Required",
+                    date: "2024-01-10T11:30:00Z",
+                    hasAttachments: true,
+                    parentMessageId: "msg001",
+                    body: `Team,
+
+I've completed the initial financial review. The numbers look promising but we need deeper analysis.
+
+Initial findings:
+- Revenue synergies could reach $50M annually
+- Integration costs estimated at $25M
+- Break-even projected in 18 months
+- Strong cash flow improvement in Y2
+
+I'm bringing in our external M&A advisors for detailed due diligence.
+
+CFO`,
+                    attachments: [
+                        { name: "initial_financial_analysis.xlsx", type: "application/xlsx", size: 445621 }
+                    ]
+                },
+
+                // Legal branch from root
+                {
+                    messageId: "msg003",
+                    from: "legal@company.com",
+                    to: ["ceo@company.com", "executive-team@company.com"],
+                    cc: ["compliance@company.com"],
+                    subject: "Re: Project Phoenix - Legal and Regulatory Concerns",
+                    date: "2024-01-10T13:15:00Z",
+                    hasAttachments: true,
+                    parentMessageId: "msg001",
+                    body: `Executive Team,
+
+Legal has identified several critical areas requiring immediate attention:
+
+Regulatory Issues:
+- Antitrust review will be required (6-12 month process)
+- International subsidiaries have complex compliance requirements
+- Existing TechCorp litigation could impact valuation
+
+Recommendation: Engage external counsel specializing in tech M&A immediately.
+
+Legal Team`,
+                    attachments: [
+                        { name: "regulatory_compliance_summary.docx", type: "application/docx", size: 98765 },
+                        { name: "litigation_summary.pdf", type: "application/pdf", size: 67890 }
+                    ]
+                },
+
+                // Technical response to root
+                {
+                    messageId: "msg004",
+                    from: "cto@company.com",
+                    to: ["ceo@company.com", "executive-team@company.com"],
+                    cc: ["engineering@company.com"],
+                    subject: "Re: Project Phoenix - Technology Integration Assessment",
+                    date: "2024-01-10T15:45:00Z",
+                    hasAttachments: false,
+                    parentMessageId: "msg001",
+                    body: `CEO and Team,
+
+From a technical perspective, the TechCorp acquisition presents both opportunities and challenges:
+
+Opportunities:
+- Their AI/ML capabilities complement our platform
+- Strong engineering talent (200+ developers)
+- Proprietary algorithms in data processing
+
+Challenges:
+- Legacy infrastructure needs modernization
+- Different tech stacks require integration planning
+- Security review of their codebase essential
+
+I recommend a technical due diligence sprint with our architecture team.
+
+CTO`
+                },
+
+                // Financial sub-branch - external advisor response
+                {
+                    messageId: "msg005",
+                    from: "advisor@ma-consulting.com",
+                    to: ["cfo@company.com"],
+                    cc: ["ceo@company.com"],
+                    subject: "Re: Project Phoenix - Detailed Financial Due Diligence Plan",
+                    date: "2024-01-11T09:00:00Z",
+                    hasAttachments: true,
+                    parentMessageId: "msg002",
+                    body: `CFO,
+
+Thank you for engaging us on Project Phoenix. We've developed a comprehensive due diligence plan:
+
+Phase 1 (Week 1-2): Financial statement analysis and quality of earnings
+Phase 2 (Week 3-4): Working capital and cash flow modeling
+Phase 3 (Week 5-6): Synergy validation and integration planning
+
+We'll need access to TechCorp's data room and key management for interviews.
+
+Best regards,
+M&A Consulting Team`,
+                    attachments: [
+                        { name: "due_diligence_plan.pptx", type: "application/pptx", size: 2345678 },
+                        { name: "data_request_list.xlsx", type: "application/xlsx", size: 123456 }
+                    ]
+                },
+
+                // CFO response to advisor
+                {
+                    messageId: "msg006",
+                    from: "cfo@company.com",
+                    to: ["advisor@ma-consulting.com"],
+                    cc: ["ceo@company.com", "finance-team@company.com"],
+                    subject: "Re: Project Phoenix - Approved, Data Room Access Arranged",
+                    date: "2024-01-11T14:20:00Z",
+                    hasAttachments: false,
+                    parentMessageId: "msg005",
+                    body: `Team,
+
+Plan approved. I've arranged data room access for your team.
+
+Key contacts at TechCorp:
+- CFO: jane.doe@techcorp.com
+- VP Finance: bob.smith@techcorp.com
+
+Please coordinate directly and keep me updated on findings.
+
+CFO`
+                },
+
+                // Legal sub-branch - external counsel
+                {
+                    messageId: "msg007",
+                    from: "partner@lawfirm.com",
+                    to: ["legal@company.com"],
+                    cc: ["ceo@company.com"],
+                    subject: "Re: Project Phoenix - M&A Legal Strategy",
+                    date: "2024-01-11T10:30:00Z",
+                    hasAttachments: true,
+                    parentMessageId: "msg003",
+                    body: `Legal Team,
+
+We've reviewed the preliminary materials. Key legal workstreams:
+
+1. Antitrust filing strategy (HSR and international)
+2. Transaction structure optimization
+3. Due diligence coordination
+4. Purchase agreement drafting
+
+Timeline is aggressive but manageable. We recommend starting antitrust preparation immediately.
+
+Law Firm Partner`,
+                    attachments: [
+                        { name: "legal_workstream_plan.docx", type: "application/docx", size: 87654 }
+                    ]
+                },
+
+                // HR branch from root
+                {
+                    messageId: "msg008",
+                    from: "hr@company.com",
+                    to: ["ceo@company.com", "executive-team@company.com"],
+                    cc: [],
+                    subject: "Re: Project Phoenix - Human Resources Integration Concerns",
+                    date: "2024-01-11T16:00:00Z",
+                    hasAttachments: true,
+                    parentMessageId: "msg001",
+                    body: `Executive Team,
+
+HR has significant concerns about the people side of this acquisition:
+
+Cultural Integration:
+- TechCorp has a very different work culture (remote-first vs our hybrid model)
+- Compensation structures are not aligned
+- Different performance management systems
+
+Retention Risks:
+- Key talent may leave during transition
+- Redundancy planning needed for overlapping roles
+- Integration timeline affects retention packages
+
+We need a comprehensive people strategy before proceeding.
+
+HR Team`,
+                    attachments: [
+                        { name: "hr_integration_analysis.pptx", type: "application/pptx", size: 1234567 }
+                    ]
+                },
+
+                // Technical sub-branch - architecture review
+                {
+                    messageId: "msg009",
+                    from: "architect@company.com",
+                    to: ["cto@company.com"],
+                    cc: ["engineering@company.com"],
+                    subject: "Re: Project Phoenix - Technical Architecture Assessment",
+                    date: "2024-01-12T09:45:00Z",
+                    hasAttachments: true,
+                    parentMessageId: "msg004",
+                    body: `CTO,
+
+Completed initial technical assessment of TechCorp's architecture:
+
+Strengths:
+- Modern microservices architecture
+- Strong API design
+- Good test coverage and CI/CD practices
+
+Concerns:
+- Heavy reliance on AWS (we're Azure-focused)
+- Custom authentication system needs integration
+- Data models have some overlap but different schemas
+
+Estimated integration effort: 8-12 months with dedicated team.
+
+Chief Architect`,
+                    attachments: [
+                        { name: "technical_assessment.pdf", type: "application/pdf", size: 345678 }
+                    ]
+                },
+
+                // Security sub-branch from technical
+                {
+                    messageId: "msg010",
+                    from: "security@company.com",
+                    to: ["cto@company.com", "architect@company.com"],
+                    cc: ["compliance@company.com"],
+                    subject: "Re: Project Phoenix - Security Review Critical Findings",
+                    date: "2024-01-12T13:30:00Z",
+                    hasAttachments: true,
+                    parentMessageId: "msg009",
+                    body: `Technical Team,
+
+URGENT: Security review has identified critical issues:
+
+High Priority:
+- TechCorp has legacy systems with known vulnerabilities
+- Their data encryption standards below our requirements
+- Incident response procedures not documented
+
+Medium Priority:
+- Different identity management systems
+- API security needs standardization
+
+We cannot proceed without addressing high priority items.
+
+Security Team`,
+                    attachments: [
+                        { name: "security_findings.pdf", type: "application/pdf", size: 234567 }
+                    ]
+                },
+
+                // CEO response to security concerns
+                {
+                    messageId: "msg011",
+                    from: "ceo@company.com",
+                    to: ["security@company.com", "cto@company.com", "executive-team@company.com"],
+                    cc: [],
+                    subject: "Re: Project Phoenix - Security Issues Must Be Resolved",
+                    date: "2024-01-12T15:00:00Z",
+                    hasAttachments: false,
+                    parentMessageId: "msg010",
+                    body: `Team,
+
+Security issues are deal-breakers. I want a comprehensive remediation plan before we proceed with valuation.
+
+CTO - work with TechCorp to understand their security roadmap and timeline for fixes.
+
+This acquisition hinges on resolving these concerns satisfactorily.
+
+CEO`
+                },
+
+                // Board member weighs in (new branch from root)
+                {
+                    messageId: "msg012",
+                    from: "board.chair@company.com",
+                    to: ["ceo@company.com"],
+                    cc: ["board@company.com"],
+                    subject: "Re: Project Phoenix - Board Perspective on Strategic Fit",
+                    date: "2024-01-13T10:00:00Z",
+                    hasAttachments: false,
+                    parentMessageId: "msg001",
+                    body: `CEO,
+
+The board has discussed Project Phoenix in executive session. Key feedback:
+
+Strategic Alignment:
+- Strong fit with our AI/ML strategic initiatives
+- Market expansion opportunities are compelling
+- Competitive positioning would be significantly enhanced
+
+Concerns:
+- Integration complexity seems high
+- Timeline may be too aggressive
+- Cultural integration risks substantial
+
+Board recommendation: Proceed with caution, but don't let perfect be the enemy of good.
+
+Board Chair`
+                },
+
+                // New financial analysis branch
+                {
+                    messageId: "msg013",
+                    from: "analyst@company.com",
+                    to: ["cfo@company.com"],
+                    cc: ["finance-team@company.com"],
+                    subject: "Re: Project Phoenix - Market Analysis and Competitive Impact",
+                    date: "2024-01-13T14:20:00Z",
+                    hasAttachments: true,
+                    parentMessageId: "msg006",
+                    body: `CFO,
+
+Completed market analysis for the TechCorp acquisition:
+
+Market Impact:
+- Combined entity would be #3 player in AI/ML space
+- Significant barriers to entry for competitors
+- Customer cross-selling opportunities worth $30M annually
+
+Competitive Response:
+- Competitors likely to accelerate their own M&A
+- Talent war could intensify
+- Pricing pressure may increase short-term
+
+Strategic value exceeds financial metrics.
+
+Senior Analyst`,
+                    attachments: [
+                        { name: "market_analysis.pptx", type: "application/pptx", size: 1876543 }
+                    ]
+                },
+
+                // Final decision thread
+                {
+                    messageId: "msg014",
+                    from: "ceo@company.com",
+                    to: ["executive-team@company.com", "board@company.com"],
+                    cc: [],
+                    subject: "Project Phoenix - Executive Decision Required",
+                    date: "2024-01-15T09:00:00Z",
+                    hasAttachments: true,
+                    parentMessageId: "msg001",
+                    body: `Leadership Team,
+
+After extensive analysis, we need to make a go/no-go decision on Project Phoenix.
+
+Summary of findings attached. Key decision points:
+- Financial metrics are strong
+- Strategic fit is excellent
+- Integration risks are manageable but significant
+- Security issues must be resolved pre-closing
+
+I'm calling for an executive vote. Please review materials and be prepared to decide.
+
+CEO`,
+                    attachments: [
+                        { name: "executive_summary.pdf", type: "application/pdf", size: 3456789 },
+                        { name: "decision_matrix.xlsx", type: "application/xlsx", size: 234567 }
+                    ]
+                },
+
+                // Vote responses
+                {
+                    messageId: "msg015",
+                    from: "cfo@company.com",
+                    to: ["ceo@company.com", "executive-team@company.com"],
+                    cc: [],
+                    subject: "Re: Project Phoenix - CFO Vote: PROCEED",
+                    date: "2024-01-15T11:30:00Z",
+                    hasAttachments: false,
+                    parentMessageId: "msg014",
+                    body: `CEO,
+
+CFO VOTE: PROCEED with acquisition
+
+Financial case is compelling. Risk-adjusted NPV is strongly positive. Integration costs are within acceptable bounds.
+
+Recommend moving to final due diligence phase.
+
+CFO`
+                },
+
+                {
+                    messageId: "msg016",
+                    from: "cto@company.com",
+                    to: ["ceo@company.com", "executive-team@company.com"],
+                    cc: [],
+                    subject: "Re: Project Phoenix - CTO Vote: CONDITIONAL PROCEED",
+                    date: "2024-01-15T12:45:00Z",
+                    hasAttachments: false,
+                    parentMessageId: "msg014",
+                    body: `Team,
+
+CTO VOTE: CONDITIONAL PROCEED
+
+Technical integration is feasible but complex. Security issues MUST be resolved before signing.
+
+Recommend 6-month technology integration plan as condition of deal.
+
+CTO`
+                },
+
+                {
+                    messageId: "msg017",
+                    from: "hr@company.com",
+                    to: ["ceo@company.com", "executive-team@company.com"],
+                    cc: [],
+                    subject: "Re: Project Phoenix - HR Vote: PROCEED WITH CAUTION",
+                    date: "2024-01-15T14:00:00Z",
+                    hasAttachments: false,
+                    parentMessageId: "msg014",
+                    body: `Executive Team,
+
+HR VOTE: PROCEED WITH CAUTION
+
+People risks are significant but manageable with proper planning. Recommend:
+- 18-month integration timeline
+- Retention packages for key talent
+- Cultural integration program
+
+HR supports the strategic vision.
+
+HR Team`
+                }
+            ]
+        };
+
+        // Enhanced Visualization Component with Tree, Timeline, and Sankey modes
+        function TimelineVisualization({ threadData, selectedMessageId, onSelectMessage, viewMode }) {
+            const svgRef = useRef();
+
+            useEffect(() => {
+                if (!threadData || !svgRef.current) return;
+
+                const svg = d3.select(svgRef.current);
+                svg.selectAll("*").remove();
+
+                const width = svgRef.current.clientWidth;
+                const height = 80;
+                const margin = { top: 10, right: 20, bottom: 20, left: 20 };
+
+                // Create message data with enhanced structure
+                const messages = threadData.messages.map((msg, i) => ({
+                    ...msg,
+                    date: new Date(msg.date),
+                    index: i,
+                    x: 0,
+                    y: 0,
+                    depth: 0
+                }));
+
+                // Calculate hierarchy depth for tree layout
+                const calculateDepth = (msg, depth = 0) => {
+                    msg.depth = depth;
+                    messages.filter(m => m.parentMessageId === msg.messageId)
+                        .forEach(child => calculateDepth(child, depth + 1));
+                };
+
+                const rootMessages = messages.filter(msg => !msg.parentMessageId);
+                rootMessages.forEach(root => calculateDepth(root, 0));
+
+                // Set up scales
+                const xScale = d3.scaleTime()
+                    .domain(d3.extent(messages, d => d.date))
+                    .range([margin.left, width - margin.right]);
+
+                const yScale = d3.scaleLinear()
+                    .domain([0, Math.max(3, messages.length - 1)])
+                    .range([margin.top, height - margin.bottom]);
+
+                // Position messages based on view mode
+                if (viewMode === 'timeline') {
+                    // Timeline Flow: Horizontal chronological layout
+                    messages.forEach(msg => {
+                        msg.x = xScale(msg.date);
+                        msg.y = height / 2;
+                    });
+
+                    // Draw timeline axis
+                    const xAxis = d3.axisBottom(xScale)
+                        .tickSize(4)
+                        .tickFormat(d3.timeFormat("%m/%d"));
+
+                    svg.append("g")
+                        .attr("transform", `translate(0, ${height - margin.bottom})`)
+                        .call(xAxis)
+                        .selectAll("text")
+                        .style("font-size", "9px")
+                        .style("fill", "#656d76");
+
+                    // Draw timeline line
+                    svg.append("line")
+                        .attr("x1", margin.left)
+                        .attr("x2", width - margin.right)
+                        .attr("y1", height / 2)
+                        .attr("y2", height / 2)
+                        .attr("stroke", "#d0d7de")
+                        .attr("stroke-width", 2);
+
+                } else if (viewMode === 'tree') {
+                    // Hierarchical Tree: Vertical layout by depth
+                    const maxDepth = Math.max(...messages.map(m => m.depth));
+                    const depthScale = d3.scaleLinear()
+                        .domain([0, maxDepth])
+                        .range([margin.left + 20, width - margin.right - 20]);
+
+                    messages.forEach(msg => {
+                        msg.x = depthScale(msg.depth);
+
+                        // Position vertically based on chronological order within depth
+                        const sameDepthMessages = messages.filter(m => m.depth === msg.depth)
+                            .sort((a, b) => a.date - b.date);
+                        const indexInDepth = sameDepthMessages.indexOf(msg);
+                        const totalInDepth = sameDepthMessages.length;
+
+                        if (totalInDepth === 1) {
+                            msg.y = height / 2;
+                        } else {
+                            const depthYScale = d3.scaleLinear()
+                                .domain([0, totalInDepth - 1])
+                                .range([margin.top + 15, height - margin.bottom - 15]);
+                            msg.y = depthYScale(indexInDepth);
+                        }
+                    });
+
+                    // Draw tree connections
+                    const connections = [];
+                    messages.forEach(msg => {
+                        if (msg.parentMessageId) {
+                            const parent = messages.find(m => m.messageId === msg.parentMessageId);
+                            if (parent) {
+                                connections.push({ source: parent, target: msg });
+                            }
+                        }
+                    });
+
+                    svg.selectAll(".tree-connection")
+                        .data(connections)
+                        .enter()
+                        .append("path")
+                        .attr("class", "tree-connection")
+                        .attr("d", d => {
+                            const midX = (d.source.x + d.target.x) / 2;
+                            return `M${d.source.x},${d.source.y} C${midX},${d.source.y} ${midX},${d.target.y} ${d.target.x},${d.target.y}`;
+                        })
+                        .attr("stroke", "#8250df")
+                        .attr("stroke-width", 1.5)
+                        .attr("fill", "none")
+                        .attr("opacity", 0.7);
+
+                } else if (viewMode === 'sankey') {
+                    // Sankey Flow: Flow-based layout showing message progression
+                    const nodeWidth = 8;
+                    const sankeyPadding = 12;
+
+                    // Create flow structure
+                    const flows = [];
+                    messages.forEach(msg => {
+                        if (msg.parentMessageId) {
+                            const parent = messages.find(m => m.messageId === msg.parentMessageId);
+                            if (parent) {
+                                flows.push({
+                                    source: parent,
+                                    target: msg,
+                                    value: 1 + (msg.hasAttachments ? 0.5 : 0) // Thicker flow for attachments
+                                });
+                            }
+                        }
+                    });
+
+                    // Position nodes in columns by depth
+                    const maxDepth = Math.max(...messages.map(m => m.depth));
+                    const columnScale = d3.scaleLinear()
+                        .domain([0, maxDepth])
+                        .range([margin.left + nodeWidth, width - margin.right - nodeWidth]);
+
+                    messages.forEach(msg => {
+                        msg.x = columnScale(msg.depth);
+
+                        // Distribute nodes vertically within each column
+                        const sameDepthMessages = messages.filter(m => m.depth === msg.depth);
+                        const indexInDepth = sameDepthMessages.indexOf(msg);
+                        const totalInDepth = sameDepthMessages.length;
+
+                        if (totalInDepth === 1) {
+                            msg.y = height / 2;
+                        } else {
+                            const columnYScale = d3.scaleLinear()
+                                .domain([0, totalInDepth - 1])
+                                .range([margin.top + sankeyPadding, height - margin.bottom - sankeyPadding]);
+                            msg.y = columnYScale(indexInDepth);
+                        }
+                    });
+
+                    // Draw Sankey flows
+                    svg.selectAll(".sankey-flow")
+                        .data(flows)
+                        .enter()
+                        .append("path")
+                        .attr("class", "sankey-flow")
+                        .attr("d", d => {
+                            const x0 = d.source.x + nodeWidth/2;
+                            const x1 = d.target.x - nodeWidth/2;
+                            const y0 = d.source.y;
+                            const y1 = d.target.y;
+                            const xi = d3.interpolateNumber(x0, x1);
+                            const x2 = xi(0.6);
+                            const x3 = xi(0.4);
+
+                            return `M${x0},${y0} C${x2},${y0} ${x3},${y1} ${x1},${y1}`;
+                        })
+                        .attr("stroke", "#fd7e14")
+                        .attr("stroke-width", d => 2 + d.value)
+                        .attr("fill", "none")
+                        .attr("opacity", 0.6);
+
+                    // Draw column indicators
+                    for (let depth = 0; depth <= maxDepth; depth++) {
+                        const x = columnScale(depth);
+                        svg.append("line")
+                            .attr("x1", x)
+                            .attr("x2", x)
+                            .attr("y1", margin.top)
+                            .attr("y2", height - margin.bottom)
+                            .attr("stroke", "#e0e4e7")
+                            .attr("stroke-width", 1)
+                            .attr("opacity", 0.3);
+                    }
+                }
+
+                // Draw message nodes (common for all modes)
+                const nodes = svg.selectAll(".message-node")
+                    .data(messages)
+                    .enter()
+                    .append("g")
+                    .attr("class", "message-node")
+                    .attr("transform", d => `translate(${d.x}, ${d.y})`)
+                    .style("cursor", "pointer")
+                    .on("click", (event, d) => {
+                        onSelectMessage(d.messageId);
+                    })
+                    .on("mouseover", function(event, d) {
+                        d3.select(this).select("circle")
+                            .transition()
+                            .duration(200)
+                            .attr("r", selectedMessageId === d.messageId ? 10 : 8);
+                    })
+                    .on("mouseout", function(event, d) {
+                        d3.select(this).select("circle")
+                            .transition()
+                            .duration(200)
+                            .attr("r", selectedMessageId === d.messageId ? 8 : 6);
+                    });
+
+                // Message circles with enhanced styling
+                nodes.append("circle")
+                    .attr("r", d => selectedMessageId === d.messageId ? 8 : 6)
+                    .attr("fill", d => {
+                        if (selectedMessageId === d.messageId) return "#0969da";
+                        if (d.hasAttachments) return "#fd7e14";
+                        if (d.parentMessageId) return "#8250df";
+                        return "#1f883d"; // Root messages in green
+                    })
+                    .attr("stroke", "white")
+                    .attr("stroke-width", 2)
+                    .style("filter", d => selectedMessageId === d.messageId ? "drop-shadow(0px 2px 4px rgba(0,0,0,0.3))" : "none");
+
+                // Sender initials
+                nodes.append("text")
+                    .text(d => {
+                        const initials = d.from.split('@')[0]
+                            .split('.')
+                            .map(part => part[0])
+                            .join('')
+                            .toUpperCase()
+                            .substring(0, 2);
+                        return initials;
+                    })
+                    .attr("text-anchor", "middle")
+                    .attr("dy", "0.35em")
+                    .attr("font-size", d => selectedMessageId === d.messageId ? "9px" : "8px")
+                    .attr("font-weight", "bold")
+                    .attr("fill", "white");
+
+                // Enhanced tooltips
+                nodes.append("title")
+                    .text(d => {
+                        const fromName = d.from.split('@')[0].replace('.', ' ');
+                        const dateStr = new Date(d.date).toLocaleString();
+                        const attachStr = d.hasAttachments ? ' 📎' : '';
+                        return `${fromName}${attachStr}\n${d.subject}\n${dateStr}\nClick to view message`;
+                    });
+
+                // Add mode indicator
+                svg.append("text")
+                    .attr("x", width - margin.right)
+                    .attr("y", margin.top)
+                    .attr("text-anchor", "end")
+                    .attr("font-size", "10px")
+                    .attr("fill", "#656d76")
+                    .attr("opacity", 0.7)
+                    .text(viewMode.charAt(0).toUpperCase() + viewMode.slice(1) + " View");
+
+            }, [threadData, selectedMessageId, viewMode]);
+
+            return (
+                <svg
+                    ref={svgRef}
+                    className="viz-timeline"
+                    width="100%"
+                    height="100%"
+                />
+            );
+        }
+
+        // Top Navigator Component
+        function TopNavigator({ threadData, selectedMessageId, onSelectMessage, viewMode, setViewMode, ratedMessages, totalMessages, progressPercentage }) {
+
+            return (
+                <div className={`top-navigator ${layoutConfig.compactMode ? 'compact' : ''}`}>
+                    <div>
+                        <div className="nav-title">Email Thread Navigator</div>
+                        <div className="nav-subtitle">
+                            Thread: {threadData.threadId} • {threadData.messages.length} messages
+                        </div>
+                        <div className="thread-progress" aria-live="polite" aria-atomic="true">
+                            Review Progress: {ratedMessages}/{totalMessages} messages rated ({progressPercentage}%)
+                        </div>
+                    </div>
+
+                    <div className="visualization-container">
+                        <TimelineVisualization
+                            threadData={threadData}
+                            selectedMessageId={selectedMessageId}
+                            onSelectMessage={onSelectMessage}
+                            viewMode={viewMode}
+                        />
+                    </div>
+
+                    <div className="nav-controls">
+                        <button
+                            className={`nav-button ${viewMode === 'timeline' ? 'active' : ''}`}
+                            onClick={() => setViewMode('timeline')}
+                        >
+                            Timeline
+                        </button>
+                        <button
+                            className={`nav-button ${viewMode === 'tree' ? 'active' : ''}`}
+                            onClick={() => setViewMode('tree')}
+                        >
+                            Tree
+                        </button>
+                        <button
+                            className={`nav-button ${viewMode === 'sankey' ? 'active' : ''}`}
+                            onClick={() => setViewMode('sankey')}
+                        >
+                            Sankey
+                        </button>
+                        <button
+                            className="nav-button"
+                            onClick={() => window.location.reload()}
+                        >
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+            );
+        }
+
+        // Rating Panel Component
+        function RatingPanel({ schema, messageRating, threadRating, onChangeMessage, onChangeThread, autoAdvance }) {
+            const [currentMessageRating, setCurrentMessageRating] = useState(messageRating);
+            const [currentThreadRating, setCurrentThreadRating] = useState(threadRating);
+
+            useEffect(() => {
+                setCurrentMessageRating(messageRating);
+            }, [messageRating]);
+
+            useEffect(() => {
+                setCurrentThreadRating(threadRating);
+            }, [threadRating]);
+
+            const toggleMessageRating = (key) => {
+                const option = schema.messageOptions.find(opt => opt.key === key);
+                let newSelected = new Set(currentMessageRating.selected);
+
+                // Handle exclusive groups
+                if (option?.exclusiveGroup) {
+                    schema.messageOptions
+                        .filter(opt => opt.exclusiveGroup === option.exclusiveGroup)
+                        .forEach(opt => newSelected.delete(opt.key));
+                }
+
+                if (newSelected.has(key)) {
+                    newSelected.delete(key);
+                } else {
+                    newSelected.add(key);
+                }
+
+                setCurrentMessageRating({
+                    ...currentMessageRating,
+                    selected: Array.from(newSelected)
+                });
+            };
+
+            const toggleThreadRating = (key) => {
+                const option = (schema.threadOptions || schema.messageOptions).find(opt => opt.key === key);
+                let newSelected = new Set(currentThreadRating.selected);
+
+                // Handle exclusive groups
+                if (option?.exclusiveGroup) {
+                    (schema.threadOptions || schema.messageOptions)
+                        .filter(opt => opt.exclusiveGroup === option.exclusiveGroup)
+                        .forEach(opt => newSelected.delete(opt.key));
+                }
+
+                if (newSelected.has(key)) {
+                    newSelected.delete(key);
+                } else {
+                    newSelected.add(key);
+                }
+
+                setCurrentThreadRating({
+                    ...currentThreadRating,
+                    selected: Array.from(newSelected),
+                    source: "override"
+                });
+            };
+
+            // Keyboard shortcuts for ratings
+            useEffect(() => {
+                const handleKeyDown = (event) => {
+                    // Only handle shortcuts when not typing in inputs
+                    if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') return;
+
+                    const key = event.key;
+                    const numKey = parseInt(key);
+
+                    // Map number keys to rating options
+                    if (numKey >= 1 && numKey <= schema.messageOptions.length) {
+                        event.preventDefault();
+                        const option = schema.messageOptions[numKey - 1];
+                        if (option) {
+                            toggleMessageRating(option.key);
+                        }
+                    }
+
+                    // Special shortcuts
+                    if (event.ctrlKey || event.metaKey) {
+                        if (key === 's') {
+                            event.preventDefault();
+                            saveAndNext();
+                        }
+                    }
+                };
+
+                document.addEventListener('keydown', handleKeyDown);
+                return () => document.removeEventListener('keydown', handleKeyDown);
+            }, [currentMessageRating, schema.messageOptions]);
+
+            const saveAndNext = () => {
+                // Check if note is required
+                const requiresNote = currentMessageRating.selected.some(key =>
+                    schema.messageOptions.find(opt => opt.key === key)?.requiresNote
+                );
+
+                if (requiresNote && !currentMessageRating.note) {
+                    alert("Please add a note for this rating.");
+                    return;
+                }
+
+                // Save ratings
+                onChangeMessage({
+                    ...currentMessageRating,
+                    version: currentMessageRating.version + 1,
+                    updatedAt: new Date().toISOString(),
+                    updatedBy: "current_user"
+                });
+
+                onChangeThread(currentThreadRating);
+
+                // Auto-advance to next unrated
+                if (autoAdvance) {
+                    autoAdvance();
+                }
+            };
+
+            return (
+                <div className="rating-panel">
+                    {/* Thread Rating Section */}
+                    <div className="rating-section">
+                        <div className="rating-title">Thread Rating</div>
+                        <div className="rating-options">
+                            {(schema.threadOptions || schema.messageOptions).map(option => (
+                                <button
+                                    key={option.key}
+                                    className={`rating-button ${currentThreadRating.selected.includes(option.key) ? 'selected' : ''}`}
+                                    onClick={() => toggleThreadRating(option.key)}
+                                    title={option.description}
+                                >
+                                    {option.label}
+                                </button>
+                            ))}
+                        </div>
+                        <textarea
+                            className="rating-note"
+                            placeholder="Thread note (optional)"
+                            value={currentThreadRating.note || ''}
+                            onChange={(e) => setCurrentThreadRating({
+                                ...currentThreadRating,
+                                note: e.target.value,
+                                source: "override"
+                            })}
+                        />
+                    </div>
+
+                    {/* Message Rating Section */}
+                    <div className="rating-section">
+                        <div id="message-rating-title" className="rating-title">Message Rating</div>
+                        <div className="rating-options" role="group" aria-labelledby="message-rating-title">
+                            {schema.messageOptions.map((option, index) => (
+                                <button
+                                    key={option.key}
+                                    className={`rating-button ${currentMessageRating.selected.includes(option.key) ? 'selected' : ''}`}
+                                    onClick={() => toggleMessageRating(option.key)}
+                                    aria-pressed={currentMessageRating.selected.includes(option.key)}
+                                    aria-label={`${option.label} (Press ${index + 1} for quick access)`}
+                                    title={option.description}
+                                >
+                                    {option.label}
+                                </button>
+                            ))}
+                        </div>
+                        <textarea
+                            className="rating-note"
+                            placeholder="Note (required for some ratings)"
+                            value={currentMessageRating.note || ''}
+                            onChange={(e) => setCurrentMessageRating({
+                                ...currentMessageRating,
+                                note: e.target.value
+                            })}
+                        />
+                        <div className="rating-actions">
+                            <button className="btn btn-primary" onClick={saveAndNext}>
+                                Save & Next
+                            </button>
+                            <button className="btn" onClick={() => window.location.reload()}>
+                                Reset
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Navigation Help */}
+                    <div className="rating-section">
+                        <div className="rating-title">Keyboard Shortcuts</div>
+                        <div className="keyboard-shortcuts">
+                            {schema.messageOptions.map((option, index) => (
+                                <div key={option.key} className="shortcut-item">
+                                    <span>{option.label}</span>
+                                    <span className="shortcut-key">{index + 1}</span>
+                                </div>
+                            ))}
+                            <div className="shortcut-item">
+                                <span>Save & Next</span>
+                                <span className="shortcut-key">Ctrl+S</span>
+                            </div>
+                            <div className="shortcut-item">
+                                <span>Navigate</span>
+                                <span className="shortcut-key">↑/↓</span>
+                            </div>
+                            <div className="shortcut-item">
+                                <span>Search</span>
+                                <span className="shortcut-key">/</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Thread Tree Component
+        function ThreadTree({ threadData, selectedMessageId, onSelectMessage, ratings, searchQuery, ratingFilter }) {
+            const [expandedNodes, setExpandedNodes] = useState(new Set(['msg001']));
+            const [previewData, setPreviewData] = useState({ visible: false, x: 0, y: 0, message: null });
+
+            const toggleExpanded = (messageId) => {
+                const newExpanded = new Set(expandedNodes);
+                if (newExpanded.has(messageId)) {
+                    newExpanded.delete(messageId);
+                } else {
+                    newExpanded.add(messageId);
+                }
+                setExpandedNodes(newExpanded);
+            };
+
+            const getChildMessages = (parentId) => {
+                return threadData.messages.filter(msg => msg.parentMessageId === parentId);
+            };
+
+            const handleMouseEnter = (event, message) => {
+                const rect = event.target.getBoundingClientRect();
+                setPreviewData({
+                    visible: true,
+                    x: rect.right + 10,
+                    y: rect.top,
+                    message: message
+                });
+            };
+
+            const handleMouseLeave = () => {
+                setPreviewData(prev => ({ ...prev, visible: false }));
+            };
+
+            const renderMessage = (message, depth = 0) => {
+                const hasChildren = getChildMessages(message.messageId).length > 0;
+                const isExpanded = expandedNodes.has(message.messageId);
+                const isSelected = selectedMessageId === message.messageId;
+                const messageRating = ratings.messages[message.messageId];
+                const isRated = messageRating && messageRating.selected.length > 0;
+
+                // Determine rating class for color coding
+                let ratingClass = '';
+                if (messageRating && messageRating.selected.length > 0) {
+                    const primaryRating = messageRating.selected[0]; // Use first rating for color
+                    ratingClass = `rating-${primaryRating}`;
+                } else {
+                    ratingClass = 'unrated';
+                }
+
+                // Filter by search query
+                if (searchQuery && !message.from.toLowerCase().includes(searchQuery.toLowerCase()) &&
+                    !message.subject.toLowerCase().includes(searchQuery.toLowerCase())) {
+                    return null;
+                }
+
+                // Filter by rating
+                if (ratingFilter !== 'all') {
+                    if (ratingFilter === 'unrated' && isRated) return null;
+                    if (ratingFilter === 'hot' && !messageRating?.selected.includes('hot') && !messageRating?.selected.includes('privileged')) return null;
+                    if (ratingFilter === 'medium' && !messageRating?.selected.includes('confidential')) return null;
+                    if (ratingFilter === 'cold' && !messageRating?.selected.includes('relevant') && !messageRating?.selected.includes('review_complete')) return null;
+                }
+
+                const senderInitials = message.from.split('@')[0]
+                    .split('.')
+                    .map(part => part[0])
+                    .join('')
+                    .toUpperCase()
+                    .substring(0, 2);
+
+                return (
+                    <div key={message.messageId}>
+                        <div
+                            className={`thread-node ${isSelected ? 'selected' : ''} ${ratingClass}`}
+                            style={{paddingLeft: `${depth * 20 + 12}px`}}
+                            onClick={() => onSelectMessage(message.messageId)}
+                            onMouseEnter={(e) => handleMouseEnter(e, message)}
+                            onMouseLeave={handleMouseLeave}
+                            tabIndex={0}
+                            role="treeitem"
+                            aria-selected={isSelected}
+                            aria-expanded={hasChildren ? isExpanded : undefined}
+                            aria-label={`Email from ${message.from}, subject: ${message.subject}, sent ${message.date}${messageRating && messageRating.selected.length > 0 ? `, rated as ${messageRating.selected.join(', ')}` : ', unrated'}`}
+                            aria-describedby={`message-${message.messageId}-details`}
+                        >
+                            {hasChildren && (
+                                <span
+                                    style={{
+                                        marginRight: '4px',
+                                        cursor: 'pointer',
+                                        userSelect: 'none'
+                                    }}
+                                    onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleExpanded(message.messageId);
+                                    }}
+                                >
+                                    {isExpanded ? '▼' : '▶'}
+                                </span>
+                            )}
+
+                            <div className="node-avatar" style={{backgroundColor: `hsl(${message.messageId.charCodeAt(3) * 30}, 60%, 50%)`}}>
+                                {senderInitials}
+                            </div>
+
+                            <div className="node-content">
+                                <div className="node-sender">
+                                    {message.from.split('@')[0].replace('.', ' ')}
+                                </div>
+                                <div className="node-subject">
+                                    {new Date(message.date).toLocaleDateString()} - {message.subject}
+                                </div>
+                            </div>
+
+                            <div className="node-badges">
+                                {message.hasAttachments && (
+                                    <div className="badge attachment" title="Has attachments">📎</div>
+                                )}
+                                {message.cc && message.cc.length > 0 && (
+                                    <div className="badge reply-all" title="Reply all">👥</div>
+                                )}
+                            </div>
+                        </div>
+
+                        {hasChildren && isExpanded && (
+                            <div>
+                                {getChildMessages(message.messageId).map(child =>
+                                    renderMessage(child, depth + 1)
+                                )}
+                            </div>
+                        )}
+                    </div>
+                );
+            };
+
+            const rootMessages = threadData.messages.filter(msg => !msg.parentMessageId);
+
+            return (
+                <div style={{ position: 'relative' }}>
+                    <div className="thread-tree" role="tree" aria-label="Email thread tree">
+                        {rootMessages.map(message => renderMessage(message))}
+                    </div>
+
+                    {/* Mini preview tooltip */}
+                    {previewData.visible && previewData.message && (
+                        <div
+                            className={`message-preview ${previewData.visible ? 'visible' : ''}`}
+                            style={{
+                                left: previewData.x,
+                                top: previewData.y,
+                                position: 'fixed'
+                            }}
+                        >
+                            <div className="preview-meta">
+                                <strong>{previewData.message.from}</strong> • {previewData.message.date}
+                            </div>
+                            <div className="preview-body">
+                                {previewData.message.body.split('\n').slice(0, 2).join('\n')}
+                                {previewData.message.body.split('\n').length > 2 && '...'}
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        // Message View Component
+        function MessageView({ message, threadData }) {
+            if (!message) {
+                return (
+                    <div className="loading">
+                        Select a message to view details
+                    </div>
+                );
+            }
+
+            const formatEmailAddress = (email) => {
+                if (email.includes('@')) {
+                    const [name, domain] = email.split('@');
+                    return `${name.replace('.', ' ')} <${email}>`;
+                }
+                return email;
+            };
+
+            return (
+                <div className="message-content">
+                    <div className="email-headers">
+                        <div className="header-row">
+                            <div className="header-label">From:</div>
+                            <div className="header-value">{formatEmailAddress(message.from)}</div>
+                        </div>
+                        <div className="header-row">
+                            <div className="header-label">To:</div>
+                            <div className="header-value">
+                                {message.to.map(formatEmailAddress).join(', ')}
+                            </div>
+                        </div>
+                        {message.cc && message.cc.length > 0 && (
+                            <div className="header-row">
+                                <div className="header-label">CC:</div>
+                                <div className="header-value">
+                                    {message.cc.map(formatEmailAddress).join(', ')}
+                                </div>
+                            </div>
+                        )}
+                        <div className="header-row">
+                            <div className="header-label">Date:</div>
+                            <div className="header-value">
+                                {new Date(message.date).toLocaleString()}
+                            </div>
+                        </div>
+                        <div className="header-row">
+                            <div className="header-label">Subject:</div>
+                            <div className="header-value">{message.subject}</div>
+                        </div>
+                    </div>
+
+                    {message.attachments && message.attachments.length > 0 && (
+                        <div className="attachment-list">
+                            <strong>Attachments ({message.attachments.length})</strong>
+                            {message.attachments.map((attachment, index) => (
+                                <div key={index} className="attachment-item">
+                                    <div className="attachment-icon">
+                                        {attachment.type.includes('pdf') ? '📄' :
+                                         attachment.type.includes('image') ? '🖼' :
+                                         attachment.type.includes('sheet') || attachment.type.includes('excel') ? '📊' :
+                                         attachment.type.includes('word') || attachment.type.includes('doc') ? '📝' : '📎'}
+                                    </div>
+                                    <div>
+                                        <div style={{fontWeight: '500'}}>{attachment.name}</div>
+                                        <div style={{fontSize: '11px', color: '#656d76'}}>
+                                            {(attachment.size / 1024).toFixed(1)} KB
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+
+                    <div className="message-body">
+                        {message.body.split('\n').map((line, index) => {
+                            if (line.startsWith('>')) {
+                                return (
+                                    <div key={index} className="quote-block">
+                                        {line.substring(1).trim()}
+                                    </div>
+                                );
+                            }
+                            return <div key={index}>{line || <br />}</div>;
+                        })}
+                    </div>
+                </div>
+            );
+        }
+
+        // Main App Component
+        function EmailThreadNavigator() {
+            const [threadData] = useState(SAMPLE_THREAD_DATA);
+            const [selectedMessageId, setSelectedMessageId] = useState('msg001');
+            const [searchQuery, setSearchQuery] = useState('');
+            const [showShortcuts, setShowShortcuts] = useState(false);
+            const [performanceMetrics, setPerformanceMetrics] = useState({ renderTime: 0 });
+            const [ratingFilter, setRatingFilter] = useState('all'); // all, hot, medium, cold, unrated
+            const [viewMode, setViewMode] = useState('timeline');
+
+            // Layout configuration state
+            const [layoutConfig, setLayoutConfig] = useState(() => {
+                // Clear any corrupted layout data and use defaults
+                try {
+                    const saved = LayoutManager.loadLayout();
+                    return saved || LayoutManager.getDefaultLayout();
+                } catch (e) {
+                    console.warn('Layout loading failed, using defaults:', e);
+                    localStorage.removeItem('emailThreadNavigator_layout');
+                    return LayoutManager.getDefaultLayout();
+                }
+            });
+            const [showLayoutConfig, setShowLayoutConfig] = useState(false);
+
+            // Drag and drop functionality
+            const layoutGridRef = useRef(null);
+            const sortableInstance = useRef(null);
+
+            // Rating state
+            const [ratings, setRatings] = useState({
+                messages: {
+                    'msg001': { messageId: 'msg001', selected: [], note: '', version: 1, updatedBy: '', updatedAt: '' },
+                    'msg002': { messageId: 'msg002', selected: [], note: '', version: 1, updatedBy: '', updatedAt: '' },
+                    'msg003': { messageId: 'msg003', selected: [], note: '', version: 1, updatedBy: '', updatedAt: '' }
+                },
+                thread: { threadId: threadData.threadId, selected: [], source: 'computed', note: '' }
+            });
+
+            const selectedMessage = threadData.messages.find(msg => msg.messageId === selectedMessageId);
+            const currentMessageRating = ratings.messages[selectedMessageId] ||
+                { messageId: selectedMessageId, selected: [], note: '', version: 1, updatedBy: '', updatedAt: '' };
+
+            // Calculate review progress
+            const totalMessages = threadData.messages.length;
+            const ratedMessages = threadData.messages.filter(msg => {
+                const rating = ratings.messages[msg.messageId];
+                return rating && rating.selected.length > 0;
+            }).length;
+            const progressPercentage = Math.round((ratedMessages / totalMessages) * 100);
+
+            // Performance measurement
+            useEffect(() => {
+                const start = performance.now();
+                // Simulate tree rendering
+                setTimeout(() => {
+                    const end = performance.now();
+                    setPerformanceMetrics({ renderTime: end - start });
+                }, 0);
+            }, [threadData, selectedMessageId]);
+
+            // Keyboard navigation
+            useEffect(() => {
+                const handleKeyDown = (e) => {
+                    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+                        return;
+                    }
+
+                    switch (e.key) {
+                        case 'ArrowUp':
+                            e.preventDefault();
+                            navigateMessages(-1);
+                            break;
+                        case 'ArrowDown':
+                            e.preventDefault();
+                            navigateMessages(1);
+                            break;
+                        case 'n':
+                            if (e.shiftKey) {
+                                navigateToUnrated(-1);
+                            } else {
+                                navigateToUnrated(1);
+                            }
+                            break;
+                        case '/':
+                            e.preventDefault();
+                            document.querySelector('.thread-search').focus();
+                            break;
+                        case '?':
+                            e.preventDefault();
+                            setShowShortcuts(!showShortcuts);
+                            break;
+                        case 'Escape':
+                            setShowShortcuts(false);
+                            break;
+                    }
+                };
+
+                window.addEventListener('keydown', handleKeyDown);
+                return () => window.removeEventListener('keydown', handleKeyDown);
+            }, [selectedMessageId, ratings]);
+
+            // Layout configuration handlers
+            const handleLayoutChange = useCallback((newConfig) => {
+                setLayoutConfig(newConfig);
+                // Don't auto-save - let user explicitly save
+            }, []);
+
+            const handleSaveLayout = useCallback(() => {
+                LayoutManager.saveLayout(layoutConfig);
+                alert('Layout saved successfully!');
+            }, [layoutConfig]);
+
+            const handleResetLayout = useCallback(() => {
+                const defaultLayout = LayoutManager.getDefaultLayout();
+                setLayoutConfig(defaultLayout);
+                LayoutManager.saveLayout(defaultLayout);
+                // Reinitialize drag and drop after reset
+                setTimeout(() => {
+                    if (layoutGridRef.current && window.Sortable && sortableInstance.current) {
+                        sortableInstance.current.destroy();
+                        sortableInstance.current = Sortable.create(layoutGridRef.current, {
+                            animation: 150,
+                            ghostClass: 'sortable-ghost',
+                            onEnd: function(evt) {
+                                const newOrder = Array.from(evt.to.children).map(child => child.dataset.panelId);
+                                if (newOrder.length > 0) {
+                                    const newConfig = {
+                                        ...layoutConfig,
+                                        panelOrder: newOrder
+                                    };
+                                    handleLayoutChange(newConfig);
+                                }
+                            }
+                        });
+                    }
+                }, 100);
+            }, [layoutConfig, handleLayoutChange]);
+
+            const handlePanelVisibilityToggle = useCallback((panelId, visible) => {
+                if (!panelId) return; // Defensive check
+
+                const newConfig = {
+                    ...layoutConfig,
+                    panelVisibility: {
+                        ...layoutConfig.panelVisibility,
+                        [panelId]: visible
+                    }
+                };
+                handleLayoutChange(newConfig);
+            }, [layoutConfig, handleLayoutChange]);
+
+            // Initialize drag and drop
+            useEffect(() => {
+                if (layoutGridRef.current && window.Sortable) {
+                    sortableInstance.current = Sortable.create(layoutGridRef.current, {
+                        animation: 150,
+                        ghostClass: 'sortable-ghost',
+                        chosenClass: 'sortable-chosen',
+                        handle: '.panel-header',
+                        onEnd: (evt) => {
+                            const newOrder = Array.from(layoutGridRef.current.children).map(
+                                child => child.getAttribute('data-panel-id')
+                            );
+
+                            const newConfig = {
+                                ...layoutConfig,
+                                panelOrder: newOrder
+                            };
+                            handleLayoutChange(newConfig);
+                        }
+                    });
+                }
+
+                return () => {
+                    if (sortableInstance.current) {
+                        sortableInstance.current.destroy();
+                    }
+                };
+            }, [layoutConfig, handleLayoutChange]);
+
+            const navigateMessages = (direction) => {
+                const messageIds = threadData.messages.map(msg => msg.messageId);
+                const currentIndex = messageIds.indexOf(selectedMessageId);
+                const newIndex = Math.max(0, Math.min(messageIds.length - 1, currentIndex + direction));
+                setSelectedMessageId(messageIds[newIndex]);
+            };
+
+            const navigateToUnrated = (direction) => {
+                const unratedMessages = threadData.messages.filter(msg => {
+                    const rating = ratings.messages[msg.messageId];
+                    return !rating || rating.selected.length === 0;
+                });
+
+                if (unratedMessages.length === 0) return;
+
+                const currentIndex = unratedMessages.findIndex(msg => msg.messageId === selectedMessageId);
+                let newIndex;
+
+                if (currentIndex === -1) {
+                    newIndex = direction > 0 ? 0 : unratedMessages.length - 1;
+                } else {
+                    newIndex = direction > 0
+                        ? (currentIndex + 1) % unratedMessages.length
+                        : (currentIndex - 1 + unratedMessages.length) % unratedMessages.length;
+                }
+
+                setSelectedMessageId(unratedMessages[newIndex].messageId);
+            };
+
+            const handleMessageRatingChange = (newRating) => {
+                setRatings(prev => ({
+                    ...prev,
+                    messages: {
+                        ...prev.messages,
+                        [selectedMessageId]: newRating
+                    }
+                }));
+            };
+
+            const handleThreadRatingChange = (newRating) => {
+                setRatings(prev => ({
+                    ...prev,
+                    thread: newRating
+                }));
+            };
+
+            const autoAdvanceToNext = () => {
+                navigateToUnrated(1);
+            };
+
+            // Create ordered panels based on configuration
+            const renderPanels = () => {
+                const panels = {
+                    navigation_panel: (
+                        <DraggablePanel
+                            key="navigation_panel"
+                            id="navigation_panel"
+                            title="Navigation & Controls"
+                            icon="pi-home"
+                            isVisible={layoutConfig.panelVisibility.navigation_panel}
+                            onToggleVisibility={handlePanelVisibilityToggle}
+                            className="navigation-panel"
+                        >
+                            <div className={`top-navigator ${layoutConfig.compactMode ? 'compact' : ''}`}>
+                                <div>
+                                    <div className="nav-title">Email Thread Navigator</div>
+                                    <div className="nav-subtitle">
+                                        Thread: {threadData.threadId} • {threadData.messages.length} messages
+                                    </div>
+                                    <div className="thread-progress" aria-live="polite" aria-atomic="true">
+                                        Review Progress: {ratedMessages}/{totalMessages} messages rated ({progressPercentage}%)
+                                    </div>
+                                </div>
+                                <div className="nav-controls">
+                                    <button
+                                        className={`nav-button ${viewMode === 'timeline' ? 'active' : ''}`}
+                                        onClick={() => setViewMode('timeline')}
+                                    >
+                                        Timeline
+                                    </button>
+                                    <button
+                                        className={`nav-button ${viewMode === 'tree' ? 'active' : ''}`}
+                                        onClick={() => setViewMode('tree')}
+                                    >
+                                        Tree
+                                    </button>
+                                    <button
+                                        className={`nav-button ${viewMode === 'sankey' ? 'active' : ''}`}
+                                        onClick={() => setViewMode('sankey')}
+                                    >
+                                        Sankey
+                                    </button>
+                                    <button
+                                        className="nav-button"
+                                        onClick={() => window.location.reload()}
+                                    >
+                                        Refresh
+                                    </button>
+                                </div>
+                            </div>
+                        </DraggablePanel>
+                    ),
+                    timeline_panel: (
+                        <DraggablePanel
+                            key="timeline_panel"
+                            id="timeline_panel"
+                            title="Timeline Visualization"
+                            icon="pi-chart-line"
+                            isVisible={layoutConfig.panelVisibility.timeline_panel}
+                            onToggleVisibility={handlePanelVisibilityToggle}
+                            className="timeline-panel"
+                        >
+                            <div className="visualization-container">
+                                <TimelineVisualization
+                                    threadData={threadData}
+                                    selectedMessageId={selectedMessageId}
+                                    onSelectMessage={setSelectedMessageId}
+                                    viewMode={viewMode}
+                                />
+                            </div>
+                        </DraggablePanel>
+                    ),
+                    thread_panel: (
+                        <DraggablePanel
+                            key="thread_panel"
+                            id="thread_panel"
+                            title="Email Thread Tree"
+                            icon="pi-list"
+                            isVisible={layoutConfig.panelVisibility.thread_panel}
+                            onToggleVisibility={handlePanelVisibilityToggle}
+                        >
+                            <div className="thread-header">
+                                <input
+                                    type="text"
+                                    className="thread-search"
+                                    placeholder="Search messages... (Press / to focus)"
+                                    value={searchQuery}
+                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    aria-label="Search messages"
+                                />
+                                <div className="rating-filter">
+                                    {['all', 'hot', 'medium', 'cold', 'unrated'].map(filter => (
+                                        <button
+                                            key={filter}
+                                            className={`filter-chip ${filter} ${ratingFilter === filter ? 'active' : ''}`}
+                                            onClick={() => setRatingFilter(filter)}
+                                            aria-pressed={ratingFilter === filter}
+                                            aria-label={`Filter messages by ${filter} priority ${ratingFilter === filter ? '(currently active)' : ''}`}
+                                            title={`Filter by ${filter} priority`}
+                                        >
+                                            {filter === 'all' ? 'All' :
+                                             filter === 'hot' ? 'Hot' :
+                                             filter === 'medium' ? 'Medium' :
+                                             filter === 'cold' ? 'Cold' : 'Unrated'}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
+                            <ThreadTree
+                                threadData={threadData}
+                                selectedMessageId={selectedMessageId}
+                                onSelectMessage={setSelectedMessageId}
+                                ratings={ratings}
+                                searchQuery={searchQuery}
+                                ratingFilter={ratingFilter}
+                            />
+                        </DraggablePanel>
+                    ),
+                    message_panel: (
+                        <DraggablePanel
+                            key="message_panel"
+                            id="message_panel"
+                            title="Message Content"
+                            icon="pi-envelope"
+                            isVisible={layoutConfig.panelVisibility.message_panel}
+                            onToggleVisibility={handlePanelVisibilityToggle}
+                        >
+                            <MessageView
+                                message={selectedMessage}
+                                threadData={threadData}
+                            />
+                        </DraggablePanel>
+                    ),
+                    rating_panel: (
+                        <DraggablePanel
+                            key="rating_panel"
+                            id="rating_panel"
+                            title="Rating & Review"
+                            icon="pi-star"
+                            isVisible={layoutConfig.panelVisibility.rating_panel}
+                            onToggleVisibility={handlePanelVisibilityToggle}
+                        >
+                            <RatingPanel
+                                schema={DEFAULT_RATING_SCHEMA}
+                                messageRating={currentMessageRating}
+                                threadRating={ratings.thread}
+                                onChangeMessage={handleMessageRatingChange}
+                                onChangeThread={handleThreadRatingChange}
+                                autoAdvance={autoAdvanceToNext}
+                            />
+                        </DraggablePanel>
+                    )
+                };
+
+                return layoutConfig.panelOrder
+                    .filter(panelId => panelId && panels[panelId]) // Filter out invalid panels
+                    .map(panelId => panels[panelId]);
+            };
+
+            return (
+                <div className="layout-container">
+                    {/* Layout Configuration */}
+                    <LayoutConfigPanel
+                        layoutConfig={layoutConfig}
+                        onLayoutChange={handleLayoutChange}
+                        onSaveLayout={handleSaveLayout}
+                        onResetLayout={handleResetLayout}
+                        isVisible={showLayoutConfig}
+                        onToggle={() => setShowLayoutConfig(!showLayoutConfig)}
+                    />
+
+                    {/* Main Content Area with Configurable Layout */}
+                    <div
+                        ref={layoutGridRef}
+                        className={`layout-grid grid-${layoutConfig.gridType} ${layoutConfig.compactMode ? 'compact-spacing' : ''}`}
+                    >
+                        {renderPanels()}
+                    </div>
+
+                    {/* Performance Indicator */}
+                    <div className="perf-indicator" style={{
+                        position: 'fixed',
+                        bottom: '10px',
+                        left: '10px',
+                        background: 'rgba(0,0,0,0.7)',
+                        color: 'white',
+                        padding: '4px 8px',
+                        borderRadius: '4px',
+                        fontSize: '11px',
+                        zIndex: 999
+                    }}>
+                        Render: {performanceMetrics.renderTime.toFixed(1)}ms
+                        {performanceMetrics.renderTime > 200 && ' ⚠️'}
+                    </div>
+
+                    {/* Screen reader announcements */}
+                    <div
+                        aria-live="assertive"
+                        aria-atomic="true"
+                        className="sr-only"
+                        style={{ position: 'absolute', left: '-10000px', width: '1px', height: '1px', overflow: 'hidden' }}
+                    >
+                        {selectedMessage && `Selected message from ${selectedMessage.from}: ${selectedMessage.subject}`}
+                    </div>
+                </div>
+            );
+        }
+
+        // Render the app
+        ReactDOM.render(<EmailThreadNavigator />, document.getElementById('root'));
+    </script>
+</body>
+</html>

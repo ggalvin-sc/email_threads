@@ -1,0 +1,114 @@
+{
+  "threadId": "5258544",
+  "tree": {
+    "threadId": "5258544",
+    "roots": [
+      {
+        "id": "4868531",
+        "messageId": "",
+        "inReplyTo": "",
+        "references": [],
+        "threadId": "5258544",
+        "from": "Kannan Kurunthachalam <kkannan@wadsworth.org>",
+        "to": [
+          "wkreagen@mmm.com"
+        ],
+        "cc": [],
+        "bcc": [],
+        "subject": "Re: Fwd: RE: Fwd: Re: revised data",
+        "dateSent": "2006-10-26T22:14:32.000Z",
+        "custodian": "Hybrid Solr Import",
+        "fileName": "email_4868531.eml",
+        "fullText": "NotesID: 6D3ADAAA15A3E43D8625721300600B42\nPostedDate:\n10/26/2006 06:14:32 PM\nDeliveredDate:\n10/26/2006 06:29:04 PM\nReceived:\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nCategories:\n\nFrom:\nKannan Kurunthachalam <kkannan@wadsworth.org>\nSendTo:\nwkreagen@mmm.com\nSubject:\nRe: Fwd: RE: Fwd: Re: revised data\nBody:\nBill:\n\nHere is a table with response factors for labelled and native PFOS/PFOA.\n\nKannan\n - unlabledd to labelled Response Factor-for 3M Lab.xlsWadsworth Center\nEmpire State Plaza\nPO Box 509\nAlbany, NY 12201-0509\n\nTel: 518-474-0015\nFax: 518-473-2895\n\nInternetID:\n<5.1.0.14.1.20061026131350.022a6758@pop3s.wadsworth.org>\n\n<X_BigFish>  vps-22(zf7Jzaf6Wfa7Nzz103bizzz2dh34h)  <\\X_BigFish>\n<X_Sender>  kkannan@pop3s.wadsworth.org  <\\X_Sender>\n<$Mailer>  QUALCOMM Windows Eudora Version 5.1  <\\$Mailer>\n<In_Reply_To>  <OFA1B03219.E527A38A-ON86257205.00512C1F-86257205.00515403@ mmm.com>  <\\In_Reply_To>\n<References>  <5.1.0.14.1.20061012101009.022a0948@pop3s.wadsworth.org>  <\\References>\n<MIME_Version>  1.0  <\\MIME_Version>\n<X_Wadsworth_MailScanner_Information>  Please contact CSS for more information  <\\X_Wadsworth_MailScanner_Information>\n<X_Wadsworth_MailScanner>  Found to be clean  <\\X_Wadsworth_MailScanner>\n<X_Wadsworth_MailScanner_SpamCheck>  not spam, SpamAssassin (not cached, score=-100.179, required 5, autolearn=not spam, AWL -0.18, USER_IN_WHITELIST -100.00)  <\\X_Wadsworth_MailScanner_SpamCheck>\n<X_MailScanner_From>  kkannan@wadsworth.org  <\\X_MailScanner_From>\n<X_Scanned_By>  MIMEDefang 2.57 on 192.28.4.53  <\\X_Scanned_By>\n<$MIMETrack>  Itemize by SMTP Server on US-Mail-12/US-Corporate/3M/US(Release 6.5.5 HF418|May 09, 2006) at 10/26/2006 12:29:03 PM;MIME-CD by Notes Client on EDA User/EDA User(Release 6.5.2|June 01, 2004) at 05/15/2007 10:51:36 PM;MIME-CD complete at 05/15/2007 10:51:36 PM  <\\$MIMETrack>\n<SMTPOriginator>  kkannan@wadsworth.org  <\\SMTPOriginator>\n<Form>  Memo  <\\Form>\n<RoutingState>    <\\RoutingState>\n<$UpdatedBy>  ;CN=US-Mail-12/OU=US-Corporate/O=3M/C=US  <\\$UpdatedBy>\n<$Orig>  6D3ADAAA15A3E43D8625721300600B42  <\\$Orig>\n<$Revisions>    <\\$Revisions>\n<RouteServers>  CN=US-Mail-12/OU=US-Corporate/O=3M/C=US  <\\RouteServers>\n<RouteTimes>  10/26/2006 06:29:03 PM-10/26/2006 06:29:04 PM  <\\RouteTimes>\n<$MsgTrackFlags>  0  <\\$MsgTrackFlags>\n<$MiniView>    <\\$MiniView>\n<$FolderRef>  20791D3D3179410686256D240003314D  <\\$FolderRef>\n<$FolderRefID>  303  <\\$FolderRefID>\n<$FolderRefFlags>  0  <\\$FolderRefFlags>",
+        "confidentiality": "",
+        "begBates": "4868531",
+        "dateCreated": null,
+        "dateLastModified": null,
+        "children": []
+      },
+      {
+        "id": "4868531",
+        "messageId": "",
+        "inReplyTo": "",
+        "references": [],
+        "threadId": "5258544",
+        "from": "Kannan Kurunthachalam <kkannan@wadsworth.org>",
+        "to": [
+          "wkreagen@mmm.com"
+        ],
+        "cc": [],
+        "bcc": [],
+        "subject": "Re: Fwd: RE: Fwd: Re: revised data",
+        "dateSent": "2006-10-26T22:14:32.000Z",
+        "custodian": "Hybrid Solr Import",
+        "fileName": "email_4868531.eml",
+        "fullText": "NotesID: 6D3ADAAA15A3E43D8625721300600B42\nPostedDate:\n10/26/2006 06:14:32 PM\nDeliveredDate:\n10/26/2006 06:29:04 PM\nReceived:\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nCategories:\n\nFrom:\nKannan Kurunthachalam <kkannan@wadsworth.org>\nSendTo:\nwkreagen@mmm.com\nSubject:\nRe: Fwd: RE: Fwd: Re: revised data\nBody:\nBill:\n\nHere is a table with response factors for labelled and native PFOS/PFOA.\n\nKannan\n - unlabledd to labelled Response Factor-for 3M Lab.xlsWadsworth Center\nEmpire State Plaza\nPO Box 509\nAlbany, NY 12201-0509\n\nTel: 518-474-0015\nFax: 518-473-2895\n\nInternetID:\n<5.1.0.14.1.20061026131350.022a6758@pop3s.wadsworth.org>\n\n<X_BigFish>  vps-22(zf7Jzaf6Wfa7Nzz103bizzz2dh34h)  <\\X_BigFish>\n<X_Sender>  kkannan@pop3s.wadsworth.org  <\\X_Sender>\n<$Mailer>  QUALCOMM Windows Eudora Version 5.1  <\\$Mailer>\n<In_Reply_To>  <OFA1B03219.E527A38A-ON86257205.00512C1F-86257205.00515403@ mmm.com>  <\\In_Reply_To>\n<References>  <5.1.0.14.1.20061012101009.022a0948@pop3s.wadsworth.org>  <\\References>\n<MIME_Version>  1.0  <\\MIME_Version>\n<X_Wadsworth_MailScanner_Information>  Please contact CSS for more information  <\\X_Wadsworth_MailScanner_Information>\n<X_Wadsworth_MailScanner>  Found to be clean  <\\X_Wadsworth_MailScanner>\n<X_Wadsworth_MailScanner_SpamCheck>  not spam, SpamAssassin (not cached, score=-100.179, required 5, autolearn=not spam, AWL -0.18, USER_IN_WHITELIST -100.00)  <\\X_Wadsworth_MailScanner_SpamCheck>\n<X_MailScanner_From>  kkannan@wadsworth.org  <\\X_MailScanner_From>\n<X_Scanned_By>  MIMEDefang 2.57 on 192.28.4.53  <\\X_Scanned_By>\n<$MIMETrack>  Itemize by SMTP Server on US-Mail-12/US-Corporate/3M/US(Release 6.5.5 HF418|May 09, 2006) at 10/26/2006 12:29:03 PM;MIME-CD by Notes Client on EDA User/EDA User(Release 6.5.2|June 01, 2004) at 05/15/2007 10:51:36 PM;MIME-CD complete at 05/15/2007 10:51:36 PM  <\\$MIMETrack>\n<SMTPOriginator>  kkannan@wadsworth.org  <\\SMTPOriginator>\n<Form>  Memo  <\\Form>\n<RoutingState>    <\\RoutingState>\n<$UpdatedBy>  ;CN=US-Mail-12/OU=US-Corporate/O=3M/C=US  <\\$UpdatedBy>\n<$Orig>  6D3ADAAA15A3E43D8625721300600B42  <\\$Orig>\n<$Revisions>    <\\$Revisions>\n<RouteServers>  CN=US-Mail-12/OU=US-Corporate/O=3M/C=US  <\\RouteServers>\n<RouteTimes>  10/26/2006 06:29:03 PM-10/26/2006 06:29:04 PM  <\\RouteTimes>\n<$MsgTrackFlags>  0  <\\$MsgTrackFlags>\n<$MiniView>    <\\$MiniView>\n<$FolderRef>  20791D3D3179410686256D240003314D  <\\$FolderRef>\n<$FolderRefID>  303  <\\$FolderRefID>\n<$FolderRefFlags>  0  <\\$FolderRefFlags>",
+        "confidentiality": "",
+        "begBates": "4868531",
+        "dateCreated": null,
+        "dateLastModified": null,
+        "children": []
+      },
+      {
+        "id": "4868531",
+        "messageId": "",
+        "inReplyTo": "",
+        "references": [],
+        "threadId": "5258544",
+        "from": "Kannan Kurunthachalam <kkannan@wadsworth.org>",
+        "to": [
+          "wkreagen@mmm.com"
+        ],
+        "cc": [],
+        "bcc": [],
+        "subject": "Re: Fwd: RE: Fwd: Re: revised data",
+        "dateSent": "2006-10-26T22:14:32.000Z",
+        "custodian": "Hybrid Solr Import",
+        "fileName": "email_4868531.eml",
+        "fullText": "NotesID: 6D3ADAAA15A3E43D8625721300600B42\nPostedDate:\n10/26/2006 06:14:32 PM\nDeliveredDate:\n10/26/2006 06:29:04 PM\nReceived:\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nfrom mailrelay02.mmm.com ([192.28.4.53])          by us-mail-12.mmm.com (Lotus Domino Release 6.5.5 HF418)          with ESMTP id 2006102612290336-37513 ;          Thu, 26 Oct 2006 12:29:03 -0500\nCategories:\n\nFrom:\nKannan Kurunthachalam <kkannan@wadsworth.org>\nSendTo:\nwkreagen@mmm.com\nSubject:\nRe: Fwd: RE: Fwd: Re: revised data\nBody:\nBill:\n\nHere is a table with response factors for labelled and native PFOS/PFOA.\n\nKannan\n - unlabledd to labelled Response Factor-for 3M Lab.xlsWadsworth Center\nEmpire State Plaza\nPO Box 509\nAlbany, NY 12201-0509\n\nTel: 518-474-0015\nFax: 518-473-2895\n\nInternetID:\n<5.1.0.14.1.20061026131350.022a6758@pop3s.wadsworth.org>\n\n<X_BigFish>  vps-22(zf7Jzaf6Wfa7Nzz103bizzz2dh34h)  <\\X_BigFish>\n<X_Sender>  kkannan@pop3s.wadsworth.org  <\\X_Sender>\n<$Mailer>  QUALCOMM Windows Eudora Version 5.1  <\\$Mailer>\n<In_Reply_To>  <OFA1B03219.E527A38A-ON86257205.00512C1F-86257205.00515403@ mmm.com>  <\\In_Reply_To>\n<References>  <5.1.0.14.1.20061012101009.022a0948@pop3s.wadsworth.org>  <\\References>\n<MIME_Version>  1.0  <\\MIME_Version>\n<X_Wadsworth_MailScanner_Information>  Please contact CSS for more information  <\\X_Wadsworth_MailScanner_Information>\n<X_Wadsworth_MailScanner>  Found to be clean  <\\X_Wadsworth_MailScanner>\n<X_Wadsworth_MailScanner_SpamCheck>  not spam, SpamAssassin (not cached, score=-100.179, required 5, autolearn=not spam, AWL -0.18, USER_IN_WHITELIST -100.00)  <\\X_Wadsworth_MailScanner_SpamCheck>\n<X_MailScanner_From>  kkannan@wadsworth.org  <\\X_MailScanner_From>\n<X_Scanned_By>  MIMEDefang 2.57 on 192.28.4.53  <\\X_Scanned_By>\n<$MIMETrack>  Itemize by SMTP Server on US-Mail-12/US-Corporate/3M/US(Release 6.5.5 HF418|May 09, 2006) at 10/26/2006 12:29:03 PM;MIME-CD by Notes Client on EDA User/EDA User(Release 6.5.2|June 01, 2004) at 05/15/2007 10:51:36 PM;MIME-CD complete at 05/15/2007 10:51:36 PM  <\\$MIMETrack>\n<SMTPOriginator>  kkannan@wadsworth.org  <\\SMTPOriginator>\n<Form>  Memo  <\\Form>\n<RoutingState>    <\\RoutingState>\n<$UpdatedBy>  ;CN=US-Mail-12/OU=US-Corporate/O=3M/C=US  <\\$UpdatedBy>\n<$Orig>  6D3ADAAA15A3E43D8625721300600B42  <\\$Orig>\n<$Revisions>    <\\$Revisions>\n<RouteServers>  CN=US-Mail-12/OU=US-Corporate/O=3M/C=US  <\\RouteServers>\n<RouteTimes>  10/26/2006 06:29:03 PM-10/26/2006 06:29:04 PM  <\\RouteTimes>\n<$MsgTrackFlags>  0  <\\$MsgTrackFlags>\n<$MiniView>    <\\$MiniView>\n<$FolderRef>  20791D3D3179410686256D240003314D  <\\$FolderRef>\n<$FolderRefID>  303  <\\$FolderRefID>\n<$FolderRefFlags>  0  <\\$FolderRefFlags>",
+        "confidentiality": "",
+        "begBates": "4868531",
+        "dateCreated": null,
+        "dateLastModified": null,
+        "children": []
+      }
+    ],
+    "totalEmails": 3,
+    "participants": [
+      "Unknown",
+      "kkannan",
+      "Kurunthachalam",
+      "Kannan",
+      "wadsworth",
+      "Kannan Kurunthachalam <kkannan@wadsworth.org>",
+      "wkreagen@mmm.com"
+    ],
+    "dateRange": {
+      "start": "2006-10-12T00:00:00.000Z",
+      "end": "2006-10-26T22:14:32.000Z"
+    }
+  },
+  "stats": {
+    "threadId": "5258544",
+    "totalEmails": 3,
+    "participants": [
+      "Unknown",
+      "kkannan",
+      "Kurunthachalam",
+      "Kannan",
+      "wadsworth",
+      "Kannan Kurunthachalam <kkannan@wadsworth.org>",
+      "wkreagen@mmm.com"
+    ],
+    "participantCount": 7,
+    "maxDepth": 1,
+    "branchCount": 0,
+    "forwardCount": 0,
+    "replyCount": 0,
+    "externalCount": 0,
+    "dateRange": {
+      "start": "2006-10-12T00:00:00.000Z",
+      "end": "2006-10-26T22:14:32.000Z"
+    }
+  }
+}

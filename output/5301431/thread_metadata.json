@@ -1,0 +1,121 @@
+{
+  "threadId": "5301431",
+  "tree": {
+    "threadId": "5301431",
+    "roots": [
+      {
+        "id": "5187357",
+        "messageId": "",
+        "inReplyTo": "",
+        "references": [],
+        "threadId": "5301431",
+        "from": "kkannan",
+        "to": [
+          "MMM",
+          "MMM",
+          "wkreagen",
+          "wkreagen"
+        ],
+        "cc": [],
+        "bcc": [],
+        "subject": "Fwd: Re: Blood manuscript",
+        "dateSent": "2007-08-13T00:00:00.000Z",
+        "custodian": "Hybrid Solr Import",
+        "fileName": "email_5187357.eml",
+        "fullText": "",
+        "confidentiality": "",
+        "begBates": "5187357",
+        "dateCreated": null,
+        "dateLastModified": null,
+        "children": []
+      },
+      {
+        "id": "5187357",
+        "messageId": "",
+        "inReplyTo": "",
+        "references": [],
+        "threadId": "5301431",
+        "from": "kkannan",
+        "to": [
+          "MMM",
+          "MMM",
+          "wkreagen",
+          "wkreagen"
+        ],
+        "cc": [],
+        "bcc": [],
+        "subject": "Fwd: Re: Blood manuscript",
+        "dateSent": "2007-08-13T00:00:00.000Z",
+        "custodian": "Hybrid Solr Import",
+        "fileName": "email_5187357.eml",
+        "fullText": "",
+        "confidentiality": "",
+        "begBates": "5187357",
+        "dateCreated": null,
+        "dateLastModified": null,
+        "children": []
+      },
+      {
+        "id": "5187357",
+        "messageId": "",
+        "inReplyTo": "",
+        "references": [],
+        "threadId": "5301431",
+        "from": "kkannan",
+        "to": [
+          "MMM",
+          "MMM",
+          "wkreagen",
+          "wkreagen"
+        ],
+        "cc": [],
+        "bcc": [],
+        "subject": "Fwd: Re: Blood manuscript",
+        "dateSent": "2007-08-13T00:00:00.000Z",
+        "custodian": "Hybrid Solr Import",
+        "fileName": "email_5187357.eml",
+        "fullText": "",
+        "confidentiality": "",
+        "begBates": "5187357",
+        "dateCreated": null,
+        "dateLastModified": null,
+        "children": []
+      }
+    ],
+    "totalEmails": 3,
+    "participants": [
+      "Unknown",
+      "MMM",
+      "wkreagen",
+      "Kannan Kurunthachalam <kkannan@wadsworth.org>",
+      "wkreagen@mmm.com",
+      "kkannan"
+    ],
+    "dateRange": {
+      "start": "2007-08-08T00:00:00.000Z",
+      "end": "2007-08-13T00:00:00.000Z"
+    }
+  },
+  "stats": {
+    "threadId": "5301431",
+    "totalEmails": 3,
+    "participants": [
+      "Unknown",
+      "MMM",
+      "wkreagen",
+      "Kannan Kurunthachalam <kkannan@wadsworth.org>",
+      "wkreagen@mmm.com",
+      "kkannan"
+    ],
+    "participantCount": 6,
+    "maxDepth": 1,
+    "branchCount": 0,
+    "forwardCount": 0,
+    "replyCount": 0,
+    "externalCount": 0,
+    "dateRange": {
+      "start": "2007-08-08T00:00:00.000Z",
+      "end": "2007-08-13T00:00:00.000Z"
+    }
+  }
+}

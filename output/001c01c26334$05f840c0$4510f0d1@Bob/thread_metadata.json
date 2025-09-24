@@ -1,0 +1,110 @@
+{
+  "threadId": "001c01c26334$05f840c0$4510f0d1@Bob",
+  "tree": {
+    "threadId": "001c01c26334$05f840c0$4510f0d1@Bob",
+    "roots": [
+      {
+        "id": "5867047",
+        "messageId": "001c01c26334$05f840c0$4510f0d1@Bob",
+        "inReplyTo": "",
+        "references": [
+          "sd8b2323.029@mail.epa.state.oh.us"
+        ],
+        "threadId": "001c01c26334$05f840c0$4510f0d1@Bob",
+        "from": "\"Bob Griffin\" <lhwater@1st.net>",
+        "to": [
+          "Andrew S Hartten/AE/DuPont@DuPont"
+        ],
+        "cc": [],
+        "bcc": [],
+        "subject": "Fwd: Re: info request",
+        "dateSent": "2002-09-23T19:03:48.000Z",
+        "custodian": "Hybrid Solr Import",
+        "fileName": "email_5867047.eml",
+        "fullText": "﻿               Michael P \n               Sherrier/AE/DuPont \n               09/27/2002 09:37 AM\n                                   ToCN=Katherine L Davis/OU=AE/O=DuPont@DuPont, CN=Andy \n                                   L Davis/OU=AE/O=DuPont@DuPont\n                                   cc\n                                   bcc\n                              SubjectFwd: Re: info request\n          Kathy - FYI see below.\n          Andy - please ignore me last e-mail - wrong Davis.\n          ---------------------- Forwarded by Michael P Sherrier/AE/DuPont on 09/27/2002 09:35 AM ---------------------------\n          Michael P Sherrier09/27/2002 09:35 AM\n          To:Andrew S Hartten/AE/DuPont@DuPont\n          cc:Andy L Davis/AE/DuPont@DuPont, Mark Houlday/AE/DuPont@DuPont \n          Subject:Fwd: Re: info request\n          Andrew,\n          Unfortunately, they have given us the hourly details for August 20, 2002.  We actually need this \n          information for the next day, August 21, 2002, which is the day that the water levels were measured.  Can \n          we make another request?  It is important that I have this information for the model due to the rapid \n          response of the aquifer to changes in pumping stress.\n          Thanks,\n          Mike\n          ---------------------- Forwarded by Michael P Sherrier/AE/DuPont on 09/27/2002 09:30 AM ---------------------------\n          Andrew S Hartten09/25/2002 01:14 PM\n          To:Michael P Sherrier/AE/DuPont@DuPont, Katherine L Davis/AE/DuPont@DuPont\n          cc: \n          Subject:Fwd: Re: info request\n          FYI, Here's the pumping info.\n          ---------------------- Forwarded by Andrew S Hartten/AE/DuPont on 09/25/2002 01:13 PM ---------------------------\n                    \"Steve Williams\" <steve.williams@epa.state.oh.us> on 09/24/2002 11:31:51 AM\n          To:Andrew S Hartten/AE/DuPont@DuPont\n          cc: \n          Subject:Fwd: Re: info request\n          Received: from noc.1st.netby mail.epa.state.oh.us; Mon, 23 Sep 2002 15:13:19 -0400\n          Received: from 1st.net (1st.net [209.240.0.5])by noc.1st.net (8.9.3/8.9.3) \n          with ESMTP id PAA18683;Mon, 23 Sep 2002 15:14:30 -0400\n \n          Received: from Bob [209.240.21.79] by 1st.net  (SMTPD32-7.13) id A840B7C008A; Mon, \n          23 Sep 2002 15:15:12 -0400\n          Message-ID: <001c01c26334$05f840c0$4510f0d1@Bob>\n          From: \"Bob Griffin\" <lhwater@1st.net>\n          To: \"Steve Williams\" <steve.williams@epa.state.oh.us>\n          References: <sd8b2323.029@mail.epa.state.oh.us>\n          Subject: Re: info request\n          Date: Mon, 23 Sep 2002 15:03:48 -0400\n          X-Priority: 3\n          X-MSMail-Priority: Normal\n          X-Mailer: Microsoft Outlook Express 5.50.4133.2400\n          X-MimeOLE: Produced By Microsoft MimeOLE V5.50.4133.2400\n          MIME-Version: 1.0\n          Content-Type: multipart/mixed;  boundary=\"----=_NextPart_000_0019_01C26312.6B9E68E0\"\n          Steve,\n          As requested, I have attached our wellfield pumping data for the month of\n          August 2002.  Please note that this data is normally recorded at about 8:00\n          to 10:00 AM each day.  Therefore, data recorded for August 9th is actually\n          for pumpage from about 9:00 AM August 8th to about 9:00 AM August 9th.\n          The pumping data for Tuesday, August 20, 2002, was taken from a totalizer\n          chart (midnight August 19th to midnight August 20th), and is as follows:\n          00:00 to 06:30     680 gpm (Wells 2&3)\n          06:30 to 11:00         0 gpm (All wells were off)\n          11:00 to 13:15     700 gpm (Wells 2&3)\n          13:15 to 24:00     910 gpm (Wells 1, 2, & 3)\n          As soon as the GPS data is available, either Linda or I will forward it to\n          you.\n          Have a good day.\n          Regards,\n          Bob\n          ----- Original Message -----\n          From: \"Steve Williams\" <steve.williams@epa.state.oh.us>\n          To: <lhwater@1st.net>\n          Cc: \"Sarah Wallace\" <sarah.wallace@epa.state.oh.us>\n          Sent: Friday, September 20, 2002 1:31 PM\n          Subject: info request\n          Bob,\n          DuPont has requested that I pass the following information request to you:\n          GPS Data (collected by B&W) for soil boring locations (and all other\n          locations if available) for the creation of maps, etc.\n          and,  Pumping Rates, daily for August 5-19, and hourly for Aug. 20.  Needed\n          to finalize the ground water flow model calibration.\n          Let me know if you have any question on this request.  I could forward to\n          DuPont if you would like.\n          Steve\n \n           - DuPontWFData-AUG-2002.xls",
+        "confidentiality": "",
+        "begBates": "5867047",
+        "dateCreated": null,
+        "dateLastModified": null,
+        "children": []
+      },
+      {
+        "id": "5867047",
+        "messageId": "001c01c26334$05f840c0$4510f0d1@Bob",
+        "inReplyTo": "",
+        "references": [
+          "sd8b2323.029@mail.epa.state.oh.us"
+        ],
+        "threadId": "001c01c26334$05f840c0$4510f0d1@Bob",
+        "from": "\"Bob Griffin\" <lhwater@1st.net>",
+        "to": [
+          "Andrew S Hartten/AE/DuPont@DuPont"
+        ],
+        "cc": [],
+        "bcc": [],
+        "subject": "Fwd: Re: info request",
+        "dateSent": "2002-09-23T19:03:48.000Z",
+        "custodian": "Hybrid Solr Import",
+        "fileName": "email_5867047.eml",
+        "fullText": "﻿               Michael P \n               Sherrier/AE/DuPont \n               09/27/2002 09:37 AM\n                                   ToCN=Katherine L Davis/OU=AE/O=DuPont@DuPont, CN=Andy \n                                   L Davis/OU=AE/O=DuPont@DuPont\n                                   cc\n                                   bcc\n                              SubjectFwd: Re: info request\n          Kathy - FYI see below.\n          Andy - please ignore me last e-mail - wrong Davis.\n          ---------------------- Forwarded by Michael P Sherrier/AE/DuPont on 09/27/2002 09:35 AM ---------------------------\n          Michael P Sherrier09/27/2002 09:35 AM\n          To:Andrew S Hartten/AE/DuPont@DuPont\n          cc:Andy L Davis/AE/DuPont@DuPont, Mark Houlday/AE/DuPont@DuPont \n          Subject:Fwd: Re: info request\n          Andrew,\n          Unfortunately, they have given us the hourly details for August 20, 2002.  We actually need this \n          information for the next day, August 21, 2002, which is the day that the water levels were measured.  Can \n          we make another request?  It is important that I have this information for the model due to the rapid \n          response of the aquifer to changes in pumping stress.\n          Thanks,\n          Mike\n          ---------------------- Forwarded by Michael P Sherrier/AE/DuPont on 09/27/2002 09:30 AM ---------------------------\n          Andrew S Hartten09/25/2002 01:14 PM\n          To:Michael P Sherrier/AE/DuPont@DuPont, Katherine L Davis/AE/DuPont@DuPont\n          cc: \n          Subject:Fwd: Re: info request\n          FYI, Here's the pumping info.\n          ---------------------- Forwarded by Andrew S Hartten/AE/DuPont on 09/25/2002 01:13 PM ---------------------------\n                    \"Steve Williams\" <steve.williams@epa.state.oh.us> on 09/24/2002 11:31:51 AM\n          To:Andrew S Hartten/AE/DuPont@DuPont\n          cc: \n          Subject:Fwd: Re: info request\n          Received: from noc.1st.netby mail.epa.state.oh.us; Mon, 23 Sep 2002 15:13:19 -0400\n          Received: from 1st.net (1st.net [209.240.0.5])by noc.1st.net (8.9.3/8.9.3) \n          with ESMTP id PAA18683;Mon, 23 Sep 2002 15:14:30 -0400\n \n          Received: from Bob [209.240.21.79] by 1st.net  (SMTPD32-7.13) id A840B7C008A; Mon, \n          23 Sep 2002 15:15:12 -0400\n          Message-ID: <001c01c26334$05f840c0$4510f0d1@Bob>\n          From: \"Bob Griffin\" <lhwater@1st.net>\n          To: \"Steve Williams\" <steve.williams@epa.state.oh.us>\n          References: <sd8b2323.029@mail.epa.state.oh.us>\n          Subject: Re: info request\n          Date: Mon, 23 Sep 2002 15:03:48 -0400\n          X-Priority: 3\n          X-MSMail-Priority: Normal\n          X-Mailer: Microsoft Outlook Express 5.50.4133.2400\n          X-MimeOLE: Produced By Microsoft MimeOLE V5.50.4133.2400\n          MIME-Version: 1.0\n          Content-Type: multipart/mixed;  boundary=\"----=_NextPart_000_0019_01C26312.6B9E68E0\"\n          Steve,\n          As requested, I have attached our wellfield pumping data for the month of\n          August 2002.  Please note that this data is normally recorded at about 8:00\n          to 10:00 AM each day.  Therefore, data recorded for August 9th is actually\n          for pumpage from about 9:00 AM August 8th to about 9:00 AM August 9th.\n          The pumping data for Tuesday, August 20, 2002, was taken from a totalizer\n          chart (midnight August 19th to midnight August 20th), and is as follows:\n          00:00 to 06:30     680 gpm (Wells 2&3)\n          06:30 to 11:00         0 gpm (All wells were off)\n          11:00 to 13:15     700 gpm (Wells 2&3)\n          13:15 to 24:00     910 gpm (Wells 1, 2, & 3)\n          As soon as the GPS data is available, either Linda or I will forward it to\n          you.\n          Have a good day.\n          Regards,\n          Bob\n          ----- Original Message -----\n          From: \"Steve Williams\" <steve.williams@epa.state.oh.us>\n          To: <lhwater@1st.net>\n          Cc: \"Sarah Wallace\" <sarah.wallace@epa.state.oh.us>\n          Sent: Friday, September 20, 2002 1:31 PM\n          Subject: info request\n          Bob,\n          DuPont has requested that I pass the following information request to you:\n          GPS Data (collected by B&W) for soil boring locations (and all other\n          locations if available) for the creation of maps, etc.\n          and,  Pumping Rates, daily for August 5-19, and hourly for Aug. 20.  Needed\n          to finalize the ground water flow model calibration.\n          Let me know if you have any question on this request.  I could forward to\n          DuPont if you would like.\n          Steve\n \n           - DuPontWFData-AUG-2002.xls",
+        "confidentiality": "",
+        "begBates": "5867047",
+        "dateCreated": null,
+        "dateLastModified": null,
+        "children": []
+      },
+      {
+        "id": "5867047",
+        "messageId": "001c01c26334$05f840c0$4510f0d1@Bob",
+        "inReplyTo": "",
+        "references": [
+          "sd8b2323.029@mail.epa.state.oh.us"
+        ],
+        "threadId": "001c01c26334$05f840c0$4510f0d1@Bob",
+        "from": "\"Bob Griffin\" <lhwater@1st.net>",
+        "to": [
+          "Andrew S Hartten/AE/DuPont@DuPont"
+        ],
+        "cc": [],
+        "bcc": [],
+        "subject": "Fwd: Re: info request",
+        "dateSent": "2002-09-23T19:03:48.000Z",
+        "custodian": "Hybrid Solr Import",
+        "fileName": "email_5867047.eml",
+        "fullText": "﻿               Michael P \n               Sherrier/AE/DuPont \n               09/27/2002 09:37 AM\n                                   ToCN=Katherine L Davis/OU=AE/O=DuPont@DuPont, CN=Andy \n                                   L Davis/OU=AE/O=DuPont@DuPont\n                                   cc\n                                   bcc\n                              SubjectFwd: Re: info request\n          Kathy - FYI see below.\n          Andy - please ignore me last e-mail - wrong Davis.\n          ---------------------- Forwarded by Michael P Sherrier/AE/DuPont on 09/27/2002 09:35 AM ---------------------------\n          Michael P Sherrier09/27/2002 09:35 AM\n          To:Andrew S Hartten/AE/DuPont@DuPont\n          cc:Andy L Davis/AE/DuPont@DuPont, Mark Houlday/AE/DuPont@DuPont \n          Subject:Fwd: Re: info request\n          Andrew,\n          Unfortunately, they have given us the hourly details for August 20, 2002.  We actually need this \n          information for the next day, August 21, 2002, which is the day that the water levels were measured.  Can \n          we make another request?  It is important that I have this information for the model due to the rapid \n          response of the aquifer to changes in pumping stress.\n          Thanks,\n          Mike\n          ---------------------- Forwarded by Michael P Sherrier/AE/DuPont on 09/27/2002 09:30 AM ---------------------------\n          Andrew S Hartten09/25/2002 01:14 PM\n          To:Michael P Sherrier/AE/DuPont@DuPont, Katherine L Davis/AE/DuPont@DuPont\n          cc: \n          Subject:Fwd: Re: info request\n          FYI, Here's the pumping info.\n          ---------------------- Forwarded by Andrew S Hartten/AE/DuPont on 09/25/2002 01:13 PM ---------------------------\n                    \"Steve Williams\" <steve.williams@epa.state.oh.us> on 09/24/2002 11:31:51 AM\n          To:Andrew S Hartten/AE/DuPont@DuPont\n          cc: \n          Subject:Fwd: Re: info request\n          Received: from noc.1st.netby mail.epa.state.oh.us; Mon, 23 Sep 2002 15:13:19 -0400\n          Received: from 1st.net (1st.net [209.240.0.5])by noc.1st.net (8.9.3/8.9.3) \n          with ESMTP id PAA18683;Mon, 23 Sep 2002 15:14:30 -0400\n \n          Received: from Bob [209.240.21.79] by 1st.net  (SMTPD32-7.13) id A840B7C008A; Mon, \n          23 Sep 2002 15:15:12 -0400\n          Message-ID: <001c01c26334$05f840c0$4510f0d1@Bob>\n          From: \"Bob Griffin\" <lhwater@1st.net>\n          To: \"Steve Williams\" <steve.williams@epa.state.oh.us>\n          References: <sd8b2323.029@mail.epa.state.oh.us>\n          Subject: Re: info request\n          Date: Mon, 23 Sep 2002 15:03:48 -0400\n          X-Priority: 3\n          X-MSMail-Priority: Normal\n          X-Mailer: Microsoft Outlook Express 5.50.4133.2400\n          X-MimeOLE: Produced By Microsoft MimeOLE V5.50.4133.2400\n          MIME-Version: 1.0\n          Content-Type: multipart/mixed;  boundary=\"----=_NextPart_000_0019_01C26312.6B9E68E0\"\n          Steve,\n          As requested, I have attached our wellfield pumping data for the month of\n          August 2002.  Please note that this data is normally recorded at about 8:00\n          to 10:00 AM each day.  Therefore, data recorded for August 9th is actually\n          for pumpage from about 9:00 AM August 8th to about 9:00 AM August 9th.\n          The pumping data for Tuesday, August 20, 2002, was taken from a totalizer\n          chart (midnight August 19th to midnight August 20th), and is as follows:\n          00:00 to 06:30     680 gpm (Wells 2&3)\n          06:30 to 11:00         0 gpm (All wells were off)\n          11:00 to 13:15     700 gpm (Wells 2&3)\n          13:15 to 24:00     910 gpm (Wells 1, 2, & 3)\n          As soon as the GPS data is available, either Linda or I will forward it to\n          you.\n          Have a good day.\n          Regards,\n          Bob\n          ----- Original Message -----\n          From: \"Steve Williams\" <steve.williams@epa.state.oh.us>\n          To: <lhwater@1st.net>\n          Cc: \"Sarah Wallace\" <sarah.wallace@epa.state.oh.us>\n          Sent: Friday, September 20, 2002 1:31 PM\n          Subject: info request\n          Bob,\n          DuPont has requested that I pass the following information request to you:\n          GPS Data (collected by B&W) for soil boring locations (and all other\n          locations if available) for the creation of maps, etc.\n          and,  Pumping Rates, daily for August 5-19, and hourly for Aug. 20.  Needed\n          to finalize the ground water flow model calibration.\n          Let me know if you have any question on this request.  I could forward to\n          DuPont if you would like.\n          Steve\n \n           - DuPontWFData-AUG-2002.xls",
+        "confidentiality": "",
+        "begBates": "5867047",
+        "dateCreated": null,
+        "dateLastModified": null,
+        "children": []
+      }
+    ],
+    "totalEmails": 3,
+    "participants": [
+      "\"Bob Griffin\" <lhwater@1st.net>",
+      "Andrew S Hartten/AE/DuPont@DuPont"
+    ],
+    "dateRange": {
+      "start": "2002-09-23T19:03:48.000Z",
+      "end": "2002-09-23T19:03:48.000Z"
+    }
+  },
+  "stats": {
+    "threadId": "001c01c26334$05f840c0$4510f0d1@Bob",
+    "totalEmails": 3,
+    "participants": [
+      "\"Bob Griffin\" <lhwater@1st.net>",
+      "Andrew S Hartten/AE/DuPont@DuPont"
+    ],
+    "participantCount": 2,
+    "maxDepth": 1,
+    "branchCount": 0,
+    "forwardCount": 0,
+    "replyCount": 0,
+    "externalCount": 0,
+    "dateRange": {
+      "start": "2002-09-23T19:03:48.000Z",
+      "end": "2002-09-23T19:03:48.000Z"
+    }
+  }
+}

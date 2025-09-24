@@ -1,0 +1,10 @@
+Message-ID: <005@company.com>
+From: mary.jones@company.com
+To: alice.brown@company.com, david.clark@company.com
+CC: john.smith@company.com, bob.wilson@company.com
+Subject: Fwd: Project Alpha - Initial Requirements
+Date: Tue, 16 Jan 2024 10:30:00 GMT
+In-Reply-To: <002@company.com>
+References: <001@company.com 002@company.com>
+
+David, I'm forwarding this thread about Project Alpha. Since you'll be the project manager, please review the discussion so far. Alice is preparing UI mockups for Thursday. Can you join our design review? Mary

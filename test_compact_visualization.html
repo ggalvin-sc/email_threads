@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compact Email Thread Visualization - Test View</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f8f9fa;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .control-btn {
+            background: rgba(255,255,255,0.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: rgba(255,255,255,0.3);
+        }
+
+        .control-btn.active {
+            background: rgba(255,255,255,0.4);
+        }
+
+        .search-box {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.3);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 6px;
+            width: 200px;
+        }
+
+        .search-box::placeholder {
+            color: rgba(255,255,255,0.7);
+        }
+
+        .visualization-area {
+            height: 600px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-panel {
+            background: #f8f9fa;
+            padding: 15px 30px;
+            border-top: 1px solid #e9ecef;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            color: #6c757d;
+        }
+
+        .stat-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .zoom-controls {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            z-index: 1000;
+        }
+
+        .zoom-btn {
+            width: 40px;
+            height: 40px;
+            background: white;
+            border: 2px solid #dee2e6;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        .zoom-btn:hover {
+            background: #f8f9fa;
+            border-color: #adb5bd;
+        }
+
+        /* Email Node Styles */
+        .email-node {
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .email-node:hover {
+            filter: brightness(1.1);
+        }
+
+        .email-circle {
+            stroke: #fff;
+            stroke-width: 2px;
+            fill: #4A90E2;
+        }
+
+        .email-circle.reply {
+            fill: #28a745;
+        }
+
+        .email-circle.forward {
+            fill: #ffc107;
+        }
+
+        .email-circle.external {
+            fill: #dc3545;
+        }
+
+        .email-text {
+            font-size: 11px;
+            text-anchor: middle;
+            pointer-events: none;
+            fill: #333;
+        }
+
+        .email-subject {
+            font-weight: 600;
+        }
+
+        .email-sender {
+            fill: #666;
+        }
+
+        .email-time {
+            fill: #999;
+            font-size: 9px;
+        }
+
+        .connection-line {
+            stroke: #adb5bd;
+            stroke-width: 2px;
+            fill: none;
+            marker-end: url(#arrowhead);
+        }
+
+        .connection-line.reply {
+            stroke: #28a745;
+        }
+
+        .connection-line.forward {
+            stroke: #ffc107;
+        }
+
+        .tooltip {
+            position: absolute;
+            background: rgba(0,0,0,0.9);
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            pointer-events: none;
+            font-size: 12px;
+            max-width: 300px;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .detail-panel {
+            position: absolute;
+            top: 0;
+            right: -350px;
+            width: 350px;
+            height: 100%;
+            background: white;
+            border-left: 1px solid #dee2e6;
+            padding: 20px;
+            overflow-y: auto;
+            transition: right 0.3s ease;
+            z-index: 999;
+        }
+
+        .detail-panel.open {
+            right: 0;
+        }
+
+        .close-detail {
+            float: right;
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        .legend {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border: 1px solid #dee2e6;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 5px 0;
+            font-size: 12px;
+        }
+
+        .legend-circle {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div>
+                <h1 style="margin: 0; font-size: 24px;">📧 Email Thread: ALPHA-2024-001</h1>
+                <p style="margin: 5px 0 0 0; opacity: 0.8;">Compact Network Visualization</p>
+            </div>
+            <div class="controls">
+                <input type="text" class="search-box" placeholder="Search emails..." id="searchBox">
+                <button class="control-btn active" id="networkView">Network</button>
+                <button class="control-btn" id="timelineView">Timeline</button>
+                <button class="control-btn" id="compactView">Compact</button>
+            </div>
+        </div>
+
+        <div class="visualization-area" id="vizArea">
+            <svg id="visualization" width="100%" height="100%">
+                <defs>
+                    <marker id="arrowhead" markerWidth="10" markerHeight="7"
+                            refX="9" refY="3.5" orient="auto">
+                        <polygon points="0 0, 10 3.5, 0 7" fill="#adb5bd" />
+                    </marker>
+                </defs>
+            </svg>
+
+            <div class="zoom-controls">
+                <button class="zoom-btn" id="zoomIn">+</button>
+                <button class="zoom-btn" id="zoomOut">−</button>
+                <button class="zoom-btn" id="zoomReset">⌂</button>
+            </div>
+
+            <div class="legend">
+                <div class="legend-item">
+                    <div class="legend-circle" style="background: #4A90E2;"></div>
+                    <span>Original Email</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-circle" style="background: #28a745;"></div>
+                    <span>Reply</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-circle" style="background: #ffc107;"></div>
+                    <span>Forward</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-circle" style="background: #dc3545;"></div>
+                    <span>External</span>
+                </div>
+            </div>
+
+            <div class="detail-panel" id="detailPanel">
+                <button class="close-detail" onclick="closeDetail()">×</button>
+                <div id="detailContent">
+                    <p>Select an email to view details</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-panel">
+            <div class="stat-item">
+                <span>📊</span>
+                <span>13 emails • 10 participants • 5 levels deep</span>
+            </div>
+            <div class="stat-item">
+                <span>⏱️</span>
+                <span>Thread span: 3 days</span>
+            </div>
+            <div class="stat-item">
+                <span>🔄</span>
+                <span>12 replies • 3 forwards</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="tooltip" id="tooltip" style="opacity: 0;"></div>
+
+    <script>
+        // Sample email thread data
+        const emailData = [
+            { id: 1, from: "John Smith", subject: "Project Alpha - Initial Requirements", type: "original", x: 100, y: 200, time: "9:00 AM", children: [2, 7, 12] },
+            { id: 2, from: "Mary Jones", subject: "Re: Project Alpha - Initial Requirements", type: "reply", x: 280, y: 150, time: "9:15 AM", children: [3, 4] },
+            { id: 3, from: "Alice Brown", subject: "Re: Project Alpha - Initial Requirements", type: "reply", x: 460, y: 120, time: "9:30 AM", children: [] },
+            { id: 4, from: "Mary Jones", subject: "Fwd: Project Alpha - Initial Requirements", type: "forward", x: 460, y: 180, time: "10:00 AM", children: [5] },
+            { id: 5, from: "David Clark", subject: "Re: Fwd: Project Alpha - Initial Requirements", type: "reply", x: 640, y: 180, time: "10:30 AM", children: [6] },
+            { id: 6, from: "Alice Brown", subject: "Re: Fwd: Project Alpha - Mockups Ready", type: "reply", x: 820, y: 180, time: "11:00 AM", children: [] },
+            { id: 7, from: "Bob Wilson", subject: "Re: Project Alpha - Initial Requirements", type: "reply", x: 280, y: 250, time: "9:45 AM", children: [8, 10] },
+            { id: 8, from: "Bob Wilson", subject: "Re: Project Alpha - Initial Requirements", type: "reply", x: 460, y: 220, time: "10:15 AM", children: [9] },
+            { id: 9, from: "John Smith", subject: "Fwd: Project Alpha - Security Review Needed", type: "forward", x: 640, y: 220, time: "11:30 AM", children: [11] },
+            { id: 10, from: "Bob Wilson", subject: "Fwd: Project Alpha Database Architecture", type: "forward", x: 460, y: 280, time: "2:00 PM", children: [13] },
+            { id: 11, from: "Sarah White", subject: "Re: Fwd: Project Alpha - Security Review", type: "reply", x: 820, y: 220, time: "12:00 PM", children: [] },
+            { id: 12, from: "Mary Jones", subject: "Re: Project Alpha - Additional Thoughts", type: "reply", x: 280, y: 350, time: "3:00 PM", children: [] },
+            { id: 13, from: "Tom Smith", subject: "Re: Fwd: Project Alpha Database Architecture", type: "external", x: 640, y: 280, time: "2:30 PM", children: [] }
+        ];
+
+        // Create connections data
+        const connections = [];
+        emailData.forEach(email => {
+            email.children.forEach(childId => {
+                const child = emailData.find(e => e.id === childId);
+                if (child) {
+                    connections.push({
+                        source: email,
+                        target: child,
+                        type: child.type
+                    });
+                }
+            });
+        });
+
+        // Set up SVG
+        const svg = d3.select("#visualization");
+        const container = svg.append("g");
+
+        // Tooltip
+        const tooltip = d3.select("#tooltip");
+
+        // Zoom behavior
+        const zoom = d3.zoom()
+            .scaleExtent([0.1, 4])
+            .on("zoom", (event) => {
+                container.attr("transform", event.transform);
+            });
+
+        svg.call(zoom);
+
+        // Draw connections
+        const connections_g = container.append("g").attr("class", "connections");
+        connections_g.selectAll(".connection-line")
+            .data(connections)
+            .enter()
+            .append("path")
+            .attr("class", d => `connection-line ${d.type}`)
+            .attr("d", d => {
+                const dx = d.target.x - d.source.x;
+                const dy = d.target.y - d.source.y;
+                const dr = Math.sqrt(dx * dx + dy * dy) * 0.3;
+                return `M${d.source.x},${d.source.y}A${dr},${dr} 0 0,1 ${d.target.x},${d.target.y}`;
+            });
+
+        // Draw email nodes
+        const nodes_g = container.append("g").attr("class", "nodes");
+        const emailNodes = nodes_g.selectAll(".email-node")
+            .data(emailData)
+            .enter()
+            .append("g")
+            .attr("class", "email-node")
+            .attr("transform", d => `translate(${d.x}, ${d.y})`)
+            .on("click", showEmailDetail)
+            .on("mouseover", showTooltip)
+            .on("mouseout", hideTooltip);
+
+        // Add circles
+        emailNodes.append("circle")
+            .attr("class", d => `email-circle ${d.type}`)
+            .attr("r", 25);
+
+        // Add sender initials
+        emailNodes.append("text")
+            .attr("class", "email-text email-sender")
+            .attr("dy", "-5")
+            .text(d => d.from.split(' ').map(n => n[0]).join(''));
+
+        // Add time
+        emailNodes.append("text")
+            .attr("class", "email-text email-time")
+            .attr("dy", "10")
+            .text(d => d.time);
+
+        // Add subject on hover
+        emailNodes.append("text")
+            .attr("class", "email-text email-subject")
+            .attr("dy", "45")
+            .attr("opacity", 0)
+            .text(d => d.subject.substring(0, 15) + "...")
+            .style("font-size", "10px");
+
+        // Zoom controls
+        document.getElementById('zoomIn').onclick = () => {
+            svg.transition().call(zoom.scaleBy, 1.5);
+        };
+
+        document.getElementById('zoomOut').onclick = () => {
+            svg.transition().call(zoom.scaleBy, 1 / 1.5);
+        };
+
+        document.getElementById('zoomReset').onclick = () => {
+            svg.transition().call(zoom.transform, d3.zoomIdentity);
+        };
+
+        // Search functionality
+        document.getElementById('searchBox').oninput = function(e) {
+            const searchTerm = e.target.value.toLowerCase();
+            emailNodes.style("opacity", d => {
+                if (!searchTerm) return 1;
+                return (d.from.toLowerCase().includes(searchTerm) ||
+                        d.subject.toLowerCase().includes(searchTerm)) ? 1 : 0.3;
+            });
+        };
+
+        // View controls
+        document.getElementById('networkView').onclick = () => setActiveView('networkView');
+        document.getElementById('timelineView').onclick = () => setActiveView('timelineView');
+        document.getElementById('compactView').onclick = () => setActiveView('compactView');
+
+        function setActiveView(activeId) {
+            document.querySelectorAll('.control-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(activeId).classList.add('active');
+
+            if (activeId === 'timelineView') {
+                // Arrange nodes chronologically
+                const sortedEmails = [...emailData].sort((a, b) =>
+                    new Date('2024-01-01 ' + a.time) - new Date('2024-01-01 ' + b.time)
+                );
+                sortedEmails.forEach((email, i) => {
+                    email.x = 100 + i * 90;
+                    email.y = 300;
+                });
+                updatePositions();
+            } else if (activeId === 'compactView') {
+                // Compact grid layout
+                emailData.forEach((email, i) => {
+                    email.x = 100 + (i % 5) * 120;
+                    email.y = 150 + Math.floor(i / 5) * 100;
+                });
+                updatePositions();
+            }
+        }
+
+        function updatePositions() {
+            emailNodes.transition().duration(800)
+                .attr("transform", d => `translate(${d.x}, ${d.y})`);
+
+            connections_g.selectAll(".connection-line")
+                .transition().duration(800)
+                .attr("d", d => {
+                    const dx = d.target.x - d.source.x;
+                    const dy = d.target.y - d.source.y;
+                    const dr = Math.sqrt(dx * dx + dy * dy) * 0.3;
+                    return `M${d.source.x},${d.source.y}A${dr},${dr} 0 0,1 ${d.target.x},${d.target.y}`;
+                });
+        }
+
+        function showTooltip(event, d) {
+            tooltip.style("opacity", 1)
+                .html(`
+                    <strong>${d.subject}</strong><br>
+                    <strong>From:</strong> ${d.from}<br>
+                    <strong>Time:</strong> ${d.time}<br>
+                    <strong>Type:</strong> ${d.type}<br>
+                    <em>Click to view details</em>
+                `)
+                .style("left", (event.pageX + 10) + "px")
+                .style("top", (event.pageY - 10) + "px");
+        }
+
+        function hideTooltip() {
+            tooltip.style("opacity", 0);
+        }
+
+        function showEmailDetail(event, d) {
+            const panel = document.getElementById('detailPanel');
+            const content = document.getElementById('detailContent');
+
+            content.innerHTML = `
+                <h3>${d.subject}</h3>
+                <p><strong>From:</strong> ${d.from}</p>
+                <p><strong>Time:</strong> ${d.time}</p>
+                <p><strong>Type:</strong> ${d.type}</p>
+                <hr>
+                <p>This is where the full email content would appear. In the actual implementation, this would show the complete email body, attachments, and other metadata.</p>
+                <p>You could also add actions like Reply, Forward, or Archive here.</p>
+            `;
+
+            panel.classList.add('open');
+        }
+
+        function closeDetail() {
+            document.getElementById('detailPanel').classList.remove('open');
+        }
+
+        // Show subject on hover
+        emailNodes.on("mouseenter", function(event, d) {
+            d3.select(this).select(".email-subject").transition().attr("opacity", 1);
+        }).on("mouseleave", function(event, d) {
+            d3.select(this).select(".email-subject").transition().attr("opacity", 0);
+        });
+    </script>
+</body>
+</html>

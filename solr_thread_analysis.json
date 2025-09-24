@@ -1,0 +1,279 @@
+{
+  "totalThreads": 20,
+  "totalEmails": 20,
+  "threads": [
+    {
+      "id": "3B75D348.3EC50B84@cccs.umn.edu",
+      "subject": "Re: Analyses",
+      "emailCount": 1,
+      "participants": [
+        "Tim Church <trc@cccs.umn.edu>",
+        "gwolsen@mmm.com"
+      ],
+      "dateRange": {
+        "start": "2001-08-12T00:52:24.000Z",
+        "end": "2001-08-12T00:52:24.000Z"
+      }
+    },
+    {
+      "id": "9D3598AF292AA54CBDB9CDDE0FD8343701707720@dcex01.lw.com",
+      "subject": "MOU-Related Documents",
+      "emailCount": 1,
+      "participants": [
+        "JULIA.HATCHER@LW.com",
+        "masantoro@mmm.com"
+      ],
+      "dateRange": {
+        "start": "2006-01-09T21:13:02.000Z",
+        "end": "2006-01-09T21:13:02.000Z"
+      }
+    },
+    {
+      "id": "DF024C62BD804C4D83CFF11370DC3B60069CCDBC@sjdcmail3.steptoe.com",
+      "subject": "original protective order",
+      "emailCount": 1,
+      "participants": [
+        "\"Stennes, Libretta Porta\" <LStennes@steptoe.com>",
+        "\"'Silvio DeCarli (E-mail)'\" <silvio.j.decarli@usa.dupont.com>"
+      ],
+      "dateRange": {
+        "start": "2004-04-22T18:21:41.000Z",
+        "end": "2004-04-22T18:21:41.000Z"
+      }
+    },
+    {
+      "id": "338F26F52F817F498A5C4C1E25C05C8E0140BA1F@dcex05.pattonboggs.com",
+      "subject": "Scanned document <4 pages ~89 KB> -- 12/20/2004 3:36:34 PM",
+      "emailCount": 1,
+      "participants": [
+        "\"Clune, Rosemarie\" <RClune@PattonBoggs.com>",
+        "\"Clune",
+        "Rosemarie\" <RClune@PattonBoggs.com>"
+      ],
+      "dateRange": {
+        "start": "2004-12-20T20:36:42.000Z",
+        "end": "2004-12-20T20:36:42.000Z"
+      }
+    },
+    {
+      "id": "200204101429.g3AETd929396@pilot06.cl.msu.edu",
+      "subject": "Fwd: blood testing (fwd)",
+      "emailCount": 1,
+      "participants": [
+        "dlbacon@mmm.com",
+        "jrallison@mmm.com"
+      ],
+      "dateRange": {
+        "start": "2002-04-10T15:42:04.000Z",
+        "end": "2002-04-10T15:42:04.000Z"
+      }
+    },
+    {
+      "id": "1DB5E848C72B8442A3418E4ED9C9B7F1086839@ukbxelmsx01.ukbx.astrazeneca.net",
+      "subject": "***URGENT***   RE: Rapport Audité 22658 ECD",
+      "emailCount": 1,
+      "participants": [
+        "Fabreguettes Georges [mailto:Georges.Fabreguettes@citox.com]",
+        "\"'Fabreguettes Georges'\" <Georges.Fabreguettes@citox.com>",
+        "\"Jacques L'Haridon (E-mail)\""
+      ],
+      "dateRange": {
+        "start": "2003-06-06T15:51:39.000Z",
+        "end": "2003-06-06T15:51:39.000Z"
+      }
+    },
+    {
+      "id": "9D3598AF292AA54CBDB9CDDE0FD834370170781A@dcex01.lw.com",
+      "subject": "FW: Revised Draft Portion of 1/26 Presentation and Open Areas Document",
+      "emailCount": 1,
+      "participants": [
+        "JULIA.HATCHER@LW.com",
+        "masantoro@mmm.com"
+      ],
+      "dateRange": {
+        "start": "2006-01-23T19:35:02.000Z",
+        "end": "2006-01-23T19:35:02.000Z"
+      }
+    },
+    {
+      "id": "OFC1CF7929.F7C34050-ON86256A4E.0056CA60@mmm.com",
+      "subject": "Fwd: FC-1395 (2of2)",
+      "emailCount": 1,
+      "participants": [
+        "GPlum@aol.com",
+        "CN=Kent R. Lindstrom/OU=US-Corporate/O=3M/C=US@3M-Corporate"
+      ],
+      "dateRange": {
+        "start": "2001-05-16T22:24:57.000Z",
+        "end": "2001-05-16T22:24:57.000Z"
+      }
+    },
+    {
+      "id": "6B97F7689793924EAA1C83F695D61AE75E161D13@DenusMBX01.sorin.com",
+      "subject": "3T",
+      "emailCount": 1,
+      "participants": [
+        "Microsoft Outlook on behalf of Berch, Steve",
+        "Trevor",
+        "Jim"
+      ],
+      "dateRange": {
+        "start": "2016-11-03T14:01:00.000Z",
+        "end": "2016-11-03T14:01:00.000Z"
+      }
+    },
+    {
+      "id": "49BCC4897B3C62468BFC576414E1126D1331D837@DenusMBX01.sorin.com",
+      "subject": "RE: 3T",
+      "emailCount": 1,
+      "participants": [
+        "Microsoft Outlook on behalf of Rasmusson, Jenna",
+        "Trevor",
+        "Jim"
+      ],
+      "dateRange": {
+        "start": "2016-01-06T16:07:00.000Z",
+        "end": "2016-01-06T16:07:00.000Z"
+      }
+    },
+    {
+      "id": "69C6E00B7D5D734ABBD0299B7002E84D37E44926@DenusMBX01.sorin.com",
+      "subject": "Lunch Meeting",
+      "emailCount": 1,
+      "participants": [
+        "Microsoft Outlook on behalf of McNerney, Sean",
+        "Trevor",
+        "Jim"
+      ],
+      "dateRange": {
+        "start": "2014-08-12T22:14:00.000Z",
+        "end": "2014-08-12T22:14:00.000Z"
+      }
+    },
+    {
+      "id": "75928B96AD51FA418EAFA583A0338682ED23E4EC@WPMITA07.sorin.com",
+      "subject": "RE: Update",
+      "emailCount": 1,
+      "participants": [
+        "Microsoft Outlook on behalf of Trevor, Jim",
+        "Wagner",
+        "Detlef"
+      ],
+      "dateRange": {
+        "start": "2016-10-14T12:03:00.000Z",
+        "end": "2016-10-14T12:03:00.000Z"
+      }
+    },
+    {
+      "id": "7BD740B97807994BA07ABA7CDD00025956E3D72C@WPMITA08.sorin.com",
+      "subject": "AW: 3T",
+      "emailCount": 1,
+      "participants": [
+        "Microsoft Outlook on behalf of Oelgarth, Frank",
+        "Trevor",
+        "Jim"
+      ],
+      "dateRange": {
+        "start": "2016-01-09T11:54:00.000Z",
+        "end": "2016-01-09T11:54:00.000Z"
+      }
+    },
+    {
+      "id": "E1655D26433FD041BEFAB95249084580ED1AA68D@WPMITA07.sorin.com",
+      "subject": "AW: Update",
+      "emailCount": 1,
+      "participants": [
+        "Microsoft Outlook on behalf of Wagner, Detlef",
+        "Trevor",
+        "Jim"
+      ],
+      "dateRange": {
+        "start": "2016-10-14T10:10:00.000Z",
+        "end": "2016-10-14T10:10:00.000Z"
+      }
+    },
+    {
+      "id": "E1655D26433FD041BEFAB95249084580AA27F528@WPMITA07.sorin.com",
+      "subject": "HC decontamination",
+      "emailCount": 1,
+      "participants": [
+        "Microsoft Outlook on behalf of Wagner, Detlef",
+        "Trevor",
+        "Jim"
+      ],
+      "dateRange": {
+        "start": "2015-01-27T06:13:00.000Z",
+        "end": "2015-01-27T06:13:00.000Z"
+      }
+    },
+    {
+      "id": "4F4B8C4DAFCBA74F98D66E3EF882F19E42854E5F@AUSTINMAILBX02.cyberonics.com",
+      "subject": "FW: FYI",
+      "emailCount": 1,
+      "participants": [
+        "Microsoft Outlook on behalf of King, Karen",
+        "Trevor",
+        "Jim"
+      ],
+      "dateRange": {
+        "start": "2016-10-18T08:31:00.000Z",
+        "end": "2016-10-18T08:31:00.000Z"
+      }
+    },
+    {
+      "id": "6B97F7689793924EAA1C83F695D61AE75DDC6767@DenusMBX02.sorin.com",
+      "subject": "3T Presentation",
+      "emailCount": 1,
+      "participants": [
+        "Microsoft Outlook on behalf of Berch, Steve",
+        "Trevor",
+        "Jim"
+      ],
+      "dateRange": {
+        "start": "2016-07-20T18:24:00.000Z",
+        "end": "2016-07-20T18:24:00.000Z"
+      }
+    },
+    {
+      "id": "75928B96AD51FA418EAFA583A0338682B84D66E8@WPMITA07.sorin.com",
+      "subject": "RE: 3T",
+      "emailCount": 1,
+      "participants": [
+        "Microsoft Outlook on behalf of Trevor, Jim",
+        "McNerney",
+        "Sean"
+      ],
+      "dateRange": {
+        "start": "2016-01-05T12:15:00.000Z",
+        "end": "2016-01-05T12:15:00.000Z"
+      }
+    },
+    {
+      "id": "69C6E00B7D5D734ABBD0299B7002E84D37E44E0E@DenusMBX01.sorin.com",
+      "subject": "Updated Topics",
+      "emailCount": 1,
+      "participants": [
+        "Microsoft Outlook on behalf of McNerney, Sean",
+        "Trevor",
+        "Jim"
+      ],
+      "dateRange": {
+        "start": "2014-08-13T11:09:00.000Z",
+        "end": "2014-08-13T11:09:00.000Z"
+      }
+    },
+    {
+      "id": "75928B96AD51FA418EAFA583A03386820106AD9AE0@WPMITA07.sorin.com",
+      "subject": "Please proof",
+      "emailCount": 1,
+      "participants": [
+        "Microsoft Outlook on behalf of Trevor, Jim",
+        "Janie Trevor"
+      ],
+      "dateRange": {
+        "start": "2017-10-04T11:13:00.000Z",
+        "end": "2017-10-04T11:13:00.000Z"
+      }
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+# Page snapshot
+
+```yaml
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - generic [ref=e4]:
+        - heading "📧 Email Threads" [level=2] [ref=e5]
+        - paragraph [ref=e6]: Powered by Rust & WebAssembly
+      - generic [ref=e7]:
+        - button "All 0" [ref=e8] [cursor=pointer]:
+          - generic [ref=e9] [cursor=pointer]: All
+          - generic [ref=e10] [cursor=pointer]: "0"
+        - button "Unread 0" [ref=e11] [cursor=pointer]:
+          - generic [ref=e12] [cursor=pointer]: Unread
+          - generic [ref=e13] [cursor=pointer]: "0"
+        - button "Starred 0" [ref=e14] [cursor=pointer]:
+          - generic [ref=e15] [cursor=pointer]: Starred
+          - generic [ref=e16] [cursor=pointer]: "0"
+    - main [ref=e18]:
+      - generic [ref=e20]:
+        - heading "📁 Load Email Data" [level=2] [ref=e21]
+        - generic [ref=e22]:
+          - button "Choose File" [ref=e23] [cursor=pointer]
+          - generic [ref=e24]:
+            - paragraph [ref=e25]: Drop CSV file here or click to browse
+            - generic [ref=e26]: Supports CSV and DAT files with email thread data
+        - button "Load Sample Data" [ref=e27] [cursor=pointer]
+  - contentinfo [ref=e28]:
+    - paragraph [ref=e29]: Built with Rust 🦀 and WebAssembly ⚡
+    - generic [ref=e30]: WASM module loaded
+```

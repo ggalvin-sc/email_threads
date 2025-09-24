@@ -1,0 +1,1793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThreadView - Email Thread Navigator</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: #f8f9fa;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .app-container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Header */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e1e5e9;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .app-logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 18px;
+            font-weight: 600;
+            color: #1a73e8;
+        }
+
+        .logo-icon {
+            width: 24px;
+            height: 24px;
+            background: #1a73e8;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .breadcrumb {
+            color: #5f6368;
+            font-size: 14px;
+        }
+
+        .header-center {
+            flex: 1;
+            max-width: 600px;
+            margin: 0 24px;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 8px 16px;
+            border: 1px solid #dadce0;
+            border-radius: 24px;
+            font-size: 14px;
+            outline: none;
+            background: #f8f9fa;
+        }
+
+        .search-bar:focus {
+            background: white;
+            border-color: #1a73e8;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .new-thread-btn {
+            background: #1a73e8;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .new-thread-btn:hover {
+            background: #1557b0;
+        }
+
+        /* Main Content */
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Left Sidebar */
+        .left-sidebar {
+            width: 280px;
+            background: white;
+            border-right: 1px solid #e1e5e9;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-section {
+            padding: 16px;
+        }
+
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #202124;
+            margin-bottom: 12px;
+        }
+
+        .thread-filter {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .filter-item {
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            color: #5f6368;
+        }
+
+        .filter-item:hover {
+            background: #f8f9fa;
+        }
+
+        .filter-item.active {
+            background: #e8f0fe;
+            color: #1a73e8;
+            font-weight: 500;
+        }
+
+        .filter-count {
+            background: #dadce0;
+            color: #5f6368;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-size: 12px;
+            min-width: 18px;
+            text-align: center;
+        }
+
+        .filter-item.active .filter-count {
+            background: #1a73e8;
+            color: white;
+        }
+
+        .thread-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0 16px 16px;
+        }
+
+        .thread-item {
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            margin-bottom: 8px;
+        }
+
+        .thread-item:hover {
+            background: #f8f9fa;
+        }
+
+        .thread-item.active {
+            background: #e8f0fe;
+            border-color: #1a73e8;
+        }
+
+        .thread-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 4px;
+        }
+
+        .thread-meta {
+            font-size: 12px;
+            color: #5f6368;
+            display: flex;
+            gap: 8px;
+            margin-bottom: 4px;
+            flex-wrap: wrap;
+        }
+
+        .thread-preview {
+            font-size: 12px;
+            color: #5f6368;
+            line-height: 1.4;
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+        }
+
+        /* Center Content */
+        .center-content {
+            flex: 1;
+            background: white;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .conversation-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e1e5e9;
+        }
+
+        .conversation-title {
+            font-size: 20px;
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 8px;
+        }
+
+        .conversation-meta {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 14px;
+            color: #5f6368;
+            flex-wrap: wrap;
+        }
+
+        .conversation-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .action-btn {
+            padding: 6px 12px;
+            border: 1px solid #dadce0;
+            background: white;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+            color: #5f6368;
+        }
+
+        .action-btn:hover {
+            background: #f8f9fa;
+        }
+
+        .action-btn.primary {
+            background: #1a73e8;
+            color: white;
+            border-color: #1a73e8;
+        }
+
+        .action-btn.primary:hover {
+            background: #1557b0;
+        }
+
+        .conversation-view {
+            flex: 1;
+            overflow-y: auto;
+            padding: 16px 24px;
+        }
+
+        .view-controls {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #e1e5e9;
+            flex-wrap: wrap;
+        }
+
+        .view-btn {
+            padding: 6px 12px;
+            border: 1px solid #dadce0;
+            background: white;
+            border-radius: 4px;
+            font-size: 13px;
+            cursor: pointer;
+            color: #5f6368;
+        }
+
+        .view-btn.active {
+            background: #1a73e8;
+            color: white;
+            border-color: #1a73e8;
+        }
+
+        .sort-controls {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: #5f6368;
+        }
+
+        .message-navigation {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #e1e5e9;
+        }
+
+        .nav-btn {
+            background: white;
+            border: 1px solid #dadce0;
+            border-radius: 4px;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-size: 13px;
+            color: #5f6368;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: #f8f9fa;
+            border-color: #1a73e8;
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .message-counter {
+            font-size: 13px;
+            color: #5f6368;
+            margin: 0 8px;
+        }
+
+        .timeline-container {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 20px;
+            min-height: 200px;
+            border: 1px solid #e1e5e9;
+        }
+
+        .timeline-svg {
+            width: 100%;
+            height: 180px;
+            background: white;
+            border-radius: 6px;
+            border: 1px solid #e1e5e9;
+        }
+
+        .timeline-link {
+            stroke: #dadce0;
+            stroke-width: 1;
+        }
+
+        .timeline-node {
+            cursor: pointer;
+        }
+
+        .timeline-node.selected circle {
+            stroke: #1a73e8;
+            stroke-width: 3;
+        }
+
+        .message-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .message {
+            border: 1px solid #e1e5e9;
+            border-radius: 8px;
+            padding: 20px;
+            background: white;
+            margin: 16px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .message-separator {
+            background: linear-gradient(90deg, #e1e5e9 0%, #f8f9fa 50%, #e1e5e9 100%);
+            height: 2px;
+            margin: 20px 0;
+            border-radius: 1px;
+        }
+
+        .message-timestamp {
+            background: #f8f9fa;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: #5f6368;
+            text-align: center;
+            margin: 16px 0;
+            border: 1px solid #e1e5e9;
+        }
+
+        .message-content-area {
+            background: #f8f9fa;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+
+        .message-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #1a73e8;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            font-weight: 500;
+            flex-shrink: 0;
+        }
+
+        .message-info {
+            flex: 1;
+        }
+
+        .message-author {
+            font-weight: 500;
+            color: #202124;
+            font-size: 14px;
+        }
+
+        .message-email {
+            color: #5f6368;
+            font-size: 13px;
+        }
+
+        .message-time {
+            color: #5f6368;
+            font-size: 13px;
+            margin-left: auto;
+        }
+
+        .message-subject {
+            font-weight: 500;
+            color: #202124;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .message-body {
+            color: #5f6368;
+            line-height: 1.5;
+            font-size: 14px;
+            white-space: pre-wrap;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .message-actions {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 8px;
+            border-top: 1px solid #f1f3f4;
+        }
+
+        .message-action {
+            color: #1a73e8;
+            font-size: 13px;
+            cursor: pointer;
+            text-decoration: none;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .message-action:hover {
+            background: #f8f9fa;
+        }
+
+        /* Right Sidebar */
+        .right-sidebar {
+            width: 300px;
+            background: white;
+            border-left: 1px solid #e1e5e9;
+            overflow-y: auto;
+        }
+
+        .sidebar-section h3 {
+            font-size: 16px;
+            font-weight: 600;
+            color: #202124;
+            margin-bottom: 12px;
+        }
+
+        .participants-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .participant {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px;
+            border-radius: 6px;
+        }
+
+        .participant:hover {
+            background: #f8f9fa;
+        }
+
+        .participant-avatar {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: #1a73e8;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .participant-info {
+            flex: 1;
+        }
+
+        .participant-name {
+            font-size: 13px;
+            font-weight: 500;
+            color: #202124;
+        }
+
+        .participant-role {
+            font-size: 12px;
+            color: #5f6368;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 12px;
+            background: #f8f9fa;
+            border-radius: 6px;
+        }
+
+        .stat-number {
+            font-size: 20px;
+            font-weight: 600;
+            color: #202124;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: #5f6368;
+            margin-top: 2px;
+        }
+
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px;
+            color: #5f6368;
+        }
+
+        .error {
+            color: #ea4335;
+            padding: 20px;
+            text-align: center;
+            background: #fce8e6;
+            border-radius: 6px;
+            margin: 20px;
+        }
+
+        /* Timeline Visualization Styles */
+        .timeline-svg {
+            width: 100%;
+            height: 100%;
+            min-height: 180px;
+        }
+
+        .timeline-node {
+            cursor: pointer;
+        }
+
+        .timeline-link {
+            stroke: #dadce0;
+            stroke-width: 2;
+            fill: none;
+        }
+
+        .timeline-node circle {
+            fill: #1a73e8;
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        .timeline-node text {
+            font-size: 11px;
+            fill: #202124;
+        }
+
+        .timeline-node.selected circle {
+            fill: #ea4335;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        function HybridThreadNavigator() {
+            const [threadData, setThreadData] = useState(null);
+            const [activeThread, setActiveThread] = useState(null);
+            const [activeFilter, setActiveFilter] = useState('all');
+            const [viewMode, setViewMode] = useState('tree');
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState(null);
+            const [threadMessages, setThreadMessages] = useState([]);
+            const [currentMessageIndex, setCurrentMessageIndex] = useState(0);
+            const timelineRef = useRef(null);
+
+            // Load thread data from JSON
+            useEffect(() => {
+                setLoading(true);
+                fetch('thread_report.json')
+                    .then(response => {
+                        if (!response.ok) throw new Error('Failed to load thread data');
+                        return response.json();
+                    })
+                    .then(data => {
+                        setThreadData(data);
+                        // Set first thread as active
+                        const firstThreadId = Object.keys(data.threads)[0];
+                        setActiveThread(data.threads[firstThreadId]);
+                        setLoading(false);
+                    })
+                    .catch(error => {
+                        console.error('Error loading thread data:', error);
+                        setError('Failed to load thread data. Please check that thread_report.json exists.');
+                        setLoading(false);
+                    });
+            }, []);
+
+            // Load detailed thread data when thread changes
+            useEffect(() => {
+                if (activeThread) {
+                    loadThreadDetails(activeThread.threadId);
+                }
+            }, [activeThread]);
+
+            // Re-render timeline when message index changes
+            useEffect(() => {
+                if (threadMessages.length > 0 && viewMode === 'tree') {
+                    renderTimeline(threadMessages);
+                }
+            }, [currentMessageIndex, threadMessages, viewMode]);
+
+            const loadThreadDetails = async (threadId) => {
+                try {
+                    const response = await fetch(`output/${threadId}/thread_metadata.json`);
+                    if (response.ok) {
+                        const details = await response.json();
+
+                        // Extract and sort messages chronologically
+                        const messages = extractMessagesFromTree(details.tree);
+                        const sortedMessages = messages.sort((a, b) =>
+                            new Date(a.dateSent) - new Date(b.dateSent)
+                        );
+
+                        setThreadMessages(sortedMessages);
+                        setCurrentMessageIndex(0);
+
+                        if (viewMode === 'tree') {
+                            renderTimeline(sortedMessages);
+                        }
+                    }
+                } catch (error) {
+                    console.warn(`Could not load details for thread ${threadId}:`, error);
+                    // Fallback to basic thread data
+                    setThreadMessages([]);
+                    setCurrentMessageIndex(0);
+                }
+            };
+
+            const extractMessagesFromTree = (tree) => {
+                const messages = [];
+
+                const traverseTree = (nodes) => {
+                    if (!nodes) return;
+
+                    if (Array.isArray(nodes)) {
+                        nodes.forEach(node => {
+                            if (node && node.id) {
+                                // Check if this is a compound email that needs parsing
+                                if (node.fullText && node.fullText.includes('\t') && node.fullText.includes('02/2')) {
+                                    // Parse embedded messages from the fullText
+                                    const parsedMessages = parseEmbeddedMessages(node);
+                                    messages.push(...parsedMessages);
+                                } else {
+                                    messages.push(node);
+                                }
+                            }
+                            if (node.children) {
+                                traverseTree(node.children);
+                            }
+                        });
+                    } else if (nodes.roots) {
+                        traverseTree(nodes.roots);
+                    }
+                };
+
+                traverseTree(tree);
+
+                // Remove duplicates by ID and sort chronologically
+                const uniqueMessages = messages.filter((msg, index, self) =>
+                    index === self.findIndex(m => m.id === msg.id && m.dateSent === msg.dateSent)
+                );
+
+                return uniqueMessages;
+            };
+
+            const parseEmbeddedMessages = (compoundMessage) => {
+                const messages = [];
+                const fullText = compoundMessage.fullText;
+
+                // Extract individual email segments from the compound message
+                // Parse the main message first (Larry's response)
+                const mainBody = fullText.split('\n\n\tMichael A. Santoro')[0];
+                if (mainBody) {
+                    messages.push({
+                        ...compoundMessage,
+                        id: compoundMessage.id + '_main',
+                        from: compoundMessage.from,
+                        fullText: mainBody,
+                        subject: compoundMessage.subject,
+                        dateSent: compoundMessage.dateSent,
+                        isMainMessage: true
+                    });
+                }
+
+                // Extract Michael A. Santoro's message
+                const santoroPart = fullText.match(/\tMichael A\. Santoro\n\t(\d{2}\/\d{2}\/\d{4} \d{2}:\d{2} [AP]M)\n([\s\S]*?)\n\n\n\n\tDale L\. Bacon/);
+                if (santoroPart) {
+                    messages.push({
+                        ...compoundMessage,
+                        id: compoundMessage.id + '_santoro',
+                        from: 'CN=Michael A. Santoro/OU=US-Corporate/O=3M/C=US',
+                        fullText: santoroPart[2].trim(),
+                        subject: 'Re: Fwd: interview',
+                        dateSent: '2004-02-25T12:53:00.000Z',
+                        isExtracted: true,
+                        to: ['CN=Dale L. Bacon/OU=US-Corporate/O=3M/C=US@3M-Corporate'],
+                        cc: ['CN=Richard H. Renner/OU=US-Corporate/O=3M/C=US@3M-Corporate', 'CN=Larry R. Zobel/OU=US-Corporate/O=3M/C=US@3M-Corporate']
+                    });
+                }
+
+                // Extract Dale L. Bacon's message
+                const baconPart = fullText.match(/\tDale L\. Bacon\n\t(\d{2}\/\d{2}\/\d{4} \d{2}:\d{2} [AP]M)\n([\s\S]*?)Dale L\. Bacon\nTechnical Director/);
+                if (baconPart) {
+                    messages.push({
+                        ...compoundMessage,
+                        id: compoundMessage.id + '_bacon',
+                        from: 'CN=Dale L. Bacon/OU=US-Corporate/O=3M/C=US',
+                        fullText: baconPart[2].trim() + '\n\nDale L. Bacon\nTechnical Director\n3M Environmental Laboratory',
+                        subject: 'Fwd: interview',
+                        dateSent: '2004-02-25T12:19:00.000Z',
+                        isExtracted: true,
+                        to: ['CN=Michael A. Santoro/OU=US-Corporate/O=3M/C=US@3M-Corporate']
+                    });
+                }
+
+                // Extract JGiesy message
+                const giesyPart = fullText.match(/\tJGiesy@aol\.com\n\t(\d{2}\/\d{2}\/\d{4} \d{2}:\d{2} [AP]M)\n([\s\S]*?)John P\. Giesy/);
+                if (giesyPart) {
+                    messages.push({
+                        ...compoundMessage,
+                        id: compoundMessage.id + '_giesy',
+                        from: 'jgiesy@aol.com',
+                        fullText: giesyPart[2].trim() + '\n\nJohn P. Giesy\nProfessor\nZoology Department\nMichigan State University',
+                        subject: 'Fwd: interview',
+                        dateSent: '2004-02-24T18:30:00.000Z',
+                        isExtracted: true,
+                        to: ['dlbacon@mmm.com']
+                    });
+                }
+
+                // Extract Kate Murphy message
+                const murphyPart = fullText.match(/Subject:\tinterview\n([\s\S]*?)Kate Murphy\nHealth Magazine/);
+                if (murphyPart) {
+                    messages.push({
+                        ...compoundMessage,
+                        id: compoundMessage.id + '_murphy',
+                        from: 'Kate Murphy <kmur@swbell.net>',
+                        fullText: murphyPart[1].trim() + '\n\nKate Murphy\nHealth Magazine\n713-524-7856\nkmur@swbell.net',
+                        subject: 'interview',
+                        dateSent: '2004-02-24T19:11:43.000Z',
+                        isExtracted: true,
+                        to: ['jgiesy@aol.com']
+                    });
+                }
+
+                return messages;
+            };
+
+            const renderTimeline = (messages) => {
+                console.log('renderTimeline called with messages:', messages.length);
+                if (!timelineRef.current || !messages || messages.length === 0) {
+                    console.log('Timeline render skipped - no ref, messages, or empty array');
+                    return;
+                }
+
+                console.log('Timeline ref dimensions:', timelineRef.current.clientWidth, 'x', timelineRef.current.clientHeight);
+
+                // Clear previous visualization
+                d3.select(timelineRef.current).selectAll("*").remove();
+
+                const svg = d3.select(timelineRef.current);
+                const width = timelineRef.current.clientWidth;
+                const height = 180;
+
+                let positionedNodes = [];
+
+                try {
+                    console.log('Building thread structure...');
+                    // Build thread structure with proper branching
+                    const threadStructure = buildThreadStructure(messages);
+                    console.log('Thread structure:', threadStructure);
+
+                    console.log('Positioning nodes...');
+                    // Position nodes with branching layout
+                    positionedNodes = positionNodesForBranching(threadStructure, width, height);
+                    console.log('Positioned nodes:', positionedNodes.length);
+
+                    console.log('Drawing connections...');
+                    // Draw connecting lines for thread relationships
+                    drawThreadConnections(svg, positionedNodes);
+                } catch (error) {
+                    console.error('Timeline rendering error:', error);
+                    return;
+                }
+
+                // Draw timeline baseline
+                svg.append('line')
+                    .attr('x1', 30)
+                    .attr('y1', height - 30)
+                    .attr('x2', width - 30)
+                    .attr('y2', height - 30)
+                    .attr('class', 'timeline-link')
+                    .style('stroke-dasharray', '3,3');
+
+                // Draw nodes
+                const nodes = svg.selectAll('.timeline-node')
+                    .data(positionedNodes)
+                    .enter()
+                    .append('g')
+                    .attr('class', (d, i) => `timeline-node ${i === currentMessageIndex ? 'selected' : ''}`)
+                    .attr('transform', d => `translate(${d.x}, ${d.y})`)
+                    .style('cursor', 'pointer')
+                    .on('click', (event, d) => {
+                        setCurrentMessageIndex(d.chronologicalIndex);
+                    });
+
+                nodes.append('circle')
+                    .attr('r', 8)
+                    .style('fill', d => getAuthorColor(d.from));
+
+                nodes.append('text')
+                    .attr('dy', -15)
+                    .attr('text-anchor', 'middle')
+                    .text(d => {
+                        const cleaned = cleanParticipant(d.from);
+                        // If it looks like an email address, show the whole email
+                        if (cleaned.includes('@')) {
+                            return cleaned;
+                        }
+                        // Otherwise show the full name
+                        return cleaned;
+                    })
+                    .style('font-size', '8px') // Slightly smaller to fit longer text
+                    .style('font-weight', 'bold');
+
+                nodes.append('text')
+                    .attr('dy', 25)
+                    .attr('text-anchor', 'middle')
+                    .text(d => formatTimeShort(d.date))
+                    .style('font-size', '8px');
+            };
+
+            const buildThreadStructure = (messages) => {
+                // Create a map for quick message lookup
+                const messageMap = new Map();
+                messages.forEach((msg, index) => {
+                    messageMap.set(msg.id, { ...msg, chronologicalIndex: index });
+                });
+
+                // Build parent-child relationships
+                const roots = [];
+                const children = new Map();
+
+                messages.forEach(msg => {
+                    const message = messageMap.get(msg.id);
+
+                    if (msg.inReplyTo && messageMap.has(msg.inReplyTo)) {
+                        // This message is a reply
+                        const parentId = msg.inReplyTo;
+                        if (!children.has(parentId)) {
+                            children.set(parentId, []);
+                        }
+                        children.get(parentId).push(message);
+                    } else {
+                        // This is a root message
+                        roots.push(message);
+                    }
+                });
+
+                return { roots, children, messageMap };
+            };
+
+            const positionNodesForBranching = (structure, width, height) => {
+                const { roots, children } = structure;
+                const positioned = [];
+
+                const baseY = height - 30;
+                const availableWidth = width - 60;
+
+                let currentX = 30;
+
+                const positionSubtree = (node, x, y, level = 0) => {
+                    const position = {
+                        ...node,
+                        x: x,
+                        y: y - (level * 30), // Branch upward for replies
+                        level: level,
+                        date: new Date(node.dateSent)
+                    };
+
+                    positioned.push(position);
+
+                    // Position children
+                    const nodeChildren = children.get(node.id) || [];
+                    if (nodeChildren.length > 0) {
+                        const childSpacing = Math.min(60, availableWidth / (nodeChildren.length * 2));
+                        nodeChildren.forEach((child, index) => {
+                            const childX = x + (index - (nodeChildren.length - 1) / 2) * childSpacing;
+                            positionSubtree(child, childX, y, level + 1);
+                        });
+                    }
+                };
+
+                // Position root messages chronologically
+                const rootSpacing = availableWidth / Math.max(roots.length - 1, 1);
+                roots.sort((a, b) => new Date(a.dateSent) - new Date(b.dateSent));
+
+                roots.forEach((root, index) => {
+                    const x = 30 + (index * rootSpacing);
+                    positionSubtree(root, x, baseY, 0);
+                });
+
+                return positioned;
+            };
+
+            const drawThreadConnections = (svg, nodes) => {
+                // Draw connections between related messages
+                nodes.forEach(node => {
+                    if (node.inReplyTo) {
+                        const parent = nodes.find(n => n.id === node.inReplyTo);
+                        if (parent) {
+                            // Draw curved line from parent to child
+                            const path = `M ${parent.x} ${parent.y} Q ${(parent.x + node.x) / 2} ${Math.min(parent.y, node.y) - 20} ${node.x} ${node.y}`;
+                            svg.append('path')
+                                .attr('d', path)
+                                .attr('stroke', '#1a73e8')
+                                .attr('stroke-width', 2)
+                                .attr('fill', 'none')
+                                .attr('opacity', 0.7);
+                        }
+                    }
+                });
+            };
+
+            const getAuthorColor = (from) => {
+                // Generate consistent colors for different authors
+                const author = cleanParticipant(from);
+                const colors = ['#1a73e8', '#ea4335', '#34a853', '#fbbc04', '#9c27b0', '#ff6d00', '#00bcd4'];
+                let hash = 0;
+                for (let i = 0; i < author.length; i++) {
+                    hash = author.charCodeAt(i) + ((hash << 5) - hash);
+                }
+                return colors[Math.abs(hash) % colors.length];
+            };
+
+            const formatTimeShort = (date) => {
+                return date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric'
+                });
+            };
+
+            const cleanParticipant = (participant) => {
+                if (!participant) return 'Unknown';
+
+                // Extract name from CN= format
+                if (participant.includes('CN=')) {
+                    const match = participant.match(/CN=([^/]+)/);
+                    if (match) return match[1];
+                }
+
+                // Extract name from email format
+                if (participant.includes('<') && participant.includes('>')) {
+                    const name = participant.split('<')[0].trim();
+                    return name || participant.split('<')[1].split('>')[0];
+                }
+
+                return participant;
+            };
+
+            const formatDate = (date) => {
+                return date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+            };
+
+            const formatFullDateTime = (date) => {
+                return date.toLocaleString('en-US', {
+                    weekday: 'long',
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+            };
+
+            const getTimeDifference = (date1, date2) => {
+                const diffMs = Math.abs(date2 - date1);
+                const diffMins = Math.floor(diffMs / (1000 * 60));
+                const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+                const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+                if (diffDays > 0) return `${diffDays} day${diffDays > 1 ? 's' : ''}`;
+                if (diffHours > 0) return `${diffHours} hour${diffHours > 1 ? 's' : ''}`;
+                if (diffMins > 0) return `${diffMins} minute${diffMins > 1 ? 's' : ''}`;
+                return 'moments';
+            };
+
+            const formatMessageContent = (content) => {
+                if (!content) return 'No content available';
+
+                // Clean up the content while preserving structure
+                let formatted = content
+                    .replace(/NotesID:.*?\n/g, '') // Remove Notes metadata
+                    .replace(/PostedDate:.*?\n/g, '')
+                    .replace(/From:.*?\n/g, '')
+                    .replace(/SendTo:.*?\n/g, '')
+                    .replace(/CopyTo:.*?\n/g, '')
+                    .replace(/Subject:.*?\n/g, '')
+                    .replace(/Body:\n/, '')
+                    .replace(/<[^>]*>/g, '') // Remove HTML tags
+                    .replace(/\n\s*\n/g, '\n\n'); // Normalize spacing
+
+                // Enhanced: Detect and visually separate embedded emails
+                // Look for patterns like "\tAuthor Name\n\tDate" which indicate embedded emails
+                const emailSeparatorPattern = /(\t[^\n]+\n\t\d{2}\/\d{2}\/\d{4} \d{1,2}:\d{2} [AP]M)/g;
+
+                // Split content by these patterns and add visual separators
+                const parts = formatted.split(emailSeparatorPattern);
+
+                if (parts.length > 1) {
+                    // This is a compound email with multiple embedded messages
+                    let result = '';
+                    let isFirstPart = true;
+
+                    for (let i = 0; i < parts.length; i++) {
+                        const part = parts[i];
+
+                        if (!part.trim()) continue;
+
+                        // Check if this part is an email separator (author + date)
+                        if (emailSeparatorPattern.test(part)) {
+                            // Add visual separation before embedded emails (but not for the first one)
+                            if (!isFirstPart) {
+                                result += '\n\n' + '─'.repeat(50) + '\n';
+                                result += '📧 EMBEDDED EMAIL\n';
+                                result += '─'.repeat(50) + '\n\n';
+                            }
+                            // Clean up the separator formatting
+                            result += part.replace(/\t/g, '').trim() + '\n\n';
+                            isFirstPart = false;
+                        } else {
+                            // Regular content part
+                            result += part.trim() + '\n\n';
+                        }
+                    }
+
+                    formatted = result;
+                } else {
+                    // Single email, just clean up tabs
+                    formatted = formatted.replace(/\t/g, '    ');
+                }
+
+                return formatted.trim(); // NO truncation as requested
+            };
+
+            const extractAttachments = (message) => {
+                const attachments = [];
+
+                // ENHANCED: Use bates ranges for proper attachment links
+                // Check if message has separate attachment bates ranges
+                if (message.begAttach && message.endAttach &&
+                    message.begAttach !== message.begBates) {
+
+                    // Parse attachment list from fullText if available
+                    const attachmentHeaderMatch = message.fullText.match(/Attachments:\s*\n([^\n]+)/);
+
+                    if (attachmentHeaderMatch) {
+                        const attachmentLine = attachmentHeaderMatch[1];
+                        const attachmentEntries = attachmentLine.split(';');
+
+                        // Calculate total attachment pages
+                        const attachStart = parseInt(message.begAttach.replace(/\D/g, '')) || 0;
+                        const attachEnd = parseInt(message.endAttach.replace(/\D/g, '')) || 0;
+                        const totalPages = attachEnd - attachStart + 1;
+
+                        let currentBatesStart = attachStart;
+
+                        attachmentEntries.forEach((entry, index) => {
+                            entry = entry.trim();
+                            if (entry) {
+                                // Parse "filename (size)" format
+                                const match = entry.match(/^(.+?)\s+\(([^)]+)\)$/);
+                                if (match) {
+                                    const [, fileName, fileSize] = match;
+                                    const fileExtension = fileName.split('.').pop().toUpperCase();
+
+                                    // Estimate pages for this attachment (rough distribution)
+                                    const estimatedPages = Math.ceil(totalPages / attachmentEntries.length);
+                                    const endBates = currentBatesStart + estimatedPages - 1;
+
+                                    // Create bates-based URL
+                                    const batesPrefix = message.begAttach.replace(/\d+/g, '');
+                                    const startBatesFormatted = batesPrefix + String(currentBatesStart).padStart(8, '0');
+                                    const endBatesFormatted = batesPrefix + String(endBates).padStart(8, '0');
+
+                                    attachments.push({
+                                        name: fileName.trim(),
+                                        size: fileSize.trim(),
+                                        type: fileExtension,
+                                        url: `/bates/${startBatesFormatted}-${endBatesFormatted}`, // BATES-BASED URL
+                                        batesRange: `${startBatesFormatted} - ${endBatesFormatted}`,
+                                        pages: estimatedPages,
+                                        id: message.id,
+                                        isFromBates: true
+                                    });
+
+                                    currentBatesStart = endBates + 1;
+                                }
+                            }
+                        });
+                    } else {
+                        // No specific file list, create single attachment link for entire range
+                        attachments.push({
+                            name: 'Email Attachments',
+                            size: 'Multiple files',
+                            type: 'ATTACHMENT',
+                            url: `/bates/${message.begAttach}-${message.endAttach}`,
+                            batesRange: `${message.begAttach} - ${message.endAttach}`,
+                            pages: parseInt(message.endAttach.replace(/\D/g, '')) - parseInt(message.begAttach.replace(/\D/g, '')) + 1,
+                            id: message.id,
+                            isFromBates: true
+                        });
+                    }
+                } else {
+                    // FALLBACK: Use old method for messages without bates data
+                    const attachmentHeaderMatch = message.fullText.match(/Attachments:\s*\n([^\n]+)/);
+
+                    if (attachmentHeaderMatch) {
+                        const attachmentLine = attachmentHeaderMatch[1];
+                        const attachmentEntries = attachmentLine.split(';');
+
+                        attachmentEntries.forEach(entry => {
+                            entry = entry.trim();
+                            if (entry) {
+                                const match = entry.match(/^(.+?)\s+\(([^)]+)\)$/);
+                                if (match) {
+                                    const [, fileName, fileSize] = match;
+                                    const fileExtension = fileName.split('.').pop().toUpperCase();
+
+                                    attachments.push({
+                                        name: fileName.trim(),
+                                        size: fileSize.trim(),
+                                        type: fileExtension,
+                                        url: `#attachment-${fileName.trim()}`,
+                                        id: message.id,
+                                        isFromHeader: true
+                                    });
+                                }
+                            }
+                        });
+                    }
+
+                    // Check for other attachment references
+                    if (attachments.length === 0) {
+                        const attachmentPatterns = [
+                            /including attachments/gi,
+                            /attached documents?/gi,
+                            /attachment/gi
+                        ];
+
+                        let hasAttachmentMention = false;
+                        attachmentPatterns.forEach(pattern => {
+                            if (pattern.test(message.fullText)) {
+                                hasAttachmentMention = true;
+                            }
+                        });
+
+                        if (message.fileName) {
+                            attachments.push({
+                                name: message.fileName,
+                                size: 'Unknown size',
+                                type: message.fileName.split('.').pop().toUpperCase(),
+                                url: `output/${message.threadId}/${message.fileName}`,
+                                id: message.id
+                            });
+                        }
+
+                        if (hasAttachmentMention && attachments.length === 0) {
+                            attachments.push({
+                                name: 'Referenced attachment',
+                                size: 'Unknown size',
+                                type: 'UNKNOWN',
+                                url: '#',
+                                id: message.id,
+                                isReference: true
+                            });
+                        }
+                    }
+                }
+
+                return attachments;
+            };
+
+            const getFileTypeColor = (type) => {
+                const colors = {
+                    'PDF': '#ea4335',
+                    'DOC': '#4285f4',
+                    'DOCX': '#4285f4',
+                    'XLS': '#34a853',
+                    'XLSX': '#34a853',
+                    'PPT': '#ff6d00',
+                    'PPTX': '#ff6d00',
+                    'TXT': '#5f6368',
+                    'EML': '#1a73e8',
+                    'UNKNOWN': '#9e9e9e'
+                };
+                return colors[type.toUpperCase()] || colors['UNKNOWN'];
+            };
+
+            const getFileTypeIcon = (type) => {
+                const icons = {
+                    'PDF': '📄',
+                    'DOC': '📝',
+                    'DOCX': '📝',
+                    'XLS': '📊',
+                    'XLSX': '📊',
+                    'PPT': '📊',
+                    'PPTX': '📊',
+                    'TXT': '📄',
+                    'EML': '📧',
+                    'UNKNOWN': '📎'
+                };
+                return icons[type.toUpperCase()] || icons['UNKNOWN'];
+            };
+
+            const formatDateRange = (dateRange) => {
+                const start = new Date(dateRange.start);
+                const end = new Date(dateRange.end);
+
+                if (start.toDateString() === end.toDateString()) {
+                    return start.toLocaleDateString();
+                } else {
+                    const daysDiff = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+                    return `${start.toLocaleDateString()} - ${end.toLocaleDateString()} (${daysDiff} days)`;
+                }
+            };
+
+            const getThreadPreview = (thread) => {
+                const participants = thread.participants.map(cleanParticipant).join(', ');
+                return `Thread with ${thread.participantCount} participants: ${participants.substring(0, 100)}...`;
+            };
+
+            if (loading) {
+                return (
+                    <div className="app-container">
+                        <div className="loading">Loading thread data...</div>
+                    </div>
+                );
+            }
+
+            if (error) {
+                return (
+                    <div className="app-container">
+                        <div className="error">{error}</div>
+                    </div>
+                );
+            }
+
+            const threads = threadData ? Object.values(threadData.threads) : [];
+            const filteredThreads = threads; // Add filtering logic later
+
+            return (
+                <div className="app-container">
+                    {/* Header */}
+                    <div className="header">
+                        <div className="header-left">
+                            <div className="app-logo">
+                                <div className="logo-icon">📧</div>
+                                ThreadView
+                            </div>
+                            <div className="breadcrumb">› Email Threads</div>
+                        </div>
+                        <div className="header-center">
+                            <input
+                                type="text"
+                                className="search-bar"
+                                placeholder="Search threads..."
+                            />
+                        </div>
+                        <div className="header-right">
+                            <button className="new-thread-btn">
+                                + New Thread
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Main Content */}
+                    <div className="main-content">
+                        {/* Left Sidebar */}
+                        <div className="left-sidebar">
+                            <div className="sidebar-section">
+                                <div className="section-title">Thread List</div>
+                                <div className="thread-filter">
+                                    <div
+                                        className={`filter-item ${activeFilter === 'all' ? 'active' : ''}`}
+                                        onClick={() => setActiveFilter('all')}
+                                    >
+                                        All Threads
+                                        <span className="filter-count">{threads.length}</span>
+                                    </div>
+                                    <div
+                                        className={`filter-item ${activeFilter === 'unread' ? 'active' : ''}`}
+                                        onClick={() => setActiveFilter('unread')}
+                                    >
+                                        Unread
+                                        <span className="filter-count">0</span>
+                                    </div>
+                                    <div
+                                        className={`filter-item ${activeFilter === 'starred' ? 'active' : ''}`}
+                                        onClick={() => setActiveFilter('starred')}
+                                    >
+                                        Starred
+                                        <span className="filter-count">0</span>
+                                    </div>
+                                    <div
+                                        className={`filter-item ${activeFilter === 'archived' ? 'active' : ''}`}
+                                        onClick={() => setActiveFilter('archived')}
+                                    >
+                                        Archived
+                                        <span className="filter-count">0</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div className="thread-list">
+                                {filteredThreads.map(thread => (
+                                    <div
+                                        key={thread.threadId}
+                                        className={`thread-item ${activeThread?.threadId === thread.threadId ? 'active' : ''}`}
+                                        onClick={() => setActiveThread(thread)}
+                                    >
+                                        <div className="thread-title">Thread {thread.threadId}</div>
+                                        <div className="thread-meta">
+                                            <span>{thread.participantCount} participants</span>
+                                            <span>{thread.totalEmails} emails</span>
+                                            <span>{formatDateRange(thread.dateRange)}</span>
+                                        </div>
+                                        <div className="thread-preview">{getThreadPreview(thread)}</div>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Center Content */}
+                        <div className="center-content">
+                            {activeThread && (
+                                <>
+                                    <div className="conversation-header">
+                                        <div className="conversation-title">Thread {activeThread.threadId}</div>
+                                        <div className="conversation-meta">
+                                            <span>👥 {activeThread.participantCount} participants</span>
+                                            <span>💬 {activeThread.totalEmails} messages</span>
+                                            <span>📅 {formatDateRange(activeThread.dateRange)}</span>
+                                            <span>🌳 Max depth: {activeThread.maxDepth}</span>
+                                        </div>
+                                    </div>
+
+                                    <div className="conversation-view">
+                                        <div className="view-controls">
+                                            <span>View:</span>
+                                            <button
+                                                className={`view-btn ${viewMode === 'tree' ? 'active' : ''}`}
+                                                onClick={() => setViewMode('tree')}
+                                            >
+                                                Tree View
+                                            </button>
+                                            <button
+                                                className={`view-btn ${viewMode === 'timeline' ? 'active' : ''}`}
+                                                onClick={() => setViewMode('timeline')}
+                                            >
+                                                Timeline
+                                            </button>
+                                            <button
+                                                className={`view-btn ${viewMode === 'compact' ? 'active' : ''}`}
+                                                onClick={() => setViewMode('compact')}
+                                            >
+                                                Compact
+                                            </button>
+                                            <div className="sort-controls">
+                                                <span>Sort by:</span>
+                                                <select style={{border: '1px solid #dadce0', padding: '4px 8px', borderRadius: '4px'}}>
+                                                    <option>Date (Chronological)</option>
+                                                    <option>Date (Reverse)</option>
+                                                    <option>Author</option>
+                                                </select>
+                                                <button className="view-btn">🔄 Expand All</button>
+                                            </div>
+                                        </div>
+
+                                        {viewMode === 'tree' && (
+                                            <div className="timeline-container">
+                                                <svg ref={timelineRef} className="timeline-svg"></svg>
+                                            </div>
+                                        )}
+
+                                        {threadMessages.length > 0 && (
+                                            <div className="message-navigation">
+                                                <button
+                                                    className="nav-btn"
+                                                    onClick={() => setCurrentMessageIndex(Math.max(0, currentMessageIndex - 1))}
+                                                    disabled={currentMessageIndex === 0}
+                                                >
+                                                    ← Previous
+                                                </button>
+                                                <div className="message-counter">
+                                                    Message {currentMessageIndex + 1} of {threadMessages.length}
+                                                </div>
+                                                <button
+                                                    className="nav-btn"
+                                                    onClick={() => setCurrentMessageIndex(Math.min(threadMessages.length - 1, currentMessageIndex + 1))}
+                                                    disabled={currentMessageIndex === threadMessages.length - 1}
+                                                >
+                                                    Next →
+                                                </button>
+                                                <button
+                                                    className="nav-btn"
+                                                    onClick={() => setCurrentMessageIndex(0)}
+                                                >
+                                                    First
+                                                </button>
+                                                <button
+                                                    className="nav-btn"
+                                                    onClick={() => setCurrentMessageIndex(threadMessages.length - 1)}
+                                                >
+                                                    Last
+                                                </button>
+                                            </div>
+                                        )}
+
+                                        <div className="message-list">
+                                            {threadMessages.length > 0 && threadMessages[currentMessageIndex] ? (
+                                                <>
+                                                    <div className="message-timestamp">
+                                                        📅 {formatFullDateTime(new Date(threadMessages[currentMessageIndex].dateSent))}
+                                                        {currentMessageIndex > 0 && (
+                                                            <span style={{marginLeft: '12px', fontSize: '11px'}}>
+                                                                ({getTimeDifference(
+                                                                    new Date(threadMessages[currentMessageIndex - 1].dateSent),
+                                                                    new Date(threadMessages[currentMessageIndex].dateSent)
+                                                                )} later)
+                                                            </span>
+                                                        )}
+                                                    </div>
+
+                                                    <div className="message">
+                                                        <div className="message-header">
+                                                            <div
+                                                                className="message-avatar"
+                                                                style={{backgroundColor: getAuthorColor(threadMessages[currentMessageIndex].from)}}
+                                                            >
+                                                                {cleanParticipant(threadMessages[currentMessageIndex].from).charAt(0)}
+                                                            </div>
+                                                            <div className="message-info">
+                                                                <div className="message-author">
+                                                                    {cleanParticipant(threadMessages[currentMessageIndex].from)}
+                                                                </div>
+                                                                <div className="message-email">
+                                                                    {threadMessages[currentMessageIndex].from}
+                                                                </div>
+                                                            </div>
+                                                            <div className="message-time">
+                                                                Message {currentMessageIndex + 1} of {threadMessages.length}
+                                                            </div>
+                                                        </div>
+
+                                                        <div className="message-subject">
+                                                            📧 {threadMessages[currentMessageIndex].subject || 'No Subject'}
+                                                        </div>
+
+                                                        {threadMessages[currentMessageIndex].inReplyTo && (
+                                                            <div style={{
+                                                                background: '#e3f2fd',
+                                                                padding: '8px 12px',
+                                                                borderRadius: '4px',
+                                                                margin: '8px 0',
+                                                                fontSize: '12px',
+                                                                color: '#1565c0'
+                                                            }}>
+                                                                💬 In reply to: {threadMessages[currentMessageIndex].inReplyTo}
+                                                            </div>
+                                                        )}
+
+                                                        <div className="message-content-area">
+                                                            <div className="message-body">
+                                                                {formatMessageContent(threadMessages[currentMessageIndex].fullText)}
+                                                            </div>
+                                                        </div>
+
+                                                        {threadMessages[currentMessageIndex].to && threadMessages[currentMessageIndex].to.length > 0 && (
+                                                            <div style={{
+                                                                marginTop: '12px',
+                                                                padding: '8px 12px',
+                                                                background: '#f1f3f4',
+                                                                borderRadius: '4px',
+                                                                fontSize: '12px'
+                                                            }}>
+                                                                <strong>To:</strong> {threadMessages[currentMessageIndex].to.join(', ')}
+                                                            </div>
+                                                        )}
+
+                                                        {threadMessages[currentMessageIndex].cc && threadMessages[currentMessageIndex].cc.length > 0 && (
+                                                            <div style={{
+                                                                marginTop: '8px',
+                                                                padding: '8px 12px',
+                                                                background: '#f1f3f4',
+                                                                borderRadius: '4px',
+                                                                fontSize: '12px'
+                                                            }}>
+                                                                <strong>CC:</strong> {threadMessages[currentMessageIndex].cc.join(', ')}
+                                                            </div>
+                                                        )}
+
+                                                        {(() => {
+                                                            const attachments = extractAttachments(threadMessages[currentMessageIndex]);
+                                                            return attachments.length > 0 ? (
+                                                                <div style={{
+                                                                    marginTop: '12px',
+                                                                    padding: '12px',
+                                                                    background: '#fff3e0',
+                                                                    borderRadius: '6px',
+                                                                    border: '1px solid #ffcc02'
+                                                                }}>
+                                                                    <div style={{
+                                                                        fontWeight: '600',
+                                                                        marginBottom: '8px',
+                                                                        color: '#ef6c00',
+                                                                        fontSize: '13px'
+                                                                    }}>
+                                                                        📎 Attachments ({attachments.length})
+                                                                    </div>
+                                                                    {attachments.map((attachment, index) => (
+                                                                        <div key={index} style={{
+                                                                            display: 'flex',
+                                                                            alignItems: 'center',
+                                                                            gap: '8px',
+                                                                            padding: '6px 8px',
+                                                                            background: 'white',
+                                                                            borderRadius: '4px',
+                                                                            marginBottom: '4px',
+                                                                            border: '1px solid #e0e0e0'
+                                                                        }}>
+                                                                            <div style={{
+                                                                                width: '20px',
+                                                                                height: '20px',
+                                                                                background: getFileTypeColor(attachment.type),
+                                                                                borderRadius: '3px',
+                                                                                display: 'flex',
+                                                                                alignItems: 'center',
+                                                                                justifyContent: 'center',
+                                                                                fontSize: '10px',
+                                                                                fontWeight: 'bold',
+                                                                                color: 'white'
+                                                                            }}>
+                                                                                {getFileTypeIcon(attachment.type)}
+                                                                            </div>
+                                                                            <div style={{ flex: 1 }}>
+                                                                                <div style={{
+                                                                                    fontSize: '12px',
+                                                                                    fontWeight: '500',
+                                                                                    color: '#333'
+                                                                                }}>
+                                                                                    {attachment.isReference ? (
+                                                                                        <span style={{ fontStyle: 'italic' }}>{attachment.name}</span>
+                                                                                    ) : (
+                                                                                        <a href={attachment.url}
+                                                                                           target="_blank"
+                                                                                           rel="noopener noreferrer"
+                                                                                           style={{
+                                                                                               color: '#1a73e8',
+                                                                                               textDecoration: 'none'
+                                                                                           }}
+                                                                                           onMouseOver={(e) => e.target.style.textDecoration = 'underline'}
+                                                                                           onMouseOut={(e) => e.target.style.textDecoration = 'none'}
+                                                                                        >
+                                                                                            {attachment.name}
+                                                                                        </a>
+                                                                                    )}
+                                                                                </div>
+                                                                                <div style={{
+                                                                                    fontSize: '10px',
+                                                                                    color: '#666'
+                                                                                }}>
+                                                                                    {attachment.type} • {attachment.size}
+                                                                                    {attachment.isFromBates && attachment.batesRange && (
+                                                                                        <div style={{
+                                                                                            fontSize: '9px',
+                                                                                            color: '#1a73e8',
+                                                                                            fontWeight: '600',
+                                                                                            marginTop: '2px'
+                                                                                        }}>
+                                                                                            📋 Bates: {attachment.batesRange}
+                                                                                            {attachment.pages && ` • ${attachment.pages} pages`}
+                                                                                        </div>
+                                                                                    )}
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                            ) : null;
+                                                        })()}
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <div className="message">
+                                                    <div className="message-body">
+                                                        {activeThread ? (
+                                                            `Loading messages for thread ${activeThread.threadId}...`
+                                                        ) : (
+                                                            'Select a thread to view messages'
+                                                        )}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+
+                        {/* Right Sidebar */}
+                        <div className="right-sidebar">
+                            {activeThread && (
+                                <>
+                                    <div className="sidebar-section">
+                                        <h3>Participants ({activeThread.participantCount})</h3>
+                                        <div className="participants-list">
+                                            {activeThread.participants.slice(0, 8).map((participant, index) => (
+                                                <div key={index} className="participant">
+                                                    <div className="participant-avatar">
+                                                        {cleanParticipant(participant).charAt(0)}
+                                                    </div>
+                                                    <div className="participant-info">
+                                                        <div className="participant-name">
+                                                            {cleanParticipant(participant)}
+                                                        </div>
+                                                        <div className="participant-role">
+                                                            {participant.includes('@') ? 'External' : 'Internal'}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            {activeThread.participants.length > 8 && (
+                                                <div style={{padding: '8px', fontSize: '12px', color: '#5f6368', textAlign: 'center'}}>
+                                                    ... and {activeThread.participants.length - 8} more
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    <div className="sidebar-section">
+                                        <h3>Thread Statistics</h3>
+                                        <div className="stats-grid">
+                                            <div className="stat-item">
+                                                <div className="stat-number">{activeThread.totalEmails}</div>
+                                                <div className="stat-label">Total Messages</div>
+                                            </div>
+                                            <div className="stat-item">
+                                                <div className="stat-number">{activeThread.replyCount}</div>
+                                                <div className="stat-label">Replies</div>
+                                            </div>
+                                            <div className="stat-item">
+                                                <div className="stat-number">{activeThread.forwardCount}</div>
+                                                <div className="stat-label">Forwards</div>
+                                            </div>
+                                            <div className="stat-item">
+                                                <div className="stat-number">{activeThread.maxDepth}</div>
+                                                <div className="stat-label">Max Depth</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<HybridThreadNavigator />, document.getElementById('root'));
+    </script>
+</body>
+</html>

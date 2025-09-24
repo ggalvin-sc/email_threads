@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Thread Navigator</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* Left Sidebar */
+        .left-sidebar {
+            width: 280px;
+            background: white;
+            border-right: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 16px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            background: #f8f9fa;
+        }
+
+        .search-box::placeholder {
+            color: #999;
+        }
+
+        .thread-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 8px;
+        }
+
+        .thread-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            margin-bottom: 2px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.2s ease;
+        }
+
+        .thread-item:hover {
+            background: #f0f0f0;
+        }
+
+        .thread-item.selected {
+            background: #2196F3;
+            color: white;
+        }
+
+        .thread-item.expanded {
+            background: #1976D2;
+            color: white;
+        }
+
+        .thread-toggle {
+            width: 16px;
+            height: 16px;
+            margin-right: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+            color: #666;
+        }
+
+        .thread-item.selected .thread-toggle,
+        .thread-item.expanded .thread-toggle {
+            color: white;
+        }
+
+        .thread-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            margin-right: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .thread-content {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .thread-subject {
+            font-size: 13px;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 2px;
+        }
+
+        .thread-meta {
+            font-size: 11px;
+            opacity: 0.7;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .child-thread {
+            margin-left: 24px;
+            border-left: 2px solid #e0e0e0;
+            padding-left: 8px;
+        }
+
+        /* Main Content Area */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            background: white;
+        }
+
+        /* Email Header */
+        .email-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid #e0e0e0;
+            background: white;
+        }
+
+        .email-title {
+            font-size: 22px;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .email-thread-id {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 16px;
+        }
+
+        .email-meta-grid {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 8px 16px;
+            font-size: 14px;
+        }
+
+        .email-meta-label {
+            font-weight: 500;
+            color: #555;
+        }
+
+        .email-meta-value {
+            color: #333;
+        }
+
+        /* Email Body */
+        .email-body {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            background: #fafafa;
+        }
+
+        .attachments-section {
+            margin-bottom: 24px;
+        }
+
+        .attachments-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #333;
+        }
+
+        .attachment-item {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 8px;
+        }
+
+        .attachment-icon {
+            width: 24px;
+            height: 24px;
+            margin-right: 12px;
+            background: #2196F3;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 12px;
+        }
+
+        .attachment-info {
+            flex: 1;
+        }
+
+        .attachment-name {
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+        }
+
+        .attachment-size {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .email-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e0e0e0;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        /* Right Sidebar */
+        .right-sidebar {
+            width: 320px;
+            background: white;
+            border-left: 1px solid #e0e0e0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-section {
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .section-header {
+            padding: 16px 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e0e0e0;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .section-content {
+            padding: 16px 20px;
+        }
+
+        /* Thread Rating */
+        .rating-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .rating-button {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+            text-align: center;
+            font-size: 12px;
+            transition: all 0.2s ease;
+        }
+
+        .rating-button:hover {
+            background: #f0f0f0;
+        }
+
+        .rating-button.selected {
+            background: #2196F3;
+            color: white;
+            border-color: #2196F3;
+        }
+
+        /* Message Rating */
+        .message-rating {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-bottom: 12px;
+        }
+
+        .note-textarea {
+            width: 100%;
+            min-height: 80px;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 12px;
+            resize: vertical;
+            margin-bottom: 12px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .btn-primary {
+            background: #2196F3;
+            color: white;
+        }
+
+        .btn-secondary {
+            background: #f0f0f0;
+            color: #333;
+            border: 1px solid #ddd;
+        }
+
+        /* Keyboard Shortcuts */
+        .shortcut-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 12px;
+        }
+
+        .shortcut-key {
+            background: #f0f0f0;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+
+        /* Loading States */
+        .loading {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            color: #666;
+        }
+
+        /* Compact Network Visualization */
+        .visualization-container {
+            height: 200px;
+            width: 100%;
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .viz-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 16px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .viz-controls {
+            display: flex;
+            gap: 8px;
+        }
+
+        .viz-button {
+            padding: 4px 8px;
+            border: 1px solid rgba(255,255,255,0.3);
+            border-radius: 4px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            font-size: 11px;
+            cursor: pointer;
+        }
+
+        .viz-button.active {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .viz-content {
+            height: calc(100% - 44px);
+            position: relative;
+        }
+
+        .viz-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .viz-stats {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            right: 8px;
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: #666;
+            background: rgba(255,255,255,0.9);
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect, useRef } = React;
+
+        // Generate avatar colors
+        function getAvatarColor(name) {
+            const colors = ['#f44336', '#e91e63', '#9c27b0', '#673ab7', '#3f51b5', '#2196f3', '#03a9f4', '#00bcd4', '#009688', '#4caf50', '#8bc34a', '#cddc39', '#ffeb3b', '#ffc107', '#ff9800', '#ff5722'];
+            let hash = 0;
+            for (let i = 0; i < name.length; i++) {
+                hash = name.charCodeAt(i) + ((hash << 5) - hash);
+            }
+            return colors[Math.abs(hash) % colors.length];
+        }
+
+        function getInitials(name) {
+            return name.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        }
+
+        // Main App Component
+        function EmailThreadNavigator() {
+            const [threadData, setThreadData] = useState(null);
+            const [selectedThread, setSelectedThread] = useState(null);
+            const [expandedThreads, setExpandedThreads] = useState(new Set());
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState(null);
+            const [searchTerm, setSearchTerm] = useState('');
+
+            useEffect(() => {
+                loadThreadData();
+            }, []);
+
+            const loadThreadData = async () => {
+                try {
+                    const response = await fetch('thread_report.json');
+                    if (!response.ok) {
+                        throw new Error('Failed to load thread data');
+                    }
+                    const data = await response.json();
+                    setThreadData(data);
+
+                    // Select first thread by default
+                    const threads = Object.entries(data.threads);
+                    if (threads.length > 0) {
+                        setSelectedThread(threads[0][1]);
+                    }
+                } catch (err) {
+                    setError(err.message);
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const toggleThread = (threadId) => {
+                const newExpanded = new Set(expandedThreads);
+                if (newExpanded.has(threadId)) {
+                    newExpanded.delete(threadId);
+                } else {
+                    newExpanded.add(threadId);
+                }
+                setExpandedThreads(newExpanded);
+            };
+
+            if (loading) {
+                return (
+                    <div className="app-container">
+                        <div className="loading">Loading email thread data...</div>
+                    </div>
+                );
+            }
+
+            if (error) {
+                return (
+                    <div className="app-container">
+                        <div className="loading" style={{color: '#f44336'}}>
+                            Error loading thread data: {error}
+                        </div>
+                    </div>
+                );
+            }
+
+            const threads = Object.entries(threadData.threads);
+            const filteredThreads = threads.filter(([_, thread]) =>
+                thread.threadId.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                thread.participants.some(p => p.toLowerCase().includes(searchTerm.toLowerCase()))
+            );
+
+            return (
+                <div className="app-container">
+                    <LeftSidebar
+                        threads={filteredThreads}
+                        selectedThread={selectedThread}
+                        expandedThreads={expandedThreads}
+                        searchTerm={searchTerm}
+                        onSearchChange={setSearchTerm}
+                        onThreadSelect={setSelectedThread}
+                        onThreadToggle={toggleThread}
+                    />
+                    <MainContent thread={selectedThread} />
+                    <RightSidebar thread={selectedThread} />
+                </div>
+            );
+        }
+
+        // Left Sidebar Component
+        function LeftSidebar({ threads, selectedThread, expandedThreads, searchTerm, onSearchChange, onThreadSelect, onThreadToggle }) {
+            const sortedThreads = threads.sort((a, b) => b[1].totalEmails - a[1].totalEmails);
+
+            return (
+                <div className="left-sidebar">
+                    <div className="sidebar-header">
+                        <input
+                            type="text"
+                            className="search-box"
+                            placeholder="Search messages... (Press / to focus)"
+                            value={searchTerm}
+                            onChange={(e) => onSearchChange(e.target.value)}
+                        />
+                    </div>
+                    <div className="thread-list">
+                        {sortedThreads.map(([threadId, thread]) => (
+                            <ThreadItem
+                                key={threadId}
+                                thread={thread}
+                                isSelected={selectedThread?.threadId === threadId}
+                                isExpanded={expandedThreads.has(threadId)}
+                                onSelect={() => onThreadSelect(thread)}
+                                onToggle={() => onThreadToggle(threadId)}
+                            />
+                        ))}
+                    </div>
+                </div>
+            );
+        }
+
+        // Thread Item Component
+        function ThreadItem({ thread, isSelected, isExpanded, onSelect, onToggle }) {
+            const hasChildren = thread.totalEmails > 1;
+            const primaryParticipant = cleanParticipant(thread.participants[0] || 'Unknown');
+            const avatarColor = getAvatarColor(primaryParticipant);
+
+            return (
+                <>
+                    <div className={`thread-item ${isSelected ? 'selected' : ''} ${isExpanded ? 'expanded' : ''}`}>
+                        <div className="thread-toggle" onClick={(e) => { e.stopPropagation(); onToggle(); }}>
+                            {hasChildren ? (isExpanded ? '▼' : '▶') : ''}
+                        </div>
+                        <div
+                            className="thread-avatar"
+                            style={{ backgroundColor: avatarColor }}
+                        >
+                            {getInitials(primaryParticipant)}
+                        </div>
+                        <div className="thread-content" onClick={onSelect}>
+                            <div className="thread-subject">
+                                {truncateText(thread.threadId, 35)}
+                            </div>
+                            <div className="thread-meta">
+                                {formatDateRange(thread.dateRange)} • {thread.totalEmails} messages
+                            </div>
+                        </div>
+                    </div>
+                    {isExpanded && hasChildren && (
+                        <div className="child-thread">
+                            {Array.from({ length: Math.min(thread.totalEmails - 1, 3) }, (_, i) => (
+                                <div key={i} className="thread-item">
+                                    <div className="thread-toggle"></div>
+                                    <div
+                                        className="thread-avatar"
+                                        style={{ backgroundColor: getAvatarColor(thread.participants[i + 1] || 'User') }}
+                                    >
+                                        {getInitials(cleanParticipant(thread.participants[i + 1] || 'User'))}
+                                    </div>
+                                    <div className="thread-content">
+                                        <div className="thread-subject">
+                                            Re: {truncateText(thread.threadId, 25)}
+                                        </div>
+                                        <div className="thread-meta">
+                                            {cleanParticipant(thread.participants[i + 1] || 'Unknown')}
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                            {thread.totalEmails > 4 && (
+                                <div className="thread-item" style={{ opacity: 0.6 }}>
+                                    <div className="thread-toggle"></div>
+                                    <div className="thread-content">
+                                        <div className="thread-subject">
+                                            ... and {thread.totalEmails - 4} more messages
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </>
+            );
+        }
+
+        // Main Content Component
+        function MainContent({ thread }) {
+            if (!thread) {
+                return (
+                    <div className="main-content">
+                        <div className="loading">Select a thread to view details</div>
+                    </div>
+                );
+            }
+
+            const primaryParticipant = cleanParticipant(thread.participants[0] || 'Unknown');
+
+            return (
+                <div className="main-content">
+                    <div className="email-header">
+                        <div className="email-title">
+                            {truncateText(thread.threadId, 50)}
+                        </div>
+                        <div className="email-thread-id">
+                            Thread: {thread.threadId}
+                        </div>
+                        <div className="email-meta-grid">
+                            <span className="email-meta-label">From:</span>
+                            <span className="email-meta-value">{primaryParticipant}</span>
+
+                            <span className="email-meta-label">To:</span>
+                            <span className="email-meta-value">
+                                {thread.participants.slice(1, 3).map(cleanParticipant).join(', ')}
+                                {thread.participants.length > 3 && ` (+${thread.participants.length - 3} more)`}
+                            </span>
+
+                            <span className="email-meta-label">Date:</span>
+                            <span className="email-meta-value">
+                                {new Date(thread.dateRange.start).toLocaleDateString()}
+                            </span>
+
+                            <span className="email-meta-label">Subject:</span>
+                            <span className="email-meta-value">
+                                Discussion Thread
+                            </span>
+                        </div>
+                    </div>
+
+                    <div className="email-body">
+                        <div className="visualization-container">
+                            <div className="viz-header">
+                                <span>📧 Email Thread: {thread.threadId.substring(0, 20)}...</span>
+                                <div className="viz-controls">
+                                    <div className="viz-button active">Network</div>
+                                    <div className="viz-button">Timeline</div>
+                                    <div className="viz-button">Compact</div>
+                                </div>
+                            </div>
+                            <div className="viz-content">
+                                <CompactVisualization thread={thread} />
+                                <div className="viz-stats">
+                                    <span>📊 {thread.totalEmails} emails • {thread.participantCount} participants • {Math.ceil((new Date(thread.dateRange.end) - new Date(thread.dateRange.start)) / (1000 * 60 * 60 * 24))} days</span>
+                                    <span>🔄 {thread.replyCount} replies • {thread.forwardCount} forwards</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="attachments-section">
+                            <div className="attachments-title">Attachments (2)</div>
+                            <div className="attachment-item">
+                                <div className="attachment-icon">📄</div>
+                                <div className="attachment-info">
+                                    <div className="attachment-name">thread_analysis.xlsx</div>
+                                    <div className="attachment-size">45.2 KB</div>
+                                </div>
+                            </div>
+                            <div className="attachment-item">
+                                <div className="attachment-icon">📊</div>
+                                <div className="attachment-info">
+                                    <div className="attachment-name">conversation_timeline.pdf</div>
+                                    <div className="attachment-size">125.3 KB</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="email-content">
+                            <p><strong>Thread Analysis Summary</strong></p>
+                            <p>This email thread contains {thread.totalEmails} messages exchanged between {thread.participantCount} participants over a period of {Math.ceil((new Date(thread.dateRange.end) - new Date(thread.dateRange.start)) / (1000 * 60 * 60 * 24))} days.</p>
+
+                            <p><strong>Key participants:</strong></p>
+                            <ul>
+                                {thread.participants.slice(0, 5).map((participant, i) => (
+                                    <li key={i}>- {cleanParticipant(participant)}</li>
+                                ))}
+                                {thread.participants.length > 5 && <li>... and {thread.participants.length - 5} more participants</li>}
+                            </ul>
+
+                            <p><strong>Thread Statistics:</strong></p>
+                            <ul>
+                                <li>- Maximum conversation depth: {thread.maxDepth} levels</li>
+                                <li>- Number of conversation branches: {thread.branchCount}</li>
+                                <li>- Reply messages: {thread.replyCount}</li>
+                                <li>- Forwarded messages: {thread.forwardCount}</li>
+                                <li>- External participants: {thread.externalCount}</li>
+                            </ul>
+
+                            <p>This thread was automatically processed using hybrid threading (Message-ID + Subject line matching) from Solr data sources.</p>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Compact Visualization Component
+        function CompactVisualization({ thread }) {
+            const svgRef = useRef();
+
+            useEffect(() => {
+                if (thread && svgRef.current) {
+                    drawCompactNetwork(svgRef.current, thread);
+                }
+            }, [thread]);
+
+            return <svg ref={svgRef} className="viz-svg"></svg>;
+        }
+
+        // Right Sidebar Component
+        function RightSidebar({ thread }) {
+            const [threadRating, setThreadRating] = useState('');
+            const [messageRating, setMessageRating] = useState({ relevance: '', importance: '', type: '' });
+            const [notes, setNotes] = useState('');
+
+            return (
+                <div className="right-sidebar">
+                    <div className="sidebar-section">
+                        <div className="section-header">Thread Rating</div>
+                        <div className="section-content">
+                            <div className="rating-options">
+                                <div
+                                    className={`rating-button ${threadRating === 'hot' ? 'selected' : ''}`}
+                                    onClick={() => setThreadRating('hot')}
+                                >
+                                    Hot
+                                </div>
+                                <div
+                                    className={`rating-button ${threadRating === 'review' ? 'selected' : ''}`}
+                                    onClick={() => setThreadRating('review')}
+                                >
+                                    Review Complete
+                                </div>
+                            </div>
+                            <textarea
+                                className="note-textarea"
+                                placeholder="Thread note (optional)"
+                                value={notes}
+                                onChange={(e) => setNotes(e.target.value)}
+                            />
+                        </div>
+                    </div>
+
+                    <div className="sidebar-section">
+                        <div className="section-header">Message Rating</div>
+                        <div className="section-content">
+                            <div className="message-rating">
+                                <div
+                                    className={`rating-button ${messageRating.relevance === 'relevant' ? 'selected' : ''}`}
+                                    onClick={() => setMessageRating({...messageRating, relevance: 'relevant'})}
+                                >
+                                    Relevant
+                                </div>
+                                <div
+                                    className={`rating-button ${messageRating.relevance === 'irrelevant' ? 'selected' : ''}`}
+                                    onClick={() => setMessageRating({...messageRating, relevance: 'irrelevant'})}
+                                >
+                                    Irrelevant
+                                </div>
+                                <div
+                                    className={`rating-button ${messageRating.relevance === 'privileged' ? 'selected' : ''}`}
+                                    onClick={() => setMessageRating({...messageRating, relevance: 'privileged'})}
+                                >
+                                    Privileged
+                                </div>
+                            </div>
+                            <div className="message-rating" style={{marginTop: '8px'}}>
+                                <div
+                                    className={`rating-button ${messageRating.type === 'confidential' ? 'selected' : ''}`}
+                                    onClick={() => setMessageRating({...messageRating, type: 'confidential'})}
+                                >
+                                    Confidential
+                                </div>
+                                <div
+                                    className={`rating-button ${messageRating.type === 'responsive' ? 'selected' : ''}`}
+                                    onClick={() => setMessageRating({...messageRating, type: 'responsive'})}
+                                >
+                                    Responsive
+                                </div>
+                            </div>
+                            <textarea
+                                className="note-textarea"
+                                placeholder="Note (required for some ratings)"
+                                style={{marginTop: '12px'}}
+                            />
+                            <div className="action-buttons">
+                                <button className="btn btn-primary">Save & Next</button>
+                                <button className="btn btn-secondary">Reset</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="sidebar-section">
+                        <div className="section-header">Keyboard Shortcuts</div>
+                        <div className="section-content">
+                            <div className="shortcut-item">
+                                <span>Navigate messages</span>
+                                <span className="shortcut-key">↑/↓</span>
+                            </div>
+                            <div className="shortcut-item">
+                                <span>Expand/Collapse thread</span>
+                                <span className="shortcut-key">→/←</span>
+                            </div>
+                            <div className="shortcut-item">
+                                <span>Open message</span>
+                                <span className="shortcut-key">Enter</span>
+                            </div>
+                            <div className="shortcut-item">
+                                <span>Previous unread</span>
+                                <span className="shortcut-key">Shift+N</span>
+                            </div>
+                            <div className="shortcut-item">
+                                <span>Search</span>
+                                <span className="shortcut-key">/</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        }
+
+        // Compact network drawing function
+        function drawCompactNetwork(svgElement, thread) {
+            const svg = d3.select(svgElement);
+            svg.selectAll("*").remove();
+
+            const width = svgElement.clientWidth || 400;
+            const height = svgElement.clientHeight || 140;
+
+            // Create simple arc-based visualization
+            const g = svg.append("g")
+                .attr("transform", `translate(${width/2}, ${height - 20})`);
+
+            const participantCount = Math.min(thread.participants.length, 8);
+            const emailCount = Math.min(thread.totalEmails, 10);
+
+            // Draw connecting arcs
+            for (let i = 0; i < emailCount - 1; i++) {
+                const startX = -150 + (i * 300 / (emailCount - 1));
+                const endX = -150 + ((i + 1) * 300 / (emailCount - 1));
+                const midX = (startX + endX) / 2;
+                const controlY = -40 - (Math.random() * 30);
+
+                const path = g.append("path")
+                    .attr("d", `M ${startX} 0 Q ${midX} ${controlY} ${endX} 0`)
+                    .attr("stroke", i % 2 === 0 ? "#4CAF50" : "#FFC107")
+                    .attr("stroke-width", 2)
+                    .attr("fill", "none")
+                    .attr("opacity", 0.7);
+            }
+
+            // Draw participant nodes
+            for (let i = 0; i < participantCount; i++) {
+                const x = -150 + (i * 300 / (participantCount - 1));
+                const color = getAvatarColor(thread.participants[i] || 'User');
+
+                g.append("circle")
+                    .attr("cx", x)
+                    .attr("cy", 0)
+                    .attr("r", 6)
+                    .attr("fill", color)
+                    .attr("stroke", "white")
+                    .attr("stroke-width", 2);
+            }
+        }
+
+        // Utility functions
+        function truncateText(text, maxLength) {
+            return text.length > maxLength ? text.substring(0, maxLength) + '...' : text;
+        }
+
+        function cleanParticipant(participant) {
+            if (!participant || participant === 'Unknown') return 'Unknown';
+
+            if (participant.includes('<') && participant.includes('>')) {
+                const name = participant.split('<')[0].trim();
+                return name || participant.split('<')[1].split('>')[0];
+            }
+
+            if (participant.startsWith('CN=')) {
+                return participant.replace(/CN=([^/]+).*/, '$1');
+            }
+
+            return participant;
+        }
+
+        function formatDateRange(dateRange) {
+            const start = new Date(dateRange.start);
+            const end = new Date(dateRange.end);
+
+            if (start.toDateString() === end.toDateString()) {
+                return start.toLocaleDateString();
+            } else {
+                const daysDiff = Math.ceil((end - start) / (1000 * 60 * 60 * 24));
+                return `${daysDiff} days`;
+            }
+        }
+
+        // Render the app
+        ReactDOM.render(<EmailThreadNavigator />, document.getElementById('root'));
+    </script>
+</body>
+</html>

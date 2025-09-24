@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Threading Logic Tester</title>
+    <style>
+        body {
+            font-family: monospace;
+            margin: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .test-result {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 4px;
+        }
+        .pass {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .fail {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .thread-visual {
+            font-family: monospace;
+            background: #f8f9fa;
+            padding: 15px;
+            border: 1px solid #e9ecef;
+            border-radius: 4px;
+            white-space: pre;
+        }
+        .message-details {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Email Threading Logic Tester</h1>
+    <div id="test-results"></div>
+
+    <script>
+        // Email Threading Contract
+        const EmailThreadingContract = {
+            // A thread should have a clear hierarchical structure
+            validateThreadStructure: (thread) => {
+                return {
+                    hasRoots: thread.roots && thread.roots.length > 0,
+                    hasValidDates: thread.roots.every(msg => msg.dateSent && !isNaN(new Date(msg.dateSent))),
+                    hasUniqueIds: new Set(getAllMessageIds(thread)).size === getAllMessageIds(thread).length,
+                    hasValidFromFields: thread.roots.every(msg => msg.from && msg.from.trim().length > 0)
+                };
+            },
+
+            // Messages should be chronologically ordered
+            validateChronologicalOrder: (messages) => {
+                for (let i = 1; i < messages.length; i++) {
+                    if (new Date(messages[i-1].dateSent) > new Date(messages[i].dateSent)) {
+                        return false;
+                    }
+                }
+                return true;
+            },
+
+            // Reply relationships should be preserved
+            validateReplyChain: (message) => {
+                if (message.inReplyTo && message.inReplyTo.trim()) {
+                    // Should find parent message with matching messageId
+                    return true; // We'll implement this check
+                }
+                return true; // No reply-to is valid
+            }
+        };
+
+        // Helper functions
+        function getAllMessageIds(tree) {
+            const ids = [];
+            const traverse = (nodes) => {
+                if (Array.isArray(nodes)) {
+                    nodes.forEach(node => {
+                        ids.push(node.id);
+                        if (node.children) traverse(node.children);
+                    });
+                }
+            };
+            if (tree.roots) traverse(tree.roots);
+            return ids;
+        }
+
+        function extractMessagesFromTree(tree) {
+            const messages = [];
+            const traverse = (nodes) => {
+                if (!nodes) return;
+                if (Array.isArray(nodes)) {
+                    nodes.forEach(node => {
+                        if (node && node.id) {
+                            messages.push(node);
+                        }
+                        if (node.children) {
+                            traverse(node.children);
+                        }
+                    });
+                } else if (nodes.roots) {
+                    traverse(nodes.roots);
+                }
+            };
+            traverse(tree);
+            return messages.sort((a, b) => new Date(a.dateSent) - new Date(b.dateSent));
+        }
+
+        function cleanParticipant(participant) {
+            if (!participant) return 'Unknown';
+
+            // Extract name from CN= format
+            if (participant.includes('CN=')) {
+                const match = participant.match(/CN=([^/]+)/);
+                if (match) return match[1];
+            }
+
+            // Extract name from email format
+            if (participant.includes('<') && participant.includes('>')) {
+                const name = participant.split('<')[0].trim();
+                return name || participant.split('<')[1].split('>')[0];
+            }
+
+            return participant;
+        }
+
+        function visualizeThread(thread) {
+            let visual = "Thread Structure:\n";
+            let messageCount = 0;
+
+            const traverse = (nodes, depth = 0) => {
+                if (!nodes) return;
+
+                if (Array.isArray(nodes)) {
+                    nodes.forEach((node, index) => {
+                        const indent = "  ".repeat(depth);
+                        const connector = depth > 0 ? "└─ " : "";
+                        const date = new Date(node.dateSent).toLocaleString();
+                        const author = cleanParticipant(node.from);
+
+                        visual += `${indent}${connector}[${messageCount++}] ${author} (${date})\n`;
+                        visual += `${indent}    Subject: ${node.subject || 'No Subject'}\n`;
+                        visual += `${indent}    ID: ${node.id}\n`;
+                        if (node.inReplyTo) {
+                            visual += `${indent}    Reply-To: ${node.inReplyTo}\n`;
+                        }
+                        visual += `${indent}    ---\n`;
+
+                        if (node.children && node.children.length > 0) {
+                            traverse(node.children, depth + 1);
+                        }
+                    });
+                }
+            };
+
+            if (thread.roots) {
+                traverse(thread.roots, 0);
+            }
+
+            return visual;
+        }
+
+        // Test runner
+        async function runThreadingTests() {
+            const resultsDiv = document.getElementById('test-results');
+            resultsDiv.innerHTML = '<h2>Loading thread data for testing...</h2>';
+
+            try {
+                // Load thread data
+                const response = await fetch('thread_report.json');
+                const threadData = await response.json();
+
+                const testResults = [];
+                let threadsTested = 0;
+
+                // Test each thread
+                for (const [threadId, thread] of Object.entries(threadData.threads)) {
+                    if (threadsTested >= 3) break; // Test first 3 threads
+
+                    try {
+                        // Load detailed thread metadata
+                        const detailResponse = await fetch(`output/${threadId}/thread_metadata.json`);
+                        if (!detailResponse.ok) continue;
+
+                        const details = await detailResponse.json();
+                        const messages = extractMessagesFromTree(details.tree);
+
+                        // Run contract tests
+                        const structureResult = EmailThreadingContract.validateThreadStructure(details.tree);
+                        const chronoResult = EmailThreadingContract.validateChronologicalOrder(messages);
+
+                        testResults.push({
+                            threadId,
+                            thread,
+                            details,
+                            messages,
+                            tests: {
+                                structure: structureResult,
+                                chronological: chronoResult,
+                                messageCount: messages.length,
+                                uniqueAuthors: new Set(messages.map(m => cleanParticipant(m.from))).size
+                            },
+                            visual: visualizeThread(details.tree)
+                        });
+
+                        threadsTested++;
+                    } catch (error) {
+                        console.warn(`Failed to test thread ${threadId}:`, error);
+                    }
+                }
+
+                // Display results
+                displayTestResults(testResults);
+
+            } catch (error) {
+                resultsDiv.innerHTML = `<div class="fail">Error loading test data: ${error.message}</div>`;
+            }
+        }
+
+        function displayTestResults(results) {
+            const resultsDiv = document.getElementById('test-results');
+            let html = '<h2>Email Threading Behavior Test Results</h2>';
+
+            results.forEach((result, index) => {
+                const { threadId, tests, messages, visual } = result;
+
+                html += `<div class="test-section">`;
+                html += `<h3>Thread ${threadId}</h3>`;
+
+                // Structure tests
+                html += `<div class="test-result ${tests.structure.hasRoots ? 'pass' : 'fail'}">
+                    ✓/✗ Has root messages: ${tests.structure.hasRoots}
+                </div>`;
+
+                html += `<div class="test-result ${tests.structure.hasValidDates ? 'pass' : 'fail'}">
+                    ✓/✗ All messages have valid dates: ${tests.structure.hasValidDates}
+                </div>`;
+
+                html += `<div class="test-result ${tests.structure.hasUniqueIds ? 'pass' : 'fail'}">
+                    ✓/✗ All message IDs are unique: ${tests.structure.hasUniqueIds}
+                </div>`;
+
+                html += `<div class="test-result ${tests.chronological ? 'pass' : 'fail'}">
+                    ✓/✗ Messages in chronological order: ${tests.chronological}
+                </div>`;
+
+                html += `<div class="message-details">
+                    Messages: ${tests.messageCount} | Unique Authors: ${tests.uniqueAuthors}
+                </div>`;
+
+                // Show message details
+                html += `<h4>Message Sequence (Chronological):</h4>`;
+                messages.forEach((msg, i) => {
+                    const date = new Date(msg.dateSent).toLocaleString();
+                    const author = cleanParticipant(msg.from);
+                    html += `<div style="margin: 5px 0; padding: 5px; background: #f8f9fa; border-left: 3px solid #007bff;">
+                        [${i+1}] <strong>${author}</strong> - ${date}<br>
+                        <small>Subject: ${msg.subject || 'No Subject'}</small><br>
+                        <small>ID: ${msg.id} ${msg.inReplyTo ? '(Reply to: ' + msg.inReplyTo + ')' : ''}</small>
+                    </div>`;
+                });
+
+                // Show visual thread structure
+                html += `<h4>Thread Structure:</h4>`;
+                html += `<div class="thread-visual">${visual}</div>`;
+
+                html += `</div>`;
+            });
+
+            resultsDiv.innerHTML = html;
+        }
+
+        // Run tests on page load
+        document.addEventListener('DOMContentLoaded', runThreadingTests);
+    </script>
+</body>
+</html>

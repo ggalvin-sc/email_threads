@@ -1,0 +1,8 @@
+{"id":1,"from_email":"john@company.com","to_email":"team@company.com","subject":"Project Update","date_sent":"2024-01-15 09:00:00","message_id":"msg001","body":"Initial project update message"}
+{"id":2,"from_email":"jane@company.com","to_email":"team@company.com","subject":"RE: Project Update","date_sent":"2024-01-15 10:30:00","message_id":"msg002","body":"Reply to project update"}
+{"id":3,"from_email":"bob@company.com","to_email":"team@company.com","subject":"RE: Project Update","date_sent":"2024-01-15 11:15:00","message_id":"msg003","body":"Another reply to project update"}
+{"id":4,"from_email":"alice@company.com","to_email":"team@company.com","subject":"Meeting Schedule","date_sent":"2024-01-16 14:00:00","message_id":"msg004","body":"Scheduling team meeting"}
+{"id":5,"from_email":"john@company.com","to_email":"team@company.com","subject":"RE: Meeting Schedule","date_sent":"2024-01-16 15:30:00","message_id":"msg005","body":"Confirming meeting time"}
+{"id":6,"from_email":"charlie@company.com","to_email":"team@company.com","subject":"Budget Review","date_sent":"2024-01-17 08:00:00","message_id":"msg006","body":"Quarterly budget review"}
+{"id":7,"from_email":"jane@company.com","to_email":"team@company.com","subject":"FW: Budget Review","date_sent":"2024-01-17 09:45:00","message_id":"msg007","body":"Forwarding budget information"}
+{"id":8,"from_email":"bob@company.com","to_email":"team@company.com","subject":"RE: Budget Review","date_sent":"2024-01-17 11:20:00","message_id":"msg008","body":"Budget feedback and comments"}

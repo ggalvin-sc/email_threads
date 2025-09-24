@@ -1,0 +1,174 @@
+{
+  "audit_metadata": {
+    "timestamp": 1758492247.3261359,
+    "html_file": "email_thread_navigator.html",
+    "auditor_version": "2.0",
+    "total_screenshots": 5
+  },
+  "audit_results": {
+    "page_load": {
+      "load_success": false,
+      "load_time": 13.978272438049316,
+      "error": "Page.goto: Timeout 10000ms exceeded.\nCall log:\n  - navigating to \"file:///C:/Users/gregg/Documents/Code/email_threads/email_thread_navigator.html\", waiting until \"load\"\n",
+      "root_element_exists": false,
+      "app_container_exists": false,
+      "console_errors": 1,
+      "dom_ready": false
+    },
+    "javascript_execution": {
+      "execution_successful": false,
+      "error": "Page.evaluate: Target crashed ",
+      "js_errors_count": 1
+    },
+    "component_rendering": {
+      "component_status": {
+        "top_navigator": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".top-navigator"
+        },
+        "nav_title": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".nav-title"
+        },
+        "nav_subtitle": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".nav-subtitle"
+        },
+        "thread_progress": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".thread-progress"
+        },
+        "visualization_container": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".visualization-container"
+        },
+        "nav_controls": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".nav-controls"
+        },
+        "nav_button": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".nav-button"
+        },
+        "thread_panel": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".thread-panel"
+        },
+        "thread_header": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".thread-header"
+        },
+        "thread_search": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".thread-search"
+        },
+        "rating_filter": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".rating-filter"
+        },
+        "filter_chip": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".filter-chip"
+        },
+        "thread_tree": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".thread-tree"
+        },
+        "thread_node": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".thread-node"
+        },
+        "message_panel": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".message-panel"
+        },
+        "message_header": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".message-header"
+        },
+        "message_body": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".message-body"
+        },
+        "rating_panel": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".rating-panel"
+        },
+        "rating_section": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".rating-section"
+        },
+        "rating_button": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".rating-button"
+        },
+        "rating_note": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".rating-note"
+        },
+        "keyboard_shortcuts": {
+          "found": false,
+          "error": "Page.query_selector_all: Target crashed ",
+          "selector": ".keyboard-shortcuts"
+        }
+      },
+      "successful_renders": 0,
+      "total_components": 22,
+      "render_success_rate": 0.0,
+      "all_components_rendered": false
+    },
+    "state_management": {
+      "state_initialization_success": false,
+      "error": "Page.evaluate: Target crashed ",
+      "audit_failed": true
+    },
+    "executive_summary": {
+      "health_status": "CRITICAL",
+      "critical_issues": [
+        "Page failed to load - check file path and permissions",
+        "React library failed to load",
+        "JavaScript execution errors detected",
+        "Severe component rendering failure (0.0%)"
+      ],
+      "warnings": [],
+      "recommendations": [
+        "Verify HTML file exists and is accessible",
+        "Check internet connection and CDN accessibility",
+        "Review console logs for syntax or runtime errors"
+      ],
+      "primary_diagnosis": "CDN LOADING FAILURE: React dependencies not accessible",
+      "total_console_logs": 0,
+      "total_js_errors": 2,
+      "audit_timestamp": 1758492247.3261209
+    }
+  },
+  "logs": {
+    "console_logs": [],
+    "js_errors": [
+      "1758492247.2560363: Screenshot failed for 01_failed_page_load: Page.screenshot: Target crashed \nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n",
+      "1758492247.3238323: Screenshot failed for 03_component_rendering_audit: Page.screenshot: Target crashed \nCall log:\n  - taking page screenshot\n  - waiting for fonts to load...\n  - fonts loaded\n"
+    ],
+    "network_logs": []
+  }
+}

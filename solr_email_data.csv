@@ -1,0 +1,1332 @@
+BegBates,MessageId,InReplyTo,References,ThreadId,From,To,CC,BCC,Subject,DateSent,Custodian,FileName,FullText,Confidentiality,column_history
+5022494,3B75D348.3EC50B84@cccs.umn.edu,,OFE50A4FC8.41396B3A-ON86256AA4.0073952F@mmm.com,3B75D348.3EC50B84@cccs.umn.edu,Tim Church <trc@cccs.umn.edu>,gwolsen@mmm.com,,,Re: Analyses,2001-08-12T00:52:24.000Z,Solr Import,email_5022494.eml,"Attached messages
+Attachments:
+adults_tableo.rtf (19.72 kB); adults_table1_PFHScorrection.rtf (17.96 kB); adults_statexagexsex.rtf (52.48 kB); adults_lnPFHSxage_box_corr.JPG (93.01 kB); adults_lnPFHSxstate_box.JPG (92.32 kB); adults_lnPFOAxstate_box.JPG (56.49 kB); adults_lnPFOSAAxstate_box.JPG (51.27 kB); adults_lnPFOSxstate_box.JPG (51.43 kB); adults_lntotalFlxage_box_corr.JPG (94.59 kB); adults_lntotalFlxstate_box.JPG (46.92 kB); adults_PFOS_boot_addl.rtf (4.14 kB); adults_quantiles_PFHScorrection.rtf (2.75 kB); adults_lnM570xstate_box.JPG (93.66 kB); adults_table1_PFHScorrection1.rtf (47.01 kB); kids_lntotalFlxage_box.JPG (121.88 kB); adults_lnPFHSxage_box.JPG (85.9 kB); adults_lnPFOAxage_box.JPG (56.13 kB); adults_lnPFOSAAxage_box.JPG (51.17 kB); adults_lnPFOSxage_box.JPG (50.57 kB); adults_lntotalFlxage_box.JPG (52.37 kB); kids_lnM570xage_box.JPG (63.86 kB); kids_lnPFHSxage_box.JPG (63.84 kB); kids_lnPFOAxage_box.JPG (60.49 kB); kids_lnPFOSAAxage_box.JPG (132.81 kB); kids_lnPFOSxage_box.JPG (60.79 kB); adults_lnM570xage_box.JPG (91.52 kB); adults_tableo1.rtf (37.86 kB); adults_table1.rtf (35.41 kB); adults_quantiles1.rtf (7.17 kB); kids_table1_rev11.rtf (121.93 kB); kids_table1.rtf (120.34 kB)
+
+Geary,
+
+It took me longer than I had hoped.
+
+Tim
+--
+__________________________________ ___________________________________
+|                                  |                                   |
+| Timothy R. Church, Ph.D.         |420 Delaware St SE, MMC 807, Rm1260|
+| Associate Professor              |Minneapolis, Minnesota  55455      |
+| Div of Environ & Occup Health    |Office:612-626-1494,612-625-9091   |
+| Univ of Minn Schl of Pub Health  |Fax:   612-626-0650,612-625-4363   |
+|__________________________________|___________________________________|
+
+X-Mozilla-Status2: 00000000
+Message-ID: <3B75D348.3EC50B84@cccs.umn.edu>
+Date: Sat, 11 Aug 2001 19:52:24 -0500
+From: Tim Church <trc@cccs.umn.edu>
+X-Mailer: Mozilla 4.75 [en] (Win98; U)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: gwolsen@mmm.com
+Subject: Re: Analyses
+References: <OFE50A4FC8.41396B3A-ON86256AA4.0073952F@mmm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+
+Geary,
+
+I'm in Utah at a conference, but will contact you when I return.
+
+Tim
+
+gwolsen@mmm.com wrote:
+>
+> Tim,
+>
+> Just checking to see how you are proceeding with the children data.  Do you
+> have the data analyzed for the univariate part so that I can get it from
+> you and start creating tables?  I've finished the graphs on the children
+> looking at their reliability/original data and am working on the adult data
+> now.  The powers-to-be at 3M really would like us to finish these two
+> manuscripts as soon as possible. Our timeline of children manuscript (first
+> draft) done by end of August and adult manuscript done by mid September
+> seems to appease the 'gods' as long as we can make it.  Anytime you have
+> data to transfer to me to 'mock-up' for the mansucript, just let me know
+> and send it my way.    Many thanks for your help in this regard.
+>
+> Regards,
+> Geary
+
+--
+__________________________________ ___________________________________
+|                                  |                                   |
+| Timothy R. Church, Ph.D.         |420 Delaware St SE, MMC 807, Rm1260|
+| Associate Professor              |Minneapolis, Minnesota  55455      |
+| Div of Environ & Occup Health    |Office:612-626-1494,612-625-9091   |
+| Univ of Minn Schl of Pub Health  |Fax:   612-626-0650,612-625-4363   |
+|__________________________________|___________________________________|
+
+
+X-Mozilla-Status2: 00000000
+Message-ID: <3BA23B61.C7704BE9@cccs.umn.edu>
+Date: Fri, 14 Sep 2001 12:16:17 -0500
+From: Tim Church <trc@cccs.umn.edu>
+X-Mailer: Mozilla 4.75 [en] (Win98; U)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: gwolsen@mmm.com
+Subject: Re: Analyses
+References: <OFEAC4DB7A.04D0F06B-ON86256AC3.006CEE5E@mmm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+
+Geary,
+
+Sorry, I was in St. Louis Tuesday and was delayed getting home. I am
+just getting caught up.  Can we meet this Monday afternoon?  Any time
+after 2pm works for me.
+
+Tim
+
+gwolsen@mmm.com wrote:
+>
+> Tim,
+>
+> Per your note of 8/24 (below), any chance I can meet with you before Friday
+> afternoon and see where you stand with the bootstrap analyses.  We are
+> having an internal 3M information exchange with our company mgmt on the FC
+> issue on Friday afternoon as we begin to write the newest version of the 3M
+> risk assessment on PFOS.  Even if you aren't finished, I can at least give
+> my mgmt a heads-up on where we stand with the bootstrap analyses.  I have
+> completed the graphs and tables for the children data manuscript and some
+> of the adult data.  Let me know what might work for you.  Many thanks
+>
+> Geary
+>
+>
+>                     ""Timothy R.
+>                     Church""              To:     Geary
+>                     <trc@cccs.umn.e        Olsen/US-Corporate/3M/US@3M-Corporate
+>                     du>                  cc:
+>                                          Subject:     Analyses
+>                     08/24/01 02:57
+>                     PM
+>
+>
+>
+> Geary,
+>
+> I have done all the simple analyses for the kids, and am working on the
+> bootstrapped percentiles (90, 95, 99).  These chew up a lot of computer
+> time, since many iterations are necessary to get a reasonable confidence
+> limit.  I expect to finish these before I leave on vacation and will
+> send you the results as soon as they are complete.
+>
+> I expect to have the adult data complete within a week after I return on
+> the 4th of September.
+>
+> Call me if you have any questions or issues.
+>
+> Tim
+> --
+>  __________________________________ ___________________________________
+> |                                  |                                   |
+> | Timothy R. Church, Ph.D.         |420 Delaware St SE, MMC 807, Rm1260|
+> | Associate Professor              |Minneapolis, Minnesota  55455      |
+> | Div of Environ & Occup Health    |Office:612-626-1494,612-625-9091   |
+> | Univ of Minn Schl of Pub Health  |Fax:   612-626-0650,612-625-4363   |
+> |__________________________________|___________________________________|
+
+--
+__________________________________ ___________________________________
+|                                  |                                   |
+| Timothy R. Church, Ph.D.         |420 Delaware St SE, MMC 807, Rm1260|
+| Associate Professor              |Minneapolis, Minnesota  55455      |
+| Div of Environ & Occup Health    |Office:612-626-1494,612-625-9091   |
+| Univ of Minn Schl of Pub Health  |Fax:   612-626-0650,612-625-4363   |
+|__________________________________|___________________________________|
+
+
+X-Mozilla-Status2: 00000000
+Message-ID: <3BA7649E.869E748E@cccs.umn.edu>
+Date: Tue, 18 Sep 2001 10:13:34 -0500
+From: Tim Church <trc@cccs.umn.edu>
+X-Mailer: Mozilla 4.75 [en] (Win98; U)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: gwolsen@mmm.com
+Subject: Re: Updated Kids Table 1
+References: <OF53604FBB.D5A92AD3-ON86256ACB.004AC6AB@mmm.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+
+Geary,
+
+Works for me.
+
+Tim
+
+gwolsen@mmm.com wrote:
+>
+> Tim,
+>
+> Thanks for the updated kids table.  It turns out I have a meeting I can't
+> get out of between 1:30 and 2:30 next Monday.  Can we meet at 3:15 pm
+> instead of 2pm?
+>
+> Geary
+
+--
+__________________________________ ___________________________________
+|                                  |                                   |
+| Timothy R. Church, Ph.D.         |420 Delaware St SE, MMC 807, Rm1260|
+| Associate Professor              |Minneapolis, Minnesota  55455      |
+| Div of Environ & Occup Health    |Office:612-626-1494,612-625-9091   |
+| Univ of Minn Schl of Pub Health  |Fax:   612-626-0650,612-625-4363   |
+|__________________________________|___________________________________|
+
+
+X-Mozilla-Status2: 00000000
+Message-ID: <3BB10D9F.ECD01D7E@cccs.umn.edu>
+Date: Tue, 25 Sep 2001 18:05:04 -0500
+From: Tim Church <trc@cccs.umn.edu>
+X-Mailer: Mozilla 4.75 [en] (Win98; U)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: Geary Olsen <gwolsen@mmm.com>
+Subject: Revised adult tabulations
+Content-Type: multipart/mixed; boundary=""------------D51AA54F91D9D084FAE5B922""
+
+Geary,
+
+I forgot to attach the corrected version of table 1 data and what I
+called table 0 for the adults.  Here they are.
+
+Tim
+--
+__________________________________ ___________________________________
+|                                  |                                   |
+| Timothy R. Church, Ph.D.         |420 Delaware St SE, MMC 807, Rm1260|
+| Associate Professor              |Minneapolis, Minnesota  55455      |
+| Div of Environ & Occup Health    |Office:612-626-1494,612-625-9091   |
+| Univ of Minn Schl of Pub Health  |Fax:   612-626-0650,612-625-4363   |
+|__________________________________|___________________________________|
+ 
+ 
+
+X-Mozilla-Status2: 00000000
+Message-ID: <3BB10A55.4C0C2FAF@cccs.umn.edu>
+Date: Tue, 25 Sep 2001 17:51:01 -0500
+From: Tim Church <trc@cccs.umn.edu>
+X-Mailer: Mozilla 4.75 [en] (Win98; U)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: Geary Olsen <gwolsen@mmm.com>
+Subject: Results
+Content-Type: multipart/mixed; boundary=""------------508D2EFAFFF6F6FD40B5FA17""
+
+Geary,
+
+Here are the results so far.  I still owe you an analysis of the
+relationship between PFHS and age in kids adjusted for gender and a
+writeup of the bootstrap and BCa estimates.
+
+Tim
+--
+__________________________________ ___________________________________
+|                                  |                                   |
+| Timothy R. Church, Ph.D.         |420 Delaware St SE, MMC 807, Rm1260|
+| Associate Professor              |Minneapolis, Minnesota  55455      |
+| Div of Environ & Occup Health    |Office:612-626-1494,612-625-9091   |
+| Univ of Minn Schl of Pub Health  |Fax:   612-626-0650,612-625-4363   |
+|__________________________________|___________________________________|
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+X-Mozilla-Status2: 00000000
+Message-ID: <3BABB3B9.D5724A62@cccs.umn.edu>
+Date: Fri, 21 Sep 2001 16:40:09 -0500
+From: Tim Church <trc@cccs.umn.edu>
+X-Mailer: Mozilla 4.75 [en] (Win98; U)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: Geary Olsen <gwolsen@mmm.com>
+Subject: Graphs
+Content-Type: multipart/mixed; boundary=""------------C8E26ED3608275E141847D59""
+
+Geary,
+
+Attached are JPG files of the graphs.  I can spit out a variety of
+formats, so let me know which you prefer if not these.
+
+Tim
+--
+__________________________________ ___________________________________
+|                                  |                                   |
+| Timothy R. Church, Ph.D.         |420 Delaware St SE, MMC 807, Rm1260|
+| Associate Professor              |Minneapolis, Minnesota  55455      |
+| Div of Environ & Occup Health    |Office:612-626-1494,612-625-9091   |
+| Univ of Minn Schl of Pub Health  |Fax:   612-626-0650,612-625-4363   |
+|__________________________________|___________________________________|
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+X-Mozilla-Status2: 00000000
+Message-ID: <3BAB7E20.F666479F@cccs.umn.edu>
+Date: Fri, 21 Sep 2001 12:51:28 -0500
+From: Tim Church <trc@cccs.umn.edu>
+X-Mailer: Mozilla 4.75 [en] (Win98; U)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: Geary Olsen <gwolsen@mmm.com>
+Subject: Adult data
+Content-Type: multipart/mixed; boundary=""------------44E188BE1D7B17D24C631E09""
+
+--
+__________________________________ ___________________________________
+|                                  |                                   |
+| Timothy R. Church, Ph.D.         |420 Delaware St SE, MMC 807, Rm1260|
+| Associate Professor              |Minneapolis, Minnesota  55455      |
+| Div of Environ & Occup Health    |Office:612-626-1494,612-625-9091   |
+| Univ of Minn Schl of Pub Health  |Fax:   612-626-0650,612-625-4363   |
+|__________________________________|___________________________________|
+ 
+ 
+ 
+
+X-Mozilla-Status2: 00000000
+Message-ID: <3BA66BA9.F7C74CC8@cccs.umn.edu>
+Date: Mon, 17 Sep 2001 16:31:21 -0500
+From: ""Timothy R. Church"" <trc@cccs.umn.edu>
+X-Mailer: Mozilla 4.76 [en] (WinNT; U)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: Geary Olsen <gwolsen@mmm.com>
+Subject: Updated Kids Table 1
+Content-Type: multipart/mixed; boundary=""------------77C0F18BD03070F5696AE253""
+
+--
+__________________________________ ___________________________________
+|                                  |                                   |
+| Timothy R. Church, Ph.D.         |420 Delaware St SE, MMC 807, Rm1260|
+| Associate Professor              |Minneapolis, Minnesota  55455      |
+| Div of Environ & Occup Health    |Office:612-626-1494,612-625-9091   |
+| Univ of Minn Schl of Pub Health  |Fax:   612-626-0650,612-625-4363   |
+|__________________________________|___________________________________|
+ 
+
+X-Mozilla-Status2: 00000000
+Message-ID: <3B86BF09.AFA541FE@cccs.umn.edu>
+Date: Fri, 24 Aug 2001 15:54:33 -0500
+From: ""Timothy R. Church"" <trc@cccs.umn.edu>
+X-Mailer: Mozilla 4.76 [en] (WinNT; U)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: Geary Olsen <gwolsen@mmm.com>
+Subject: Data so far
+Content-Type: multipart/mixed; boundary=""------------DAFDB5F9E92CD15A617E16C8""
+
+--
+__________________________________ ___________________________________
+|                                  |                                   |
+| Timothy R. Church, Ph.D.         |420 Delaware St SE, MMC 807, Rm1260|
+| Associate Professor              |Minneapolis, Minnesota  55455      |
+| Div of Environ & Occup Health    |Office:612-626-1494,612-625-9091   |
+| Univ of Minn Schl of Pub Health  |Fax:   612-626-0650,612-625-4363   |
+|__________________________________|___________________________________|
+ 
+
+X-Mozilla-Status2: 00000000
+Message-ID: <3B86B1BC.E15265@cccs.umn.edu>
+Date: Fri, 24 Aug 2001 14:57:48 -0500
+From: ""Timothy R. Church"" <trc@cccs.umn.edu>
+X-Mailer: Mozilla 4.76 [en] (WinNT; U)
+X-Accept-Language: en
+MIME-Version: 1.0
+To: Geary Olsen <gwolsen@mmm.com>
+Subject: Analyses
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
+
+Geary,
+
+I have done all the simple analyses for the kids, and am working on the
+bootstrapped percentiles (90, 95, 99).  These chew up a lot of computer
+time, since many iterations are necessary to get a reasonable confidence
+limit.  I expect to finish these before I leave on vacation and will
+send you the results as soon as they are complete.
+
+I expect to have the adult data complete within a week after I return on
+the 4th of September.
+
+Call me if you have any questions or issues.
+
+Tim
+--
+__________________________________ ___________________________________
+|                                  |                                   |
+| Timothy R. Church, Ph.D.         |420 Delaware St SE, MMC 807, Rm1260|
+| Associate Professor              |Minneapolis, Minnesota  55455      |
+| Div of Environ & Occup Health    |Office:612-626-1494,612-625-9091   |
+| Univ of Minn Schl of Pub Health  |Fax:   612-626-0650,612-625-4363   |
+|__________________________________|___________________________________|",,MSG-ID:3B75D348.3EC50B84@cccs.umn.edu|IN-REPLY-TO:|REFS:OFE50A4FC8.41396B3A-ON86256AA4.0073952F@mmm.com
+4965743,9D3598AF292AA54CBDB9CDDE0FD8343701707720@dcex01.lw.com,,,9D3598AF292AA54CBDB9CDDE0FD8343701707720@dcex01.lw.com,JULIA.HATCHER@LW.com,masantoro@mmm.com,,,MOU-Related Documents,2006-01-09T21:13:02.000Z,Solr Import,email_4965743.eml,"NotesID: 0B80EF51047E36A0862570F100591AA3
+PostedDate:
+01/09/2006 04:13:02 PM
+DeliveredDate:
+01/09/2006 04:13:17 PM
+Received:
+from mailrelay02.mmm.com ([192.28.4.53])          by us-mail-11.mmm.com (Lotus Domino Release 6.5.3)          with ESMTP id 2006010910131514-25507 ;          Mon, 9 Jan 2006 10:13:15 -0600
+from mailrelay02.mmm.com ([192.28.4.53])          by us-mail-11.mmm.com (Lotus Domino Release 6.5.3)          with ESMTP id 2006010910131514-25507 ;          Mon, 9 Jan 2006 10:13:15 -0600
+from mailrelay02.mmm.com ([192.28.4.53])          by us-mail-11.mmm.com (Lotus Domino Release 6.5.3)          with ESMTP id 2006010910131514-25507 ;          Mon, 9 Jan 2006 10:13:15 -0600
+from mailrelay02.mmm.com ([192.28.4.53])          by us-mail-11.mmm.com (Lotus Domino Release 6.5.3)          with ESMTP id 2006010910131514-25507 ;          Mon, 9 Jan 2006 10:13:15 -0600
+from mailrelay02.mmm.com ([192.28.4.53])          by us-mail-11.mmm.com (Lotus Domino Release 6.5.3)          with ESMTP id 2006010910131514-25507 ;          Mon, 9 Jan 2006 10:13:15 -0600
+Categories:
+
+From:
+JULIA.HATCHER@LW.com
+SendTo:
+masantoro@mmm.com
+manash@mmm.com
+tjdipasquale@mmm.com
+BOB.SUSSMAN@LW.com
+CopyTo:
+krhyne@kslaw.com
+Subject:
+MOU-Related Documents
+Body:
+Per our discussion this morning, attached are the following three documents: 
+
+Copy of final MOU between EPA and 3M and Dyneon
+Draft Chart Summarizing Timeline and Obligations under MOU for Independent 
+Third Party
+Draft Questions to address in assessing Independent Third Party qualifications 
+(stylized as RFP).
+
+I look forward to discussing. 
+
+Best regards, Julie 
+
+ <<MOU Between EPA and 3M and Dyneon>>  <<Summary of MOU Obligations>>  
+<<Request for Proposals>>  
+
+*******************************************************************************
+To comply with IRS regulations, we advise you that any discussion of Federal 
+tax issues in this e-mail was not intended or written to be used, and cannot be 
+used by you, (i) to avoid any penalties imposed under the Internal Revenue Code 
+or (ii) to promote, market or recommend to another party any transaction or 
+matter addressed herein.
+
+For more information please go to  
+http://www.lw.com/resource/Publications/_pdf/pub1289_1.pdf 
+*******************************************************************************
+
+This email may contain material that is confidential, privileged and/or 
+attorney work product for the sole use of the intended recipient.  Any review, 
+reliance or distribution by others or forwarding without express permission is 
+strictly prohibited.  If you are not the intended recipient, please contact the 
+sender and delete all copies.
+
+Latham & Watkins LLP
+
+Content-Transfer-Encoding: 7bit
+Content-class: urn:content-classes:message
+MIME-Version: 1.0
+X-MimeOLE: Produced By Microsoft Exchange V6.5.7226.0
+Subject: MOU Between EPA and 3M and Dyneon
+Date: Mon, 9 Jan 2006 11:08:23 -0500
+Message-ID: <9D3598AF292AA54CBDB9CDDE0FD8343701707720@dcex01.lw.com>
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator:
+Thread-Topic: MOU Between EPA and 3M and Dyneon
+Thread-Index: AcYVNuqp1nNpDFmpT369Ik4/xVKUwQ==
+From: JULIA.HATCHER@LW.com
+To: JULIA.HATCHER@LW.com
+Content-Type: multipart/mixed; boundary=""----_=_NextPart_003_01C61536.EAB88F51""
+<<653338_25.pdf>> 
+ 
+ - 653338_25.pdfContent-Transfer-Encoding: binary
+Content-class: urn:content-classes:message
+MIME-Version: 1.0
+X-MimeOLE: Produced By Microsoft Exchange V6.5.7226.0
+Subject: Summary of MOU Obligations
+Date: Mon, 9 Jan 2006 11:05:50 -0500
+Message-ID: <9D3598AF292AA54CBDB9CDDE0FD834370170771F@dcex01.lw.com>
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator:
+Thread-Topic: Summary of MOU Obligations
+Thread-Index: AcYVNo8pndBQeLbcQK+CI2FN9mfK1A==
+From: JULIA.HATCHER@LW.com
+To: JULIA.HATCHER@LW.com
+Content-Type: application/msword; name=821759_1.DOC
+Content-Disposition: attachment; filename=821759_1.DOC
+Content-Description: 821759_1.DOC
+ - 821759_1.DOCContent-Transfer-Encoding: binary
+Content-class: urn:content-classes:message
+MIME-Version: 1.0
+X-MimeOLE: Produced By Microsoft Exchange V6.5.7226.0
+Subject: Request for Proposals
+Date: Mon, 9 Jan 2006 11:05:22 -0500
+Message-ID: <9D3598AF292AA54CBDB9CDDE0FD834370170771E@dcex01.lw.com>
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator:
+Thread-Topic: Request for Proposals
+Thread-Index: AcYVNn5UvADpE6uwSJ2XHc4+9eykcA==
+From: JULIA.HATCHER@LW.com
+To: JULIA.HATCHER@LW.com
+Content-Type: application/msword; name=823124_1.DOC
+Content-Disposition: attachment; filename=823124_1.DOC
+Content-Description: 823124_1.DOC
+ - 823124_1.DOC
+InternetID:
+<9D3598AF292AA54CBDB9CDDE0FD8343701707721@dcex01.lw.com>
+
+<X_Server_Uuid>  68ADBCB8-212C-4CDA-8240-B3D495318046  <\X_Server_Uuid>
+<MIME_Version>  1.0  <\MIME_Version>
+<X_MimeOLE>  Produced By Microsoft Exchange V6.5.7226.0  <\X_MimeOLE>
+<X_MS_Has_Attach>  yes  <\X_MS_Has_Attach>
+<X_MS_TNEF_Correlator>    <\X_MS_TNEF_Correlator>
+<Thread_Topic>  MOU-Related Documents  <\Thread_Topic>
+<Thread_Index>  AcYVN5Cij2dI5ZNZSOWv166cMn0P5Q==  <\Thread_Index>
+<X_OriginalArrivalTime>  09 Jan 2006 16:13:03.0770 (UTC) FILETIME=[91A78FA0:01C61537]  <\X_OriginalArrivalTime>
+<X_WSS_ID>  6FDC54241AO357408-01-01  <\X_WSS_ID>
+<X_Scanned_By>  MIMEDefang 2.52 on 192.28.4.53  <\X_Scanned_By>
+<$MIMETrack>  Itemize by SMTP Server on US-Mail-11/US-Corporate/3M/US(Release 6.5.3|September 14, 2004) at 01/09/2006 10:13:15 AM;MIME-CD by Notes Client on EDA User/EDA User(Release 6.5.2|June 01, 2004) at 02/20/2006 04:50:24 PM;MIME-CD complete at 02/20/2006 04:50:24 PM  <\$MIMETrack>
+<SMTPOriginator>  JULIA.HATCHER@LW.com  <\SMTPOriginator>
+<Form>  Memo  <\Form>
+<RoutingState>    <\RoutingState>
+<$UpdatedBy>  ;CN=US-Mail-11/OU=US-Corporate/O=3M/C=US  <\$UpdatedBy>
+<$Orig>  0B80EF51047E36A0862570F100591AA3  <\$Orig>
+<$Revisions>    <\$Revisions>
+<RouteServers>  CN=US-Mail-11/OU=US-Corporate/O=3M/C=US  <\RouteServers>
+<RouteTimes>  01/09/2006 04:13:15 PM-01/09/2006 04:13:17 PM  <\RouteTimes>
+<$MsgTrackFlags>  0  <\$MsgTrackFlags>
+<$MiniView>    <\$MiniView>
+<$FolderRef>  5E502A1BAAAF40CA85256197006C1A32  <\$FolderRef>
+<$FolderRefID>  32150  <\$FolderRefID>
+<$FolderRefFlags>  0  <\$FolderRefFlags>",,MSG-ID:9D3598AF292AA54CBDB9CDDE0FD8343701707720@dcex01.lw.com|IN-REPLY-TO:|REFS:
+5868736,DF024C62BD804C4D83CFF11370DC3B60069CCDBC@sjdcmail3.steptoe.com,,,DF024C62BD804C4D83CFF11370DC3B60069CCDBC@sjdcmail3.steptoe.com,"""Stennes, Libretta Porta"" <LStennes@steptoe.com>","""'Silvio DeCarli (E-mail)'"" <silvio.j.decarli@usa.dupont.com>",,,original protective order,2004-04-22T18:21:41.000Z,Solr Import,email_5868736.eml,"﻿               ""lstennes@steptoe.co
+               m"" 
+               <lstennes@steptoe.c
+               om> 
+               10/18/2004 10:17 AM
+                                   ToAndrea V Malinowski/AE/DuPont@DuPont
+                                   cc
+                              bcc
+                              Subjectoriginal and modified protective order
+          History:
+                    This message has been forwarded.
+          Here is the original and the modified protective order.  I will get someone
+          today to assemble relevant pleadings and correspondence for you as to the
+          history of the treatment of medical information in this case.
+           <<original protective order>>
+           <<FW: Modified Stipulated Protective Order, 6/9/03>>
+           - C.htm
+          Message-ID: <DF024C62BD804C4D83CFF11370DC3B60069CCDBC@sjdcmail3.steptoe.com>
+          From: ""Stennes, Libretta Porta"" <LStennes@steptoe.com>
+          To: ""'Silvio DeCarli (E-mail)'"" <silvio.j.decarli@usa.dupont.com>
+          Subject: original protective order
+          Date: Thu, 22 Apr 2004 14:21:41 -0400
+          X-Mailer: Internet Mail Service (5.5.2653.19)
+          MIME-Version: 1.0
+          Content-Type: multipart/mixed;  boundary=""----_=_NextPart_002_01C4B51C.F0A61717""
+          >  <<Scan001.PDF>>
+          >
+          >
+          >
+          >
+          >
+          > The information contained in this e-mail message may be privileged,
+          > confidential and protected from disclosure.  If you are not the intended
+          > recipient, any dissemination, distribution or copying is strictly
+          > prohibited.  If you think you received this e-mail message in error please
+          > e-mail the sender at ""acavanaugh@steptoe.com.""  Thank you.
+          >
+          >
+          >
+           - C.htm
+           - Scan001.PDF
+          Message-ID: <DF024C62BD804C4D83CFF11370DC3B60069CCDBB@sjdcmail3.steptoe.com>
+          From: ""Stennes, Libretta Porta"" <LStennes@steptoe.com>
+          To: ""'Silvio DeCarli (E-mail)'"" <silvio.j.decarli@usa.dupont.com>
+          Subject: FW: Modified Stipulated Protective Order, 6/9/03
+          Date: Thu, 22 Apr 2004 14:21:00 -0400
+          X-Mailer: Internet Mail Service (5.5.2653.19)
+          MIME-Version: 1.0
+          Content-Type: multipart/mixed;  boundary=""----_=_NextPart_002_01C4B51C.F0A61717""
+          Silvio - here is a copy of the amendment to the original protective order --
+          it was modified in June 2003 to include confidential medical information.  I
+ 
+          need to search further in my e-mail to locate the original - but that should
+          be coming soon.  Also - I took a look at the public act that Robin cited and
+          will call you to discuss.
+          >  <<Scan001.PDF>>
+           - C.htm
+           - Scan001.PDF",,MSG-ID:DF024C62BD804C4D83CFF11370DC3B60069CCDBC@sjdcmail3.steptoe.com|IN-REPLY-TO:|REFS:
+5818020,338F26F52F817F498A5C4C1E25C05C8E0140BA1F@dcex05.pattonboggs.com,,,338F26F52F817F498A5C4C1E25C05C8E0140BA1F@dcex05.pattonboggs.com,"""Clune, Rosemarie"" <RClune@PattonBoggs.com>","""Clune, Rosemarie"" <RClune@PattonBoggs.com>",,,Scanned document <4 pages ~89 KB> -- 12/20/2004 3:36:34 PM,2004-12-20T20:36:42.000Z,Solr Import,email_5818020.eml,"﻿               ""Clune, Rosemarie"" 
+               <RClune@PattonBoggs.com
+               > 
+               12/20/2004 03:39 PM
+                                   To""Robertson, Peter"" <Probertson@PattonBoggs.com>, 
+                                        Andrea V Malinowski/AE/DuPont@DuPont
+                                   cc
+                                   bcc
+                                   Subject
+          History:
+                    This message has been forwarded.
+          DISCLAIMER:
+          This e-mail message contains confidential, privileged information intended solely 
+          for the addressee.  Please do not read, copy, or disseminate it unless you are the 
+          addressee.  If you have received it in error, please call us (collect) at (202) 
+          457-6000 and ask to speak with the message sender.  Also, we would appreciate your 
+          forwarding the message back to us and deleting it from your system.  Thank you.
+          This e-mail and all other electronic (including voice) communications from the 
+          sender's firm are for informational purposes only.  No such communication is 
+          intended by the sender to constitute either an electronic record or an electronic 
+          signature, or to constitute any agreement by the sender to conduct a transaction by 
+          electronic means.  Any such intention or agreement is hereby expressly disclaimed 
+          unless otherwise specifically indicated.  To learn more about our firm, please visit 
+          our website at http://www.pattonboggs.com.
+           - C.htm
+          X-MimeOLE: Produced By Microsoft Exchange V6.0.6556.0
+          content-class: urn:content-classes:message
+          Subject: Scanned document <4 pages ~89 KB> -- 12/20/2004 3:36:34 PM
+          Date: Mon, 20 Dec 2004 15:36:42 -0500
+          Message-ID: <338F26F52F817F498A5C4C1E25C05C8E0140BA1F@dcex05.pattonboggs.com>
+          X-MS-Has-Attach: yes
+          X-MS-TNEF-Correlator:
+          Thread-Topic: Scanned document <4 pages ~89 KB> -- 12/20/2004 3:36:34 PM
+          Thread-Index: AcTm051Cdm0t+Q9wReCG/UbPGKtzJQ==
+          From: ""Clune, Rosemarie"" <RClune@PattonBoggs.com>
+          To: ""Clune, Rosemarie"" <RClune@PattonBoggs.com>
+          MIME-Version: 1.0
+          Content-Type: multipart/mixed;  boundary=""----_=_NextPart_003_01C4E6D3.9D425968""
+           <<cmpny sanitized public copy.pdf>>
+          This PDF file was created using the eCopy Suite of products. For more information 
+          about how you can eCopy paper documents and distribute them by email please visit 
+          http://www.ecopy.com
+           - C.htm
+           - cmpny sanitized public copy.pdf
+          X-MimeOLE: Produced By Microsoft Exchange V6.0.6556.0
+          content-class: urn:content-classes:message
+          Subject: Scanned document <4 pages ~112 KB> -- 12/20/2004 3:34:47 PM
+          Date: Mon, 20 Dec 2004 15:35:07 -0500
+          Message-ID: <338F26F52F817F498A5C4C1E25C05C8E0140BA1E@dcex05.pattonboggs.com>
+          X-MS-Has-Attach: yes
+          X-MS-TNEF-Correlator:
+          Thread-Topic: Scanned document <4 pages ~112 KB> -- 12/20/2004 3:34:47 PM
+          Thread-Index: AcTm02TWpZMANW8fSsKCl4CCQo4KMA==
+          From: ""Clune, Rosemarie"" <RClune@PattonBoggs.com>
+ 
+          To: ""Clune, Rosemarie"" <RClune@PattonBoggs.com>
+          MIME-Version: 1.0
+          Content-Type: multipart/mixed;  boundary=""----_=_NextPart_005_01C4E6D3.64D6F3A4""
+           <<auer supp 12 20 04.pdf>>
+          This PDF file was created using the eCopy Suite of products. For more information 
+          about how you can eCopy paper documents and distribute them by email please visit 
+          http://www.ecopy.com
+           - C.htm
+           - auer supp 12 20 04.pdf",,MSG-ID:338F26F52F817F498A5C4C1E25C05C8E0140BA1F@dcex05.pattonboggs.com|IN-REPLY-TO:|REFS:
+5103954,200204101429.g3AETd929396@pilot06.cl.msu.edu,,,200204101429.g3AETd929396@pilot06.cl.msu.edu,dlbacon@mmm.com,jrallison@mmm.com,,,Fwd: blood testing (fwd),2002-04-10T15:42:04.000Z,Solr Import,email_5103954.eml,"Fwd: blood testing (fwd)
+From:
+dlbacon@mmm.com
+To:
+jrallison@mmm.com
+Date:
+Wed, 10 Apr 2002 15:42:04 +0000
+FYI  Do you want me to follow up with Giesy?
+----- Forwarded by Dale L. Bacon/US-Corporate/3M/US on 04/10/2002 10:41 AM -----
+ 
+JGiesy@aol.com
+04/10/2002 10:36 AM
+ 
+	
+	To:	Dale L. Bacon/US-Corporate/3M/US@3M-Corporate<br/>
+	cc:	     
+	Subject:	Fwd: blood testing (fwd)
+Michael A. Santoro/US-Corporate/3M/US@3M-Corporate
+ 
+ 
+
+Gentlemen: 
+I told him I cannot assist him.  He then went to Kannan.  When I found that
+out I stopped any further discussions.  Call if you need more information. 
+JPGiesy
+
+Return-Path: <kuruntha@pilot.msu.edu>
+Received: from  rly-xa04.mx.aol.com (rly-xa04.mail.aol.com [172.20.105.73]) by air-xa04.mail.aol.com (v84.10) with ESMTP id MAILINXA42-0410103006; Wed, 10 Apr 2002 10:30:06 -0500
+Received: from  pilot06.cl.msu.edu (pilot06.cl.msu.edu [35.9.5.26]) by rly-xa04.mx.aol.com (v84.10) with ESMTP id MAILRELAYINXA45-0410102942; Wed, 10 Apr 2002 10:29:42 -0400
+Received: (from kuruntha@localhost)	by pilot06.cl.msu.edu (8.10.2/8.10.2) id g3AETd929396	for jgiesy@aol.com; Wed, 10 Apr 2002 10:29:39 -0400
+Message-Id: <200204101429.g3AETd929396@pilot06.cl.msu.edu>
+Subject: blood testing (fwd)
+To: jgiesy@aol.com
+Date: Wed, 10 Apr 2002 10:29:39 -0400 (EDT)
+From: ""Kurunthachalam Kannan"" <kuruntha@pilot.msu.edu>
+X-Mailer: ELM [version 2.4 PL25]
+Content-Type: text/plain
+
+John: 
+Please let me know how we can move forward.  As you suggested this may
+be more political later.  Do we need to be involved?  I can call him
+and say 'no' if you want to. 
+Thanks, 
+Kannan 
+Forwarded message: >
+From DHMarks@Yahoo.com Wed Apr 10 09:04:44 2002 > Reply-To: <DHMarks@Yahoo.com>
+> From: ""DHMarks"" <DHMarks@Yahoo.com>
+> To: <kuruntha@pilot.msu.edu>
+> Subject: blood testing
+> Date: Wed, 10 Apr 2002 09:04:17 -0400
+> Message-ID: <KEEBLPJPJNPOFICDDAKEAEBJCHAA.DHMarks@Yahoo.com>
+> MIME-Version: 1.0
+> Content-Type: text/plain;
+>     charset=""iso-8859-1""
+> Content-Transfer-Encoding: 7bit
+> X-Priority: 3 (Normal)
+> X-MSMail-Priority: Normal
+> X-Mailer: Microsoft Outlook IMO, Build 9.0.2416 (9.0.2911.0)
+> Importance: Normal
+> X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2600.0000
+>
+> I spoke with you a few weeks ago about analyzing blood samples for both PFOS
+> and PFOA.  I am now ready to move forward, have approx. 30 plasma samples
+> ready, and would like to speak to you today about blood volumes, cost, etc.
+> Please call me.
+>
+> Donald H. Marks, MD, PhD   205 283 1688
+>
+>
+> From: Kannan [kuruntha@msu.edu]
+> Sent: Friday, March 08, 2002 10:34 AM
+> To: dhmarks@yahoo.com
+> Subject: PFOS and related fluorochemical analysis
+> Dear Dr. Marks:
+>
+> Nice to talk to you.  I am attaching herewith a few manuscripts related to
+> fluorochemical analysis.  These papers describe the procedure for the
+> analysis of fluorochemicals.  As I mentioned, we routinely monitor for these
+> chemicals in environmental samples, particularly blood and liver of wildlife
+> and humans.  We will be glad to analyze your samples and I would like to
+> know a little bit more about your work.  Once I know the details of your
+> sampling plan and study objectives, I will be able to send you the scope of
+> work, cost and deliverables.  Thanks,
+>
+> K. Kannan, Ph.D.
+> Assoc. Professor
+> 213 Natl. Food Safety and Toxicol. Ctr
+> Michigan State University
+> East Lansing, MI 48824
+> USA
+> Tel: 517-432-6321
+> Fax: 517-432-2310
+> E-mail: kuruntha@pilot.msu.edu
+>
+>
+> 
+ 
+ ",,MSG-ID:200204101429.g3AETd929396@pilot06.cl.msu.edu|IN-REPLY-TO:|REFS:
+5712344,1DB5E848C72B8442A3418E4ED9C9B7F1086839@ukbxelmsx01.ukbx.astrazeneca.net,,,1DB5E848C72B8442A3418E4ED9C9B7F1086839@ukbxelmsx01.ukbx.astrazeneca.net,Fabreguettes Georges [mailto:Georges.Fabreguettes@citox.com],"""'Fabreguettes Georges'"" <Georges.Fabreguettes@citox.com>, ""Jacques L'Haridon (E-mail)""",,,***URGENT***   RE: Rapport Audité 22658 ECD,2003-06-06T15:51:39.000Z,Solr Import,email_5712344.eml,"﻿                    ""Thompson, Roy S"" <Roy.Thompson@brixham.astrazeneca.com> on 
+                    07/28/2003 06:39:40 AM
+          To:""'Fabreguettes Georges'"" <Georges.Fabreguettes@citox.com>, ""Jacques L'Haridon (E-mail)"" 
+               <Jacques.L'Haridon@citox.com>
+          cc:david.farrar@ineoschlor.com, georges.ransbotyn@apme.org, SCT <SCT.SCT@citox.com>, Groult Roger 
+               <Roger.Groult@citox.com>, commercial <Cit@citox.com>, Robert A Hoke/AE/DuPont@DuPont, ""Ilaria 
+               Colombo (E-mail)"" <Ilaria.Colombo@solvay.com>, Watze de_Wolf/EUR/DuPont@DuPont 
+          Subject:***URGENT***   RE: Rapport Audité 22658 ECD
+          Georges/Jacques,
+          HAVE YOU SENT THE WRONG VERSION OF THE DAPHNIA REPRO DRAFT REPORT ?
+          THE DRAFT SENT BELOW DOES NOT INCLUDE THE COMMENTS WE HAVE PROVIDED
+          PREVIOUSLY AND DOES NOT INCLUDE THE AGREED RESULTS AND APPENDIX DESCRIBING
+          THE REVISED STATISTICAL ANALYSIS OF THE LENGTH DATA (PROVIDED BY DR HOKE).
+          PLEASE PROVIDE A CORRECT VERSION AS SOON AS POSSIBLE AND CIRCULATE TO ALL
+          THE INDUSTRYRECIPIENTS OF THIS EMAIL (I AM NOW ON VACATION UNTIL 18 AUG).
+          IN CASE JACQUES IS ON VACATION, I ATTACH THE IMPORTANT PREVIOUS EMAIL
+          STRINGS.
+          Roy Thompson
+           <<APFO: Comments on draft Daphnia chronic report>>  <<FW: APFO: Comments on
+          draft Daphnia chronic report>>  <<APFO daphnia chronic>>  <<APFO Daphnia
+          stats>>
+          -----Original Message-----
+          From: Fabreguettes Georges [mailto:Georges.Fabreguettes@citox.com]
+          Sent: 25 July 2003 16:28
+          To: Thompson, Roy S
+          Cc: david.farrar@ineoschlor.com; georges.ransbotyn@apme.org; L'Haridon
+          Jacques; SCT; Groult Roger; commercial
+          Subject: TR: Rapport Audité 22658 ECD
+          File saved to APME/Dap chr drft 2 25 Jul 22658ECD-EPNA.pdf
+          > Dear Mr. Thompson,
+          >
+          > Please find enclosed the first audited draft (including your comments) of
+          the study report ""Daphnia Magna reproduction test"" (CIT/Study No. 22658 ECD)
+          performed with the test item AMMONIUM PERFLUOROOCTANOATE (APFO).
+          >
+          > At your convenience, please could you return the Quality Assurance form
+          duly completed and signed, along with any comments that you may have, so
+          that we may include the corrections or proceed to the final edition of the
+          report.
+          >
+          > Remaining at your disposal,
+          >
+          > Yours sincerely,
+          >
+          >
+          > Jacques L'Haridon
+          > Study Director
+          >
+          >
+          >
+          > >  <<22658-AMPE    EPA    Formulaire.pdf>> > >  <<22658ECD-EPNA.pdf>>
+          << File: 22658-AMPE    EPA    Formulaire.pdf >> 
+          Message-ID: 
+ 
+          <1DB5E848C72B8442A3418E4ED9C9B7F1086839@ukbxelmsx01.ukbx.astrazeneca.net>
+          From: ""Thompson, Roy S"" <Roy.Thompson@brixham.astrazeneca.com>
+          To: ""Jacques L'Haridon (E-mail)"" <Jacques.L'Haridon@citox.com>
+          Cc: ""Robert. A. Hoke (E-mail)"" <Robert.A.Hoke@usa.dupont.com>, ""Watze de Wolf 
+          (E-mail)"" <Watze.de-Wolf@bel.dupont.com>, ""Ilaria Colombo (E-mail)"" 
+          <Ilaria.Colombo@solvay.com>, ""Georges Ransbotyn (E-mail)"" 
+          <georges.ransbotyn@apme.org>, ""David G Farrar (E-mail)"" 
+          <david.farrar@ineoschlor.com>
+          Subject: APFO: Comments on draft Daphnia chronic report
+          Date: Fri, 6 Jun 2003 16:51:39 +0100
+          X-Mailer: Internet Mail Service (5.5.2650.21)
+          MIME-Version: 1.0
+          Content-Type: multipart/mixed;  boundary=""----_=_NextPart_002_01C354F4.8C92A500""
+          Jacques,
+          I attach comments from the industry group.  You will note there are some
+          general points with questions, especially regarding the statistics on the
+          length data, which do not necessarily require change to the draft report at
+          present, followed by some specific suggestions for implementation in the
+          report.
+          Please let me know if any of our points are not clear.
+          Best Regards
+          Roy
+           <<Comm on draft APFO daphnia chronic.doc>>
+           - Comm on draft APFO daphnia chronic.doc
+          Content-Transfer-Encoding: Quoted-Printable
+          Message-ID: 
+          <1DB5E848C72B8442A3418E4ED9C9B7F10868A2@ukbxelmsx01.ukbx.astrazeneca.net>
+          From: ""Thompson, Roy S"" <Roy.Thompson@brixham.astrazeneca.com>
+          To: ""Jacques L'Haridon (E-mail)"" <Jacques.L'Haridon@citox.com>
+          Cc: ""Georges Ransbotyn (E-mail)"" <georges.ransbotyn@apme.org>, ""David G Farrar 
+          (E-mail)"" <david.farrar@ineoschlor.com>
+          Subject: FW: APFO: Comments on draft Daphnia chronic report
+          Date: Thu, 17 Jul 2003 18:22:19 +0100
+          X-Mailer: Internet Mail Service (5.5.2650.21)
+          MIME-Version: 1.0
+          Content-Type: text/plain; charset=""ISO-8859-1""
+          Jacques,
+          To confirm that Bob Hoke has agreed that you should proceed with the
+          statistics appendix as NON-GLP data.
+          Since you are on holiday from 18 July to 8 August, can you arrange that it
+          is possible to issue the final report in your absence ?  Please provide a
+          contact name/email.
+          In any event, please ensure that an electronic copy of the final report is
+          sent to David Farrar and Georges Ransbotyn (addresses as per this message)
+          as well as myself (since I will be on holiday myself from 25 July to 15
+          August).  Also copy any other communications to them while I am away.
+          If I can have the revised draft by the end of this week I will ensure that
+          final comment and approval are sent before I go on holiday - also for the
+          draft algal report.
+          Regarding my visit, it is clear this cannot be before the planned end of the
+          trout study, so I suggest Thursday 28 August, with the intention of going
+          through the trout data in some detail.  If possible, please can you confirm
+          this is OK before you start your holiday.
+          Best regards
+ 
+          Roy
+          -----Original Message-----
+          From: Thompson, Roy S
+          Sent: 15 July 2003 12:54
+          To: 'L'Haridon Jacques'
+          Subject: RE: APFO: Comments on draft Daphnia chronic report
+          Jacques,
+          A brief reply as I am out of the office this afternoon and tomorrow.  I will
+          forward your message to Bob Hoke but I expect that he will agree with my
+          view that the statistical appendix should be given as NON-GLP data.  So
+          please proceed with the revised draft on that basis - if my signature is not
+          needed, please amend the 'Word' version of the Appendix that I sent you on 3
+          July.  I will respond on my possible visit date when I return on Thursday.
+          Regards
+          Roy
+          -----Original Message-----
+          From: L'Haridon Jacques [mailto:Jacques.L'Haridon@citox.com]
+          Sent: 15 July 2003 10:25
+          To: Thompson, Roy S
+          Subject: RE: APFO: Comments on draft Daphnia chronic report
+          Importance: High
+          Roy,
+          First of all, I apologize for the delay. I had hoped to respond to your last
+          e-mails sooner but I had to face up to unexpected events the last week and
+          the 14th July is a public holiday. Furthermore, I needed to wait for
+          information from our Quality Assurance Unit regarding your statistics (see
+          below).
+          Please find below our responses to your questions (blue text).
+          -----Message d'origine-----
+          De : Thompson, Roy S [ mailto:Roy.Thompson@brixham.astrazeneca.com
+          <mailto:Roy.Thompson@brixham.astrazeneca.com> ]
+          Envoyé : mercredi 2 juillet 2003 12:46
+          À : L'Haridon Jacques
+          Objet : RE: APFO: Comments on draft Daphnia chronic report
+          Jacques,
+          Thank you for your responses, the sponsors would indeed prefer to include
+          the statistics on the length data carried out by Dr Hoke, as you suggest is
+          possible.  I have just received a description of the procedure from Dr Hoke,
+          there are just a few minor points I need to check with him before I send
+          this to you.  I assume that they would be included as an Appendix.
+          Yes. Your statistical report will be included as an Appendix.
+          I sincerely apologize for a slight misunderstanding concerning your
+          statistics which occured in my last e-mail. Please be advised that I have
+          just been informed by our Quality Assurance (the report is now audited) that
+          the study is now considered as a multi-site study (a new legislation
+          concerning these studies has been published by OECD in 2002) if your
+          statistics are included in our report. These statistics will be considered
+          as ""GLP"" (and stated as performed under GLP in our report) if Dr Hoke, as
+          the ""Principal Investigator"" (PI), can provide us with an audited report,
+          signed by himself, including a GLP statement and mentioning the PI ""Test
+          Site"" address and the reference code of the ""statistical report"". In this
+          case, could you please transfer to Dr Hoke the attached document (""PIDS
+          22658 ECD.doc"") to be completed, signed and returned (by e-mail if possible
+          and also by mail) to us.
+          Otherwise and more simply and probably more rapidly, these statistics can be
+ 
+          presented in our report as non-GLP data with your signature (as the Study
+          Monitor) as a statement.
+          Could you please confirm the reception of the ""PIDS"" and let me know your
+          opinion.
+          *       Please can you confim whether my signature is required on the pages
+          that go in the report or whether this is needed just on a copy you hold in
+          the archive ?
+          Your signature on a copy we hold in the archive is sufficient in case of
+          non-GLP statistical report (see above).
+          *       Do you think it necessary (under your GLP) to have a signature of
+          the person who carried out the statistics or is just mine sufficient ?
+          The signature of Dr Hoke will be required in the statistical report in case
+          of GLP report (see above).
+          Regarding your other responses:
+          *       I agree that it would be better not to make reference to your
+          historical data for length if there is only one previous study.
+          *       On reproduction, I suggest that you could add a sentence (perhaps
+          immediately after the sentence in which the neonate numbers are listed)
+          stating (or similar) ""The level of reproduction in the control (0 mg/l)  was
+          within the range previously observed under these conditions in this
+          laboratory"" but without reference to the actual historical values - but I
+          leave the details to your judgement.
+          I agree with your proposal.
+          *         We are grateful for and agree the remaining responses.
+          Thanks again for your efforts.  As you are aware, the EPA deadline for this
+          was end of June, but I think it was worthwhile to clarify these statistics.
+          We would be grateful if you could issue the report as soon as possible after
+          I send you the statistics details - but please contact me if you have any
+          questions.
+          As several sections of the report have been revised, I propose to send to
+          you before the end of this week by e-mail a new (audited) version, in the
+          case of a non-GLP statistical report, so that you can verify the document
+          before finalization. More time will probably be required for a GLP
+          statistical report.
+          I also need to ask when the draft algal report will be available - this was
+          also originally promised to the EPA on the same timescale.
+          We plan to send to you the draft algal report at the same time than the
+          second version of the draft daphnid report (before the end of this week).
+            I will assume that no news is good news on the trout study ? I will be in
+          touch soon to arrange a visit.
+          The end of the trout study is planned on 7 August. We have not completed
+          analysis of all data generated during the last weeks. However, I will attach
+          a brief summary of results obtained up to now in my next e-mail (reception
+          by the end of this week) so that you can advise the sponsors of the study
+          progress.
+          It will be a pleasure to meet you soon at CIT to discuss about the results
+          obtained in this trout chronic study. Please note that I will be on holiday
+          between Friday 18 July midday and Friday 8 August. Regarding your visit,
+          unfortunately, I can only propose a date convenient to you from 12 August
+          (and if possible from 18 August). Could you please let me know the chosen
+          date.
+          Best regards
+          Jacques
+          Message-ID: 
+          <1DB5E848C72B8442A3418E4ED9C9B7F108687E@ukbxelmsx01.ukbx.astrazeneca.net>
+          From: ""Thompson, Roy S"" <Roy.Thompson@brixham.astrazeneca.com>
+          To: ""Jacques L'Haridon (E-mail)"" <Jacques.L'Haridon@citox.com>
+ 
+          Subject: APFO daphnia chronic
+          Date: Thu, 3 Jul 2003 10:07:39 +0100
+          X-Mailer: Internet Mail Service (5.5.2650.21)
+          MIME-Version: 1.0
+          Content-Type: multipart/mixed;  boundary=""----_=_NextPart_002_01C354F4.8C92A500""
+          Jacques,
+          Further to my Email of yesterday, I attach a draft of the statistics
+          appendix.  Please let me know if it is suitable - if so I will send as a
+          signed PDF file.
+          Regards
+          Roy
+           <<Statistics of Daphnia length data Rev2.doc>>
+           - Statistics of Daphnia length data Rev2.doc
+          Message-ID: 
+          <1DB5E848C72B8442A3418E4ED9C9B7F1086895@ukbxelmsx01.ukbx.astrazeneca.net>
+          From: ""Thompson, Roy S"" <Roy.Thompson@brixham.astrazeneca.com>
+          To: ""Jacques L'Haridon (E-mail)"" <Jacques.L'Haridon@citox.com>
+          Subject: APFO Daphnia stats
+          Date: Fri, 11 Jul 2003 17:28:27 +0100
+          X-Mailer: Internet Mail Service (5.5.2650.21)
+          MIME-Version: 1.0
+          Content-Type: multipart/mixed;  boundary=""----_=_NextPart_002_01C354F4.8C92A500""
+          Jacques,
+          Further to my Emails of 2 and 3 July, I attach a PDF of the Daphnia stats
+          carrying my signature.
+          I hope that the Daphnia report can now be issued.
+          Please respond to my question of 2 July on the Algal draft report - when can
+          we expect to receive this.
+          Regards
+          Roy
+           <<Statistical Analysis of Daphnia length.pdf>>
+           - Statistical Analysis of Daphnia length.pdf",,MSG-ID:1DB5E848C72B8442A3418E4ED9C9B7F1086839@ukbxelmsx01.ukbx.astrazeneca.net|IN-REPLY-TO:|REFS:
+4964806,9D3598AF292AA54CBDB9CDDE0FD834370170781A@dcex01.lw.com,,,9D3598AF292AA54CBDB9CDDE0FD834370170781A@dcex01.lw.com,JULIA.HATCHER@LW.com,masantoro@mmm.com,,,FW: Revised Draft Portion of 1/26 Presentation and Open Areas Document,2006-01-23T19:35:02.000Z,Solr Import,email_4964806.eml,"NotesID: A31B31DEEA5A7C1A862570FF005024A1
+PostedDate:
+01/23/2006 02:35:02 PM
+DeliveredDate:
+01/23/2006 02:35:24 PM
+Received:
+from mailrelay02.mmm.com ([192.28.4.53])          by us-mail-11.mmm.com (Lotus Domino Release 6.5.3)          with ESMTP id 2006012308352247-24606 ;          Mon, 23 Jan 2006 08:35:22 -0600
+from mailrelay02.mmm.com ([192.28.4.53])          by us-mail-11.mmm.com (Lotus Domino Release 6.5.3)          with ESMTP id 2006012308352247-24606 ;          Mon, 23 Jan 2006 08:35:22 -0600
+from mailrelay02.mmm.com ([192.28.4.53])          by us-mail-11.mmm.com (Lotus Domino Release 6.5.3)          with ESMTP id 2006012308352247-24606 ;          Mon, 23 Jan 2006 08:35:22 -0600
+from mailrelay02.mmm.com ([192.28.4.53])          by us-mail-11.mmm.com (Lotus Domino Release 6.5.3)          with ESMTP id 2006012308352247-24606 ;          Mon, 23 Jan 2006 08:35:22 -0600
+from mailrelay02.mmm.com ([192.28.4.53])          by us-mail-11.mmm.com (Lotus Domino Release 6.5.3)          with ESMTP id 2006012308352247-24606 ;          Mon, 23 Jan 2006 08:35:22 -0600
+Categories:
+
+From:
+JULIA.HATCHER@LW.com
+SendTo:
+masantoro@mmm.com
+BOB.SUSSMAN@LW.com
+tjdipasquale@mmm.com
+CopyTo:
+ghmillet1@mmm.com
+Subject:
+FW: Revised Draft Portion of 1/26 Presentation and Open Areas Document
+Body:
+-----Original Message-----
+From: Hatcher, Julia (DC)
+Sent: Friday, January 20, 2006 3:15 PM
+To: 'Allen Weidman'; sbaer@agcchem.com; David Boothe (E-mail); David
+Menotti (E-mail); David Sarvadi (E-mail); George Millet (E-mail 2);
+Mike Cardona (E-mail); Randy Roussel (E-mail); Taka Nakamura (E-mail)
+Cc: Don Duncan; Jennifer Buffington; Lynne Harris; Marie Martinko
+Subject: Revised Draft Portion of 1/26 Presentation and Open Areas
+Document
+
+Greetings.  Attached is a revised draft of the portion of the 1/26
+presentation assigned to me reflecting the revisions that we discussed
+this morning.  I also am enclosing a revised draft of the open areas
+document that we might want to consider sharing with EPA.
+
+*******************************************************************************
+To comply with IRS regulations, we advise you that any discussion of Federal 
+tax issues in this e-mail was not intended or written to be used, and cannot be 
+used by you, (i) to avoid any penalties imposed under the Internal Revenue Code 
+or (ii) to promote, market or recommend to another party any transaction or 
+matter addressed herein.
+
+For more information please go to  
+http://www.lw.com/resource/Publications/_pdf/pub1289_1.pdf
+*******************************************************************************
+
+This email may contain material that is confidential, privileged and/or 
+attorney work product for the sole use of the intended recipient.  Any review, 
+reliance or distribution by others or forwarding without express permission is 
+strictly prohibited.  If you are not the intended recipient, please contact the 
+sender and delete all copies.
+
+Latham & Watkins LLP
+Content-Transfer-Encoding: 7bit
+Content-class: urn:content-classes:message
+MIME-Version: 1.0
+X-MimeOLE: Produced By Microsoft Exchange V6.5.7226.0
+Subject: Revised Portion of 1/26/06 Presentation
+Date: Fri, 20 Jan 2006 14:58:02 -0500
+Message-ID: <9D3598AF292AA54CBDB9CDDE0FD834370170781A@dcex01.lw.com>
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator:
+Thread-Topic: Revised Portion of 1/26/06 Presentation
+Thread-Index: AcYd/BjZfYlzxyEbRqOKxWztYeBx8A==
+From: JULIA.HATCHER@LW.com
+To: JULIA.HATCHER@LW.com
+Content-Type: multipart/mixed; boundary=""----_=_NextPart_002_01C61DFB.D22E371E""
+<<825697_2.PPT>>   - 825697_2.PPTContent-Transfer-Encoding: binary
+Content-class: urn:content-classes:message
+MIME-Version: 1.0
+X-MimeOLE: Produced By Microsoft Exchange V6.5.7226.0
+Subject: Draft Open Areas Document
+Date: Fri, 20 Jan 2006 15:02:41 -0500
+Message-ID: <9D3598AF292AA54CBDB9CDDE0FD834370170781C@dcex01.lw.com>
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator:
+Thread-Topic: Draft Open Areas Document
+Thread-Index: AcYd/L7UMF6CjJBGQfWir1fJg9c+4A==
+From: JULIA.HATCHER@LW.com
+To: JULIA.HATCHER@LW.com
+Content-Type: application/msword; name=821376_2.DOC
+Content-Disposition: attachment; filename=821376_2.DOC
+Content-Description: 821376_2.DOC
+ - 821376_2.DOC
+InternetID:
+<9D3598AF292AA54CBDB9CDDE0FD834370170782D@dcex01.lw.com>
+
+<X_Server_Uuid>  4180DB41-A1B9-4489-B3AB-31535CDEAA72  <\X_Server_Uuid>
+<MIME_Version>  1.0  <\MIME_Version>
+<X_MimeOLE>  Produced By Microsoft Exchange V6.5.7226.0  <\X_MimeOLE>
+<X_MS_Has_Attach>  yes  <\X_MS_Has_Attach>
+<X_MS_TNEF_Correlator>    <\X_MS_TNEF_Correlator>
+<Thread_Topic>  Revised Draft Portion of 1/26 Presentation and Open Areas Document  <\Thread_Topic>
+<Thread_Index>  AcYcbjZF0B7AcVHjTFuSs1LYdpUnUwABJiUQAGKL5RAAi0YN8A==  <\Thread_Index>
+<X_OriginalArrivalTime>  23 Jan 2006 14:34:46.0035 (UTC) FILETIME=[281D1E30:01C6202A]  <\X_OriginalArrivalTime>
+<X_WSS_ID>  6FCA36250JK586506-01-01  <\X_WSS_ID>
+<X_Scanned_By>  MIMEDefang 2.52 on 192.28.4.53  <\X_Scanned_By>
+<$MIMETrack>  Itemize by SMTP Server on US-Mail-11/US-Corporate/3M/US(Release 6.5.3|September 14, 2004) at 01/23/2006 08:35:22 AM;MIME-CD by Notes Client on EDA User/EDA User(Release 6.5.2|June 01, 2004) at 02/20/2006 04:51:25 PM;MIME-CD complete at 02/20/2006 04:51:25 PM  <\$MIMETrack>
+<SMTPOriginator>  JULIA.HATCHER@LW.com  <\SMTPOriginator>
+<Form>  Memo  <\Form>
+<RoutingState>    <\RoutingState>
+<$UpdatedBy>  ;CN=US-Mail-11/OU=US-Corporate/O=3M/C=US  <\$UpdatedBy>
+<$Orig>  A31B31DEEA5A7C1A862570FF005024A1  <\$Orig>
+<$Revisions>    <\$Revisions>
+<RouteServers>  CN=US-Mail-11/OU=US-Corporate/O=3M/C=US  <\RouteServers>
+<RouteTimes>  01/23/2006 02:35:22 PM-01/23/2006 02:35:24 PM  <\RouteTimes>
+<$MsgTrackFlags>  0  <\$MsgTrackFlags>
+<$MiniView>    <\$MiniView>
+<$FolderRef>  5E502A1BAAAF40CA85256197006C1A32  <\$FolderRef>
+<$FolderRefID>  32696  <\$FolderRefID>
+<$FolderRefFlags>  0  <\$FolderRefFlags>",,MSG-ID:9D3598AF292AA54CBDB9CDDE0FD834370170781A@dcex01.lw.com|IN-REPLY-TO:|REFS:
+5353501,OFC1CF7929.F7C34050-ON86256A4E.0056CA60@mmm.com,,,OFC1CF7929.F7C34050-ON86256A4E.0056CA60@mmm.com,GPlum@aol.com,CN=Kent R. Lindstrom/OU=US-Corporate/O=3M/C=US@3M-Corporate,,,Fwd: FC-1395 (2of2),2001-05-16T22:24:57.000Z,Solr Import,email_5353501.eml,"NotesID: A1F4093EC3ECA48786256A4E005FCDEB
+PostedDate:
+05/16/2001 06:24:57 PM
+DeliveredDate:
+05/16/2001 06:25:50 PM
+Categories:
+
+From:
+GPlum@aol.com
+SendTo:
+CN=Kent R. Lindstrom/OU=US-Corporate/O=3M/C=US@3M-Corporate
+CopyTo:
+BCC:
+Subject:
+Fwd: FC-1395 (2of2)
+Body:
+Return-Path: <jamaloney@mmm.com>
+Received: from  rly-yh04.mx.aol.com (rly-yh04.mail.aol.com [172.18.147.36]) by 
+air-yh01.mail.aol.com (v77_r1.36) with ESMTP; Wed, 16 May 2001 11:50:24 -0400
+Received: from  sulu.mmm.com (sulu.mmm.com [192.28.4.21]) by 
+rly-yh04.mx.aol.com (v77_r1.36) with ESMTP; Wed, 16 May 2001 11:49:22 -0400
+Received: from us-clarkgable.mmm.com (us-clarkgable-dcip.mmm.com [169.10.8.83]) 
+by sulu.mmm.com (8.8.7/8.8.7) with ESMTP id KAA26717 for <gplum@aol.com>; Wed, 
+16 May 2001 10:49:19 -0500 (CDT)
+Subject: FC-1395 (2of2)
+To: gplum@aol.com
+X-Mailer: Lotus Notes Release 5.0.3  March 21, 2000
+Message-ID: <OFC1CF7929.F7C34050-ON86256A4E.0056CA60@mmm.com>
+From: jamaloney@mmm.com
+Date: Wed, 16 May 2001 10:49:13 -0500
+X-MIMETrack: Serialize by Router on US-ClarkGable/US-Corporate/3M/US(Release 
+5.0.5 |September 22, 2000) at 05/16/2001 10:49:19 AM
+MIME-Version: 1.0
+Content-type:  multipart/mixed;  
+Boundary=""0__=86256A4E0056CA608f9e8a93df938690918c86256A4E0056CA60""
+Content-Disposition:  inline
+
+
+Grant,
+
+(See attached file: FC-1395  Deviation Form1.doc)(See attached file:
+FC-1395  Deviation Form2.doc)(See attached file: FC-1395  Deviation
+Form3.doc)(See attached file: FC-1395  Deviation Form4.doc)(See attached
+file: FC-1395  Deviation Form5.doc)(See attached file: FC-1395  Deviation
+Form6.doc)(See attached file: FC1395 Hydrolysis study 10-98 audit response
+3-21-01.doc)(See attached file: FC1395 compiled (021099) Corrected
+032101.xls)(See attached file: FC1395 compiled data on 021099..xls)(See
+attached file: NB quadratic solver for PFOS data .xls)
+
+
+
+
+
+
+
+
+
+
+ - FC-1395  Deviation Form1.doc
+ - FC-1395  Deviation Form2.doc
+ - FC-1395  Deviation Form3.doc
+ - FC-1395  Deviation Form4.doc
+ - FC-1395  Deviation Form5.doc
+ - FC-1395  Deviation Form6.doc
+ - FC1395 Hydrolysis study 10-98 audit response 3-21-01.doc
+ - FC1395 compiled (021099) Corrected 032101.xls - FC1395 compiled data on 021099..xls - NB quadratic solver for PFOS data .xls
+
+InternetID:
+<OFA1F4093E.C3ECA487-ON86256A4E.005FCDEB@LocalDomain>
+
+<$AdditionalHeaders>  Received: from leslie.mmm.com ([192.28.4.11]) by em-stpmta-03.mmm.com (Lotus SMTP MTA v4.6.5  (863.2 5-20-1999)) with SMTP id 86256A4E.005FCAB4; Wed, 16 May 2001 12:26:18 -0500   Received: from imo-m06.mx.aol.com (imo-m06.mx.aol.com [64.12.136.161])    by leslie.mmm.com (8.8.6 (PHNE_17135)/8.8.7) with ESMTP id MAA02774    for <krlindstrom@mmm.com>; Wed, 16 May 2001 12:25:34 -0500 (CDT)   From: GPlum@aol.com   Received: from GPlum@aol.com    by imo-m06.mx.aol.com (mail_out_v30.10.) id x.4a.15d2a8fc (15898)     for <krlindstrom@mmm.com>; Wed, 16 May 2001 13:24:58 -0400 (EDT)   Received: from  web31.aolmail.aol.com (web31.aolmail.aol.com [205.188.222.7]) by air-id09.mx.aol.com (v77_r1.37) with ESMTP; Wed, 16 May 2001 13:24:58 -0400   Date: Wed, 16 May 2001 13:24:57 EDT   Subject: Fwd: FC-1395 (2of2)   To: <krlindstrom@mmm.com>   Mime-Version: 1.0   Content-Type:  multipart/mixed; boundary=""----_Part_3b02b7ea-000a-700b-010203040506""   Content-Transfer-Encoding:  7bit   X-Mailer: Unknown (No Version)   Message-ID: <4a.15d2a8fc.283411ea@aol.com>        <\$AdditionalHeaders>
+<SMTPOriginator>  GPlum@aol.com  <\SMTPOriginator>
+<RouteServers>  CN=EM-STPMTA-03/OU=EM-EMI/O=3M/C=US;CN=US-TomMix/OU=US-Corporate/O=3M/C=US  <\RouteServers>
+<RouteTimes>  05/16/2001 06:26:26 PM-05/16/2001 06:26:28 PM;05/16/2001 06:25:47 PM-05/16/2001 06:25:50 PM  <\RouteTimes>
+<$Orig>  A1F4093EC3ECA48786256A4E005FCDEB  <\$Orig>
+<RoutingState>    <\RoutingState>
+<$MsgTrackFlags>  0  <\$MsgTrackFlags>
+<$FolderRef>  DD2EDA9E992FCB3E86256D13000CB607  <\$FolderRef>
+<$FolderRefID>  0;87  <\$FolderRefID>
+<$FolderRefFlags>  0;0  <\$FolderRefFlags>
+<Form>  Memo  <\Form>
+<AltFrom>    <\AltFrom>
+<Logo>  StdNotesLtrGateway  <\Logo>
+<useApplet>  True  <\useApplet>
+<tmpImp2>    <\tmpImp2>
+<DefaultMailSaveOptions>  1  <\DefaultMailSaveOptions>
+<Query_String>    <\Query_String>
+<WebSubject>  Fwd: FC-1395 (2of2)  <\WebSubject>
+<FaxToList>    <\FaxToList>
+<$KeepPrivate>    <\$KeepPrivate>
+<Encrypt>  0  <\Encrypt>
+<Sign>  0  <\Sign>
+<ReturnReceipt>  0  <\ReturnReceipt>
+<EnterSendTo>  CN=Kent R. Lindstrom/OU=US-Corporate/O=3M/C=US@3M-Corporate  <\EnterSendTo>
+<EnterCopyTo>    <\EnterCopyTo>
+<EnterBlindCopyTo>    <\EnterBlindCopyTo>
+<$UpdatedBy>  CN=EM-STPMTA-03/OU=EM-EMI/O=3M/C=US;CN=US-TomMix/OU=US-Corporate/O=3M/C=US;CN=Jean J. Klisiewicz/OU=LA-Legal/O=3M/C=US  <\$UpdatedBy>
+<$Revisions>  05/16/2001 06:25:49 PM;09/23/2005 11:54:43 PM;09/23/2005 11:54:43 PM;09/23/2005 11:54:43 PM;09/23/2005 11:54:43 PM;09/23/2005 11:54:43 PM;09/23/2005 11:54:43 PM;09/23/2005 11:54:43 PM;09/23/2005 11:54:43 PM;09/23/2005 11:54:43 PM;09/23/2005 11:54:43 PM  <\$Revisions>",,MSG-ID:OFC1CF7929.F7C34050-ON86256A4E.0056CA60@mmm.com|IN-REPLY-TO:|REFS:
+6057644,6B97F7689793924EAA1C83F695D61AE75E161D13@DenusMBX01.sorin.com,,,6B97F7689793924EAA1C83F695D61AE75E161D13@DenusMBX01.sorin.com,"Microsoft Outlook on behalf of Berch, Steve","Trevor, Jim",,,3T,2016-11-03T14:01:00.000Z,Solr Import,email_6057644.eml,"﻿From: Microsoft Outlook on behalf of Berch, Steve
+Sent: Thursday, November 03, 2016 10:01 AM
+To: Trevor, Jim
+Subject: 3T
+Attachments: 3T.msg
+
+Sender: steve.berch@sorin.com
+Subject: 3T
+Message-Id: <6B97F7689793924EAA1C83F695D61AE75E161D13@DenusMBX01.sorin.com>
+To: Jim.Trevor@sorin.com",,MSG-ID:6B97F7689793924EAA1C83F695D61AE75E161D13@DenusMBX01.sorin.com|IN-REPLY-TO:|REFS:
+6057309,49BCC4897B3C62468BFC576414E1126D1331D837@DenusMBX01.sorin.com,,,49BCC4897B3C62468BFC576414E1126D1331D837@DenusMBX01.sorin.com,"Microsoft Outlook on behalf of Rasmusson, Jenna","Trevor, Jim",,,RE: 3T,2016-01-06T16:07:00.000Z,Solr Import,email_6057309.eml,"﻿From: Microsoft Outlook on behalf of Rasmusson, Jenna
+Sent: Wednesday, January 06, 2016 11:07 AM
+To: Trevor, Jim
+Subject: RE: 3T
+Attachments: RE: 3T
+
+Sender: Jenna.Rasmusson@livanova.com
+Subject: RE: 3T
+Message-Id: <49BCC4897B3C62468BFC576414E1126D1331D837@DenusMBX01.sorin.com>
+To: Jim.Trevor@livanova.com",,MSG-ID:49BCC4897B3C62468BFC576414E1126D1331D837@DenusMBX01.sorin.com|IN-REPLY-TO:|REFS:
+6056548,69C6E00B7D5D734ABBD0299B7002E84D37E44926@DenusMBX01.sorin.com,,,69C6E00B7D5D734ABBD0299B7002E84D37E44926@DenusMBX01.sorin.com,"Microsoft Outlook on behalf of McNerney, Sean","Trevor, Jim",,,Lunch Meeting,2014-08-12T22:14:00.000Z,Solr Import,email_6056548.eml,"﻿From: Microsoft Outlook on behalf of McNerney, Sean
+Sent: Tuesday, August 12, 2014 06:14 PM
+To: Trevor, Jim
+Subject: Lunch Meeting
+Attachments: Lunch Meeting.msg
+
+Sender: Sean.McNerney@sorin.com
+Subject: Lunch Meeting
+Message-Id: <69C6E00B7D5D734ABBD0299B7002E84D37E44926@DenusMBX01.sorin.com>
+To: Jim.Trevor@sorin.com",,MSG-ID:69C6E00B7D5D734ABBD0299B7002E84D37E44926@DenusMBX01.sorin.com|IN-REPLY-TO:|REFS:
+6058539,75928B96AD51FA418EAFA583A0338682ED23E4EC@WPMITA07.sorin.com,,,75928B96AD51FA418EAFA583A0338682ED23E4EC@WPMITA07.sorin.com,"Microsoft Outlook on behalf of Trevor, Jim","Wagner, Detlef",,,RE: Update,2016-10-14T12:03:00.000Z,Solr Import,email_6058539.eml,"﻿From: Microsoft Outlook on behalf of Trevor, Jim
+Sent: Friday, October 14, 2016 08:03 AM
+To: Wagner, Detlef
+Subject: RE: Update
+Attachments: RE: Update.msg
+
+Sender: Jim.Trevor@sorin.com
+Subject: RE: Update
+Message-Id: <75928B96AD51FA418EAFA583A0338682ED23E4EC@WPMITA07.sorin.com>
+To: Detlef.Wagner@sorin.com",,MSG-ID:75928B96AD51FA418EAFA583A0338682ED23E4EC@WPMITA07.sorin.com|IN-REPLY-TO:|REFS:
+6057360,7BD740B97807994BA07ABA7CDD00025956E3D72C@WPMITA08.sorin.com,,,7BD740B97807994BA07ABA7CDD00025956E3D72C@WPMITA08.sorin.com,"Microsoft Outlook on behalf of Oelgarth, Frank","Trevor, Jim",,,AW: 3T,2016-01-09T11:54:00.000Z,Solr Import,email_6057360.eml,"﻿From: Microsoft Outlook on behalf of Oelgarth, Frank
+Sent: Saturday, January 09, 2016 06:54 AM
+To: Trevor, Jim
+Subject: AW: 3T
+Attachments: AW: 3T.msg
+
+Sender: Frank.Oelgarth@livanova.com
+Subject: AW: 3T
+Message-Id: <7BD740B97807994BA07ABA7CDD00025956E3D72C@WPMITA08.sorin.com>
+To: Jim.Trevor@livanova.com",,MSG-ID:7BD740B97807994BA07ABA7CDD00025956E3D72C@WPMITA08.sorin.com|IN-REPLY-TO:|REFS:
+6057172,E1655D26433FD041BEFAB95249084580ED1AA68D@WPMITA07.sorin.com,,,E1655D26433FD041BEFAB95249084580ED1AA68D@WPMITA07.sorin.com,"Microsoft Outlook on behalf of Wagner, Detlef","Trevor, Jim",,,AW: Update,2016-10-14T10:10:00.000Z,Solr Import,email_6057172.eml,"﻿From: Microsoft Outlook on behalf of Wagner, Detlef
+Sent: Friday, October 14, 2016 06:10 AM
+To: Trevor, Jim
+Subject: AW: Update
+Attachments: AW: Update
+
+Sender: Detlef.Wagner@sorin.com
+Subject: AW: Update
+Message-Id: <E1655D26433FD041BEFAB95249084580ED1AA68D@WPMITA07.sorin.com>
+To: Jim.Trevor@sorin.com",,MSG-ID:E1655D26433FD041BEFAB95249084580ED1AA68D@WPMITA07.sorin.com|IN-REPLY-TO:|REFS:
+6056911,E1655D26433FD041BEFAB95249084580AA27F528@WPMITA07.sorin.com,,,E1655D26433FD041BEFAB95249084580AA27F528@WPMITA07.sorin.com,"Microsoft Outlook on behalf of Wagner, Detlef","Trevor, Jim",,,HC decontamination,2015-01-27T06:13:00.000Z,Solr Import,email_6056911.eml,"﻿From: Microsoft Outlook on behalf of Wagner, Detlef
+Sent: Tuesday, January 27, 2015 01:13 AM
+To: Trevor, Jim
+Subject: HC decontamination 
+Attachments: HC decontamination 
+
+Sender: Detlef.Wagner@sorin.com
+Subject: HC decontamination 
+Message-Id: <E1655D26433FD041BEFAB95249084580AA27F528@WPMITA07.sorin.com>
+To: Jim.Trevor@sorin.com",,MSG-ID:E1655D26433FD041BEFAB95249084580AA27F528@WPMITA07.sorin.com|IN-REPLY-TO:|REFS:
+6057872,4F4B8C4DAFCBA74F98D66E3EF882F19E42854E5F@AUSTINMAILBX02.cyberonics.com,,,4F4B8C4DAFCBA74F98D66E3EF882F19E42854E5F@AUSTINMAILBX02.cyberonics.com,"Microsoft Outlook on behalf of King, Karen","Trevor, Jim",,,FW: FYI,2016-10-18T08:31:00.000Z,Solr Import,email_6057872.eml,"﻿From: Microsoft Outlook on behalf of King, Karen
+Sent: Tuesday, October 18, 2016 04:31 AM
+To: Trevor, Jim
+Subject: FW: FYI
+Attachments: FW: FYI.msg
+
+Sender: Karen.King@cyberonics.com
+Subject: FW: FYI
+Message-Id: <4F4B8C4DAFCBA74F98D66E3EF882F19E42854E5F@AUSTINMAILBX02.cyberonics.com>
+Recipient: Jim.Trevor@sorin.com",,MSG-ID:4F4B8C4DAFCBA74F98D66E3EF882F19E42854E5F@AUSTINMAILBX02.cyberonics.com|IN-REPLY-TO:|REFS:
+6057999,6B97F7689793924EAA1C83F695D61AE75DDC6767@DenusMBX02.sorin.com,,,6B97F7689793924EAA1C83F695D61AE75DDC6767@DenusMBX02.sorin.com,"Microsoft Outlook on behalf of Berch, Steve","Trevor, Jim",,,3T Presentation,2016-07-20T18:24:00.000Z,Solr Import,email_6057999.eml,"﻿From: Microsoft Outlook on behalf of Berch, Steve
+Sent: Wednesday, July 20, 2016 02:24 PM
+To: Trevor, Jim
+Subject: 3T Presentation
+Attachments: 3T Presentation
+
+Sender: steve.berch@sorin.com
+Subject: 3T Presentation
+Message-Id: <6B97F7689793924EAA1C83F695D61AE75DDC6767@DenusMBX02.sorin.com>
+To: Jim.Trevor@sorin.com",,MSG-ID:6B97F7689793924EAA1C83F695D61AE75DDC6767@DenusMBX02.sorin.com|IN-REPLY-TO:|REFS:
+6057141,75928B96AD51FA418EAFA583A0338682B84D66E8@WPMITA07.sorin.com,,,75928B96AD51FA418EAFA583A0338682B84D66E8@WPMITA07.sorin.com,"Microsoft Outlook on behalf of Trevor, Jim","McNerney, Sean",,,RE: 3T,2016-01-05T12:15:00.000Z,Solr Import,email_6057141.eml,"﻿From: Microsoft Outlook on behalf of Trevor, Jim
+Sent: Tuesday, January 05, 2016 07:15 AM
+To: McNerney, Sean
+Subject: RE: 3T
+Attachments: RE: 3T.msg
+
+Sender: Jim.Trevor@livanova.com
+Subject: RE: 3T
+Message-Id: <75928B96AD51FA418EAFA583A0338682B84D66E8@WPMITA07.sorin.com>
+To: Sean.McNerney@livanova.com",,MSG-ID:75928B96AD51FA418EAFA583A0338682B84D66E8@WPMITA07.sorin.com|IN-REPLY-TO:|REFS:
+6056757,69C6E00B7D5D734ABBD0299B7002E84D37E44E0E@DenusMBX01.sorin.com,,,69C6E00B7D5D734ABBD0299B7002E84D37E44E0E@DenusMBX01.sorin.com,"Microsoft Outlook on behalf of McNerney, Sean","Trevor, Jim",,,Updated Topics,2014-08-13T11:09:00.000Z,Solr Import,email_6056757.eml,"﻿From: Microsoft Outlook on behalf of McNerney, Sean
+Sent: Wednesday, August 13, 2014 07:09 AM
+To: Trevor, Jim
+Subject: Updated Topics
+Attachments: Updated Topics.msg
+
+Sender: Sean.McNerney@sorin.com
+Subject: Updated Topics
+Message-Id: <69C6E00B7D5D734ABBD0299B7002E84D37E44E0E@DenusMBX01.sorin.com>
+To: Jim.Trevor@sorin.com",,MSG-ID:69C6E00B7D5D734ABBD0299B7002E84D37E44E0E@DenusMBX01.sorin.com|IN-REPLY-TO:|REFS:
+6056792,75928B96AD51FA418EAFA583A03386820106AD9AE0@WPMITA07.sorin.com,,,75928B96AD51FA418EAFA583A03386820106AD9AE0@WPMITA07.sorin.com,"Microsoft Outlook on behalf of Trevor, Jim",Janie Trevor,,,Please proof,2017-10-04T11:13:00.000Z,Solr Import,email_6056792.eml,"﻿From: Microsoft Outlook on behalf of Trevor, Jim
+Sent: Wednesday, October 04, 2017 07:13 AM
+To: Janie Trevor
+Subject: Please proof
+Attachments: Please proof
+
+Sender: Jim.Trevor@sorin.com
+Subject: Please proof
+Message-Id: <75928B96AD51FA418EAFA583A03386820106AD9AE0@WPMITA07.sorin.com>
+To: janietrevor@gmail.com",,MSG-ID:75928B96AD51FA418EAFA583A03386820106AD9AE0@WPMITA07.sorin.com|IN-REPLY-TO:|REFS:

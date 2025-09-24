@@ -1,0 +1,174 @@
+const fs = require('fs');
+
+// Create test data with proper bates information
+const testThreadData = {
+  "summary": {
+    "generatedAt": new Date().toISOString(),
+    "totalEmails": 5,
+    "totalThreads": 2,
+    "methodUsed": "Enhanced Bates Threading Test"
+  },
+  "threads": {
+    "BATES_TEST_THREAD_1": {
+      "id": "BATES_TEST_THREAD_1",
+      "subject": "Laboratory Report with Attachments",
+      "totalEmails": 3,
+      "participantCount": 3,
+      "participants": [
+        "sarah.bailey@3m.com",
+        "justin.pettinelli@lab.com",
+        "allan.carasco@3m.com"
+      ],
+      "dateRange": {
+        "start": "2016-08-01T10:00:00Z",
+        "end": "2016-08-03T15:30:00Z"
+      },
+      "maxDepth": 2,
+      "branchCount": 1,
+      "replyCount": 2,
+      "forwardCount": 0,
+      "emails": [
+        {
+          "id": "bates_email_1",
+          "messageId": "<lab-report-001@3m.com>",
+          "inReplyTo": "",
+          "references": [],
+          "threadId": "BATES_TEST_THREAD_1",
+          "from": "sarah.bailey@3m.com",
+          "to": ["justin.pettinelli@lab.com"],
+          "cc": [],
+          "bcc": [],
+          "subject": "Laboratory Report Request",
+          "dateSent": "2016-08-01T10:00:00Z",
+          "custodian": "Bates Test Import",
+          "fileName": "email_bates_1.eml",
+          "begBates": "3M_AFFF_MDL02407295",
+          "endBates": "3M_AFFF_MDL02407299",
+          "begAttach": "3M_AFFF_MDL02407300",
+          "endAttach": "3M_AFFF_MDL02407323",
+          "fullText": "Hi Justin,\n\nI'm sending the laboratory report for the Oakdale site as requested. Please review the attached documents and let me know if you need any additional analysis.\n\nAttachments:\nLaboratory Report for Lab Request No ISO16-04-08 Oakdale Disposal Site August 2016 MCES Final.pdf (1.2 MB); Data Tables Supplementary.xlsx (850 kB); Chain of Custody Forms.pdf (450 kB)\n\nBest regards,\nSarah Bailey\n3M Environmental Laboratory",
+          "confidentiality": "Internal Use Only"
+        },
+        {
+          "id": "bates_email_2",
+          "messageId": "<lab-report-002@lab.com>",
+          "inReplyTo": "<lab-report-001@3m.com>",
+          "references": ["<lab-report-001@3m.com>"],
+          "threadId": "BATES_TEST_THREAD_1",
+          "from": "justin.pettinelli@lab.com",
+          "to": ["sarah.bailey@3m.com"],
+          "cc": ["allan.carasco@3m.com"],
+          "bcc": [],
+          "subject": "RE: Laboratory Report Request",
+          "dateSent": "2016-08-02T14:20:00Z",
+          "custodian": "Bates Test Import",
+          "fileName": "email_bates_2.eml",
+          "begBates": "3M_AFFF_MDL02407324",
+          "endBates": "3M_AFFF_MDL02407326",
+          "begAttach": "3M_AFFF_MDL02407327",
+          "endAttach": "3M_AFFF_MDL02407335",
+          "fullText": "Sarah,\n\nThank you for the comprehensive laboratory report. I've reviewed the data and have a few questions about the methodology used for PFOA detection. I'm attaching our internal review comments and some comparative data from similar sites.\n\nAttachments:\nInternal Review Comments on Oakdale Report.docx (125 kB); Comparative Site Data Analysis.xlsx (780 kB)\n\nCould we schedule a call to discuss these findings?\n\nBest,\nJustin Pettinelli\nEnvironmental Testing Lab",
+          "confidentiality": "Internal Use Only"
+        },
+        {
+          "id": "bates_email_3",
+          "messageId": "<lab-report-003@3m.com>",
+          "inReplyTo": "<lab-report-002@lab.com>",
+          "references": ["<lab-report-001@3m.com>", "<lab-report-002@lab.com>"],
+          "threadId": "BATES_TEST_THREAD_1",
+          "from": "allan.carasco@3m.com",
+          "to": ["justin.pettinelli@lab.com", "sarah.bailey@3m.com"],
+          "cc": [],
+          "bcc": [],
+          "subject": "RE: Laboratory Report Request - Meeting Scheduled",
+          "dateSent": "2016-08-03T15:30:00Z",
+          "custodian": "Bates Test Import",
+          "fileName": "email_bates_3.eml",
+          "begBates": "3M_AFFF_MDL02407336",
+          "endBates": "3M_AFFF_MDL02407337",
+          "begAttach": "",
+          "endAttach": "",
+          "fullText": "Justin and Sarah,\n\nI've scheduled a conference call for Thursday at 2 PM EST to discuss the laboratory findings. I'll send calendar invites shortly.\n\nRegards,\nAllan Carasco\n3M Project Manager",
+          "confidentiality": "Internal Use Only"
+        }
+      ]
+    },
+    "BATES_TEST_THREAD_2": {
+      "id": "BATES_TEST_THREAD_2",
+      "subject": "Budget Update with Financial Attachments",
+      "totalEmails": 2,
+      "participantCount": 2,
+      "participants": [
+        "bjorn.gangeness@3m.com",
+        "finance.team@3m.com"
+      ],
+      "dateRange": {
+        "start": "2016-09-01T09:00:00Z",
+        "end": "2016-09-01T16:45:00Z"
+      },
+      "maxDepth": 1,
+      "branchCount": 1,
+      "replyCount": 1,
+      "forwardCount": 0,
+      "emails": [
+        {
+          "id": "bates_email_4",
+          "messageId": "<budget-update-001@3m.com>",
+          "inReplyTo": "",
+          "references": [],
+          "threadId": "BATES_TEST_THREAD_2",
+          "from": "bjorn.gangeness@3m.com",
+          "to": ["finance.team@3m.com"],
+          "cc": [],
+          "bcc": [],
+          "subject": "Q3 Budget Update - Environmental Projects",
+          "dateSent": "2016-09-01T09:00:00Z",
+          "custodian": "Bates Test Import",
+          "fileName": "email_bates_4.eml",
+          "begBates": "3M_AFFF_MDL00870964",
+          "endBates": "3M_AFFF_MDL00870966",
+          "begAttach": "3M_AFFF_MDL00870967",
+          "endAttach": "3M_AFFF_MDL00871125",
+          "fullText": "Finance Team,\n\nPlease find attached the updated Q3 budget projections for all environmental monitoring projects. The attached spreadsheets include detailed breakdowns by project, vendor costs, and timeline adjustments.\n\nAttachments:\nQ3 Environmental Projects Budget Summary.xlsx (2.1 MB); Detailed Project Costs Breakdown.xlsx (1.8 MB); Vendor Contracts Summary.pdf (980 kB); Timeline and Milestone Updates.docx (445 kB)\n\nLet me know if you need any clarifications before our budget review meeting.\n\nBest,\nBjorn Gangeness\n3M Environmental Division",
+          "confidentiality": "Confidential"
+        },
+        {
+          "id": "bates_email_5",
+          "messageId": "<budget-update-002@3m.com>",
+          "inReplyTo": "<budget-update-001@3m.com>",
+          "references": ["<budget-update-001@3m.com>"],
+          "threadId": "BATES_TEST_THREAD_2",
+          "from": "finance.team@3m.com",
+          "to": ["bjorn.gangeness@3m.com"],
+          "cc": [],
+          "bcc": [],
+          "subject": "RE: Q3 Budget Update - Environmental Projects",
+          "dateSent": "2016-09-01T16:45:00Z",
+          "custodian": "Bates Test Import",
+          "fileName": "email_bates_5.eml",
+          "begBates": "3M_AFFF_MDL00871126",
+          "endBates": "3M_AFFF_MDL00871127",
+          "begAttach": "",
+          "endAttach": "",
+          "fullText": "Bjorn,\n\nThank you for the detailed budget update. The finance team has reviewed the projections and they look reasonable. We've approved the budget as submitted.\n\nThe updated allocations will be reflected in next week's financial reports.\n\nBest regards,\n3M Finance Team",
+          "confidentiality": "Confidential"
+        }
+      ]
+    }
+  }
+};
+
+// Write the enhanced thread data
+fs.writeFileSync('thread_report.json', JSON.stringify(testThreadData, null, 2));
+
+console.log('✅ Created enhanced thread_report.json with proper bates data');
+console.log('📊 Summary:');
+console.log(`   - Total emails: ${testThreadData.summary.totalEmails}`);
+console.log(`   - Total threads: ${testThreadData.summary.totalThreads}`);
+console.log(`   - Emails with attachments: 3`);
+console.log(`   - Largest attachment range: 158 pages (3M_AFFF_MDL00870967 - 3M_AFFF_MDL00871125)`);
+console.log('\n📎 Attachment Examples:');
+console.log('   - Laboratory Report: 24 pages of attachments');
+console.log('   - Internal Review: 9 pages of attachments');
+console.log('   - Budget Documents: 158 pages of attachments');
+console.log('\n🚀 Ready to test enhanced attachment display!');
