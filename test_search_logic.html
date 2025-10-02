@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search Logic Test</title>
+    <style>
+        body { font-family: monospace; padding: 20px; }
+        .test { margin: 10px 0; padding: 10px; border: 1px solid #ddd; }
+        .pass { background: #d4edda; }
+        .fail { background: #f8d7da; }
+    </style>
+</head>
+<body>
+    <h1>Search Logic Test</h1>
+    <div id="results"></div>
+
+    <script>
+        const testMessage = {
+            messageId: "msg004",
+            from: "cto@company.com",
+            to: ["ceo@company.com", "executive-team@company.com"],
+            cc: ["engineering@company.com"],
+            subject: "Re: Project Phoenix - Technology Integration Assessment",
+            body: "CEO and Team, From a technical perspective..."
+        };
+
+        function testSearch(searchQuery, message) {
+            const query = searchQuery.toLowerCase();
+            const matches = message.from.toLowerCase().includes(query) ||
+                          message.subject.toLowerCase().includes(query) ||
+                          message.body.toLowerCase().includes(query) ||
+                          (message.to && message.to.some(addr => addr.toLowerCase().includes(query))) ||
+                          (message.cc && message.cc.some(addr => addr.toLowerCase().includes(query)));
+            return matches;
+        }
+
+        const tests = [
+            { query: "cto", expected: true, reason: "from field contains 'cto'" },
+            { query: "legal", expected: false, reason: "no field contains 'legal'" },
+            { query: "ceo", expected: true, reason: "to field contains 'ceo'" },
+            { query: "engineering", expected: true, reason: "cc field contains 'engineering'" },
+            { query: "phoenix", expected: true, reason: "subject contains 'phoenix'" },
+            { query: "technical", expected: true, reason: "body contains 'technical'" }
+        ];
+
+        const resultsDiv = document.getElementById('results');
+        
+        tests.forEach(test => {
+            const result = testSearch(test.query, testMessage);
+            const passed = result === test.expected;
+            
+            const div = document.createElement('div');
+            div.className = `test ${passed ? 'pass' : 'fail'}`;
+            div.innerHTML = `
+                <strong>Query: "${test.query}"</strong><br>
+                Expected: ${test.expected} (${test.reason})<br>
+                Got: ${result}<br>
+                Status: ${passed ? '✓ PASS' : '✗ FAIL'}
+            `;
+            resultsDiv.appendChild(div);
+            
+            console.log(`Test "${test.query}": ${passed ? 'PASS' : 'FAIL'} - Expected ${test.expected}, Got ${result}`);
+        });
+
+        // Detailed breakdown for "cto" search
+        console.log('\n=== Detailed CTO search breakdown ===');
+        console.log('Message from:', testMessage.from);
+        console.log('Message from lowercase:', testMessage.from.toLowerCase());
+        console.log('Query "cto" lowercase:', "cto".toLowerCase());
+        console.log('Includes check:', testMessage.from.toLowerCase().includes("cto".toLowerCase()));
+    </script>
+</body>
+</html>

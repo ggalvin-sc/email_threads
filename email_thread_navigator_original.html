@@ -2356,6 +2356,18 @@ HR Team`
             const [expandedNodes, setExpandedNodes] = useState(new Set(['msg001']));
             const [previewData, setPreviewData] = useState({ visible: false, x: 0, y: 0, message: null });
 
+            useEffect(() => {
+                console.log('ThreadTree received searchQuery:', searchQuery);
+                // When searching, expand all nodes to show matching messages
+                if (searchQuery) {
+                    const allMessageIds = threadData.messages.map(m => m.messageId);
+                    setExpandedNodes(new Set(allMessageIds));
+                } else {
+                    // When search is cleared, collapse back to just root
+                    setExpandedNodes(new Set(['msg001']));
+                }
+            }, [searchQuery, threadData]);
+
             const toggleExpanded = (messageId) => {
                 const newExpanded = new Set(expandedNodes);
                 if (newExpanded.has(messageId)) {
@@ -2368,6 +2380,24 @@ HR Team`
 
             const getChildMessages = (parentId) => {
                 return threadData.messages.filter(msg => msg.parentMessageId === parentId);
+            };
+
+            // Check if message or any of its descendants match the search
+            const messageMatchesSearch = (message, query) => {
+                if (!query) return true;
+                
+                const q = query.toLowerCase();
+                const matches = message.from.toLowerCase().includes(q) ||
+                              message.subject.toLowerCase().includes(q) ||
+                              message.body.toLowerCase().includes(q) ||
+                              (message.to && message.to.some(addr => addr.toLowerCase().includes(q))) ||
+                              (message.cc && message.cc.some(addr => addr.toLowerCase().includes(q)));
+                
+                if (matches) return true;
+                
+                // Check descendants recursively
+                const children = getChildMessages(message.messageId);
+                return children.some(child => messageMatchesSearch(child, query));
             };
 
             const handleMouseEnter = (event, message) => {
@@ -2400,9 +2430,8 @@ HR Team`
                     ratingClass = 'unrated';
                 }
 
-                // Filter by search query
-                if (searchQuery && !message.from.toLowerCase().includes(searchQuery.toLowerCase()) &&
-                    !message.subject.toLowerCase().includes(searchQuery.toLowerCase())) {
+                // Filter by search query - check if this message or any descendant matches
+                if (searchQuery && !messageMatchesSearch(message, searchQuery)) {
                     return null;
                 }
 
@@ -2990,7 +3019,11 @@ HR Team`
                                     className="thread-search"
                                     placeholder="Search messages... (Press / to focus)"
                                     value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
+                                    onChange={(e) => {
+                                        const newValue = e.target.value;
+                                        console.log('Search input changed:', newValue);
+                                        setSearchQuery(newValue);
+                                    }}
                                     aria-label="Search messages"
                                 />
                                 <div className="rating-filter">
