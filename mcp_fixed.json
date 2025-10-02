@@ -1,0 +1,191 @@
+{
+	"servers": {
+		"figma/dev-mode-mcp-server": {
+			"type": "http",
+			"url": "http://127.0.0.1:{figma_mcp_port}/mcp",
+			"gallery": "https://api.mcp.github.com/v0/servers/26cb5bb7-a100-4f25-9a92-086ba4037345",
+			"version": "1.0.0"
+		},
+		"chromedevtools/chrome-devtools-mcp": {
+			"type": "stdio",
+			"command": "npx",
+			"args": [
+				"chrome-devtools-mcp@latest",
+				"--browserUrl",
+				"${input:browser_url}",
+				"--headless",
+				"${input:headless}",
+				"--executablePath",
+				"${input:chrome_executable_path}",
+				"--isolated",
+				"${input:isolated}",
+				"--channel",
+				"${input:chrome_channel}"
+			],
+			"gallery": "https://api.mcp.github.com/v0/servers/13749964-2447-4c31-bcab-32731cced504",
+			"version": "0.0.1-seed"
+		},
+		"microsoft/playwright-mcp": {
+			"type": "stdio",
+			"command": "npx",
+			"args": [
+				"@playwright/mcp@latest"
+			],
+			"gallery": "https://api.mcp.github.com/v0/servers/41b79849-7e6c-4fc7-82c0-5a611ea21523",
+			"version": "0.0.1-seed"
+		},
+		"evalstate/hf-mcp-server": {
+			"type": "http",
+			"url": "https://huggingface.co/mcp?login",
+			"gallery": "https://api.mcp.github.com/v0/servers/1094d85c-b89b-4a7b-a4da-74718f67d839",
+			"version": "1.0.0"
+		},
+		"oraios/serena": {
+			"type": "stdio",
+			"command": "uvx",
+			"args": [
+				"--from",
+				"git+https://github.com/oraios/serena",
+				"serena==latest",
+				"start-mcp-server",
+				"--context",
+				"${input:serena_context}",
+				"--project",
+				"${input:serena_project_abs_path}"
+			],
+			"gallery": "https://api.mcp.github.com/v0/servers/0658e342-7ae7-493a-b378-a324363ee322",
+			"version": "1.0.0"
+		},
+		"github/github-mcp-server": {
+			"type": "http",
+			"url": "https://api.githubcopilot.com/mcp/",
+			"gallery": "https://api.mcp.github.com/v0/servers/ab12cd34-5678-90ef-1234-567890abcdef",
+			"version": "0.13.0"
+		},
+		"chroma-core/chroma-mcp": {
+			"type": "stdio",
+			"command": "uvx",
+			"args": [
+				"chroma-mcp==latest"
+			],
+			"env": {
+				"CHROMA_CLIENT_TYPE": "${input:chroma_client_type}",
+				"CHROMA_DOTENV_PATH": "${input:chroma_dotenv_path}",
+				"CHROMA_DATA_DIR": "${input:chroma_data_dir}",
+				"CHROMA_TENANT": "${input:chroma_tenant}",
+				"CHROMA_DATABASE": "${input:chroma_database}",
+				"CHROMA_API_KEY": "${input:chroma_api_key}",
+				"CHROMA_HOST": "${input:chroma_host}",
+				"CHROMA_PORT": "${input:chroma_port}",
+				"CHROMA_CUSTOM_AUTH_CREDENTIALS": "${input:chroma_custom_auth}",
+				"CHROMA_SSL": "${input:chroma_ssl}"
+			},
+			"gallery": "https://api.mcp.github.com/v0/servers/54222ba5-0bc5-428d-bdb0-5dbcf2574b83",
+			"version": "1.0.0"
+		}
+	},
+	"inputs": [
+		{
+			"id": "browser_url",
+			"type": "promptString",
+			"description": "Optional: connect to an already-running Chrome (remote debugging / port-forward). Example: http://127.0.0.1:9222",
+			"password": false
+		},
+		{
+			"id": "headless",
+			"type": "promptString",
+			"description": "Run Chrome headless (true/false). Default: false",
+			"password": false
+		},
+		{
+			"id": "chrome_executable_path",
+			"type": "promptString",
+			"description": "Path to a specific Chrome/Chromium binary.",
+			"password": false
+		},
+		{
+			"id": "isolated",
+			"type": "promptString",
+			"description": "Use a temporary user-data-dir (true/false). Default: false",
+			"password": false
+		},
+		{
+			"id": "chrome_channel",
+			"type": "promptString",
+			"description": "Chrome channel: stable | canary | beta | dev (default: stable).",
+			"password": false
+		},
+		{
+			"id": "serena_context",
+			"type": "promptString",
+			"description": "Serena context to use (e.g., ide-assistant).",
+			"password": false
+		},
+		{
+			"id": "serena_project_abs_path",
+			"type": "promptString",
+			"description": "Absolute path to the project root Serena should index.",
+			"password": false
+		},
+		{
+			"id": "chroma_client_type",
+			"type": "promptString",
+			"description": "Client type: ephemeral (default), persistent, cloud, or http.",
+			"password": false
+		},
+		{
+			"id": "chroma_dotenv_path",
+			"type": "promptString",
+			"description": "Optional path to .env (defaults to ./.chroma_env).",
+			"password": false
+		},
+		{
+			"id": "chroma_data_dir",
+			"type": "promptString",
+			"description": "Data directory for persistent client.",
+			"password": false
+		},
+		{
+			"id": "chroma_tenant",
+			"type": "promptString",
+			"description": "Chroma Cloud tenant ID.",
+			"password": false
+		},
+		{
+			"id": "chroma_database",
+			"type": "promptString",
+			"description": "Chroma Cloud database name.",
+			"password": false
+		},
+		{
+			"id": "chroma_api_key",
+			"type": "promptString",
+			"description": "Chroma Cloud API key.",
+			"password": true
+		},
+		{
+			"id": "chroma_host",
+			"type": "promptString",
+			"description": "Self-hosted Chroma host.",
+			"password": false
+		},
+		{
+			"id": "chroma_port",
+			"type": "promptString",
+			"description": "Self-hosted Chroma port.",
+			"password": false
+		},
+		{
+			"id": "chroma_custom_auth",
+			"type": "promptString",
+			"description": "Custom auth credentials for self-hosted Chroma.",
+			"password": true
+		},
+		{
+			"id": "chroma_ssl",
+			"type": "promptString",
+			"description": "Use SSL (true/false) for self-hosted HTTP.",
+			"password": false
+		}
+	]
+}

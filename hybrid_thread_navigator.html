@@ -192,11 +192,15 @@
         }
 
         .thread-item {
-            padding: 12px;
-            border-radius: 8px;
+            padding: 8px 12px;
+            border-radius: 6px;
             cursor: pointer;
             border: 1px solid transparent;
-            margin-bottom: 8px;
+            margin-bottom: 4px;
+            min-height: 50px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .thread-item:hover {
@@ -209,29 +213,28 @@
         }
 
         .thread-title {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 500;
             color: #202124;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
 
         .thread-meta {
-            font-size: 12px;
+            font-size: 11px;
             color: #5f6368;
             display: flex;
-            gap: 8px;
-            margin-bottom: 4px;
-            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 0;
+            flex-wrap: nowrap;
+            line-height: 1.2;
         }
 
         .thread-preview {
-            font-size: 12px;
-            color: #5f6368;
-            line-height: 1.4;
-            overflow: hidden;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+            display: none;
         }
 
         /* Center Content */
@@ -701,7 +704,19 @@
 
             // Load detailed thread data when thread changes
             useEffect(() => {
-                if (activeThread) {
+                if (activeThread && activeThread.emails) {
+                    console.log('Loading messages for thread:', activeThread.threadId, 'emails:', activeThread.emails.length);
+                    // Extract and sort messages chronologically from the thread data
+                    const sortedMessages = activeThread.emails.sort((a, b) =>
+                        new Date(a.dateSent) - new Date(b.dateSent)
+                    );
+                    setThreadMessages(sortedMessages);
+                    setCurrentMessageIndex(0);
+                    if (viewMode === 'tree') {
+                        renderTimeline(sortedMessages);
+                    }
+                } else if (activeThread) {
+                    // Fallback to old method if thread doesn't have emails
                     loadThreadDetails(activeThread.threadId);
                 }
             }, [activeThread]);
@@ -945,30 +960,57 @@
             };
 
             const buildThreadStructure = (messages) => {
-                // Create a map for quick message lookup
+                console.log('Building thread structure for messages:', messages.length);
+
+                // Create a map for quick message lookup by Message-ID
                 const messageMap = new Map();
                 messages.forEach((msg, index) => {
-                    messageMap.set(msg.id, { ...msg, chronologicalIndex: index });
+                    // Use messageId as key, not id
+                    const key = msg.messageId || msg.id;
+                    messageMap.set(key, { ...msg, chronologicalIndex: index });
+                    console.log(`Mapped message ${key} -> index ${index}, from: ${msg.from}`);
                 });
 
-                // Build parent-child relationships
+                // Build parent-child relationships based on In-Reply-To and References
                 const roots = [];
                 const children = new Map();
 
                 messages.forEach(msg => {
-                    const message = messageMap.get(msg.id);
+                    const message = messageMap.get(msg.messageId || msg.id);
+                    let parentKey = null;
 
+                    // Find parent using inReplyTo first
                     if (msg.inReplyTo && messageMap.has(msg.inReplyTo)) {
-                        // This message is a reply
-                        const parentId = msg.inReplyTo;
-                        if (!children.has(parentId)) {
-                            children.set(parentId, []);
+                        parentKey = msg.inReplyTo;
+                        console.log(`Found parent via inReplyTo: ${msg.messageId} -> ${parentKey}`);
+                    } else if (msg.references && msg.references.length > 0) {
+                        // Try to find parent using references (look at the last reference)
+                        for (let i = msg.references.length - 1; i >= 0; i--) {
+                            if (messageMap.has(msg.references[i])) {
+                                parentKey = msg.references[i];
+                                console.log(`Found parent via references: ${msg.messageId} -> ${parentKey}`);
+                                break;
+                            }
                         }
-                        children.get(parentId).push(message);
+                    }
+
+                    if (parentKey) {
+                        // This message has a parent
+                        if (!children.has(parentKey)) {
+                            children.set(parentKey, []);
+                        }
+                        children.get(parentKey).push(message);
+                        console.log(`Added child: ${parentKey} -> ${msg.messageId}`);
                     } else {
                         // This is a root message
                         roots.push(message);
+                        console.log(`Root message: ${msg.messageId}`);
                     }
+                });
+
+                console.log('Thread structure built:', {
+                    roots: roots.length,
+                    childBranches: children.size
                 });
 
                 return { roots, children, messageMap };
@@ -995,7 +1037,7 @@
                     positioned.push(position);
 
                     // Position children
-                    const nodeChildren = children.get(node.id) || [];
+                    const nodeChildren = children.get(node.messageId || node.id) || [];
                     if (nodeChildren.length > 0) {
                         const childSpacing = Math.min(60, availableWidth / (nodeChildren.length * 2));
                         nodeChildren.forEach((child, index) => {
@@ -1021,7 +1063,7 @@
                 // Draw connections between related messages
                 nodes.forEach(node => {
                     if (node.inReplyTo) {
-                        const parent = nodes.find(n => n.id === node.inReplyTo);
+                        const parent = nodes.find(n => (n.messageId || n.id) === node.inReplyTo);
                         if (parent) {
                             // Draw curved line from parent to child
                             const path = `M ${parent.x} ${parent.y} Q ${(parent.x + node.x) / 2} ${Math.min(parent.y, node.y) - 20} ${node.x} ${node.y}`;
@@ -1163,6 +1205,31 @@
                 return formatted.trim(); // NO truncation as requested
             };
 
+            // Function to collect all attachments from all emails in a thread
+            const getAllThreadAttachments = (threadMessages) => {
+                const allAttachments = [];
+                const seenAttachments = new Set(); // To avoid duplicates
+
+                threadMessages.forEach((message, messageIndex) => {
+                    const messageAttachments = extractAttachments(message);
+                    messageAttachments.forEach(attachment => {
+                        // Create unique key for attachment to avoid duplicates
+                        const attachmentKey = `${attachment.name}-${attachment.size}-${attachment.type}`;
+                        if (!seenAttachments.has(attachmentKey)) {
+                            seenAttachments.add(attachmentKey);
+                            allAttachments.push({
+                                ...attachment,
+                                fromMessage: messageIndex, // Track which message this came from
+                                fromMessageSubject: message.subject,
+                                fromMessageSender: message.from
+                            });
+                        }
+                    });
+                });
+
+                return allAttachments;
+            };
+
             const extractAttachments = (message) => {
                 const attachments = [];
 
@@ -1275,15 +1342,6 @@
                             }
                         });
 
-                        if (message.fileName) {
-                            attachments.push({
-                                name: message.fileName,
-                                size: 'Unknown size',
-                                type: message.fileName.split('.').pop().toUpperCase(),
-                                url: `output/${message.threadId}/${message.fileName}`,
-                                id: message.id
-                            });
-                        }
 
                         if (hasAttachmentMention && attachments.length === 0) {
                             attachments.push({
@@ -1368,6 +1426,8 @@
 
             const threads = threadData ? Object.values(threadData.threads) : [];
             const filteredThreads = threads; // Add filtering logic later
+            console.log('Total threads loaded:', threads.length);
+            console.log('Filtered threads:', filteredThreads.length);
 
             return (
                 <div className="app-container">
@@ -1409,35 +1469,29 @@
                                         <span className="filter-count">{threads.length}</span>
                                     </div>
                                     <div
-                                        className={`filter-item ${activeFilter === 'unread' ? 'active' : ''}`}
-                                        onClick={() => setActiveFilter('unread')}
+                                        className={`filter-item ${activeFilter === 'reviewed' ? 'active' : ''}`}
+                                        onClick={() => setActiveFilter('reviewed')}
                                     >
-                                        Unread
+                                        Reviewed
                                         <span className="filter-count">0</span>
                                     </div>
                                     <div
-                                        className={`filter-item ${activeFilter === 'starred' ? 'active' : ''}`}
-                                        onClick={() => setActiveFilter('starred')}
+                                        className={`filter-item ${activeFilter === 'unreviewed' ? 'active' : ''}`}
+                                        onClick={() => setActiveFilter('unreviewed')}
                                     >
-                                        Starred
-                                        <span className="filter-count">0</span>
-                                    </div>
-                                    <div
-                                        className={`filter-item ${activeFilter === 'archived' ? 'active' : ''}`}
-                                        onClick={() => setActiveFilter('archived')}
-                                    >
-                                        Archived
-                                        <span className="filter-count">0</span>
+                                        Unreviewed
+                                        <span className="filter-count">{threads.length}</span>
                                     </div>
                                 </div>
                             </div>
 
                             <div className="thread-list">
-                                {filteredThreads.map(thread => (
+                                {filteredThreads.map((thread, index) => (
                                     <div
                                         key={thread.threadId}
                                         className={`thread-item ${activeThread?.threadId === thread.threadId ? 'active' : ''}`}
                                         onClick={() => setActiveThread(thread)}
+                                        title={`Thread ${index + 1} of ${filteredThreads.length}`}
                                     >
                                         <div className="thread-title">Thread {thread.threadId}</div>
                                         <div className="thread-meta">
@@ -1620,95 +1674,6 @@
                                                             </div>
                                                         )}
 
-                                                        {(() => {
-                                                            const attachments = extractAttachments(threadMessages[currentMessageIndex]);
-                                                            return attachments.length > 0 ? (
-                                                                <div style={{
-                                                                    marginTop: '12px',
-                                                                    padding: '12px',
-                                                                    background: '#fff3e0',
-                                                                    borderRadius: '6px',
-                                                                    border: '1px solid #ffcc02'
-                                                                }}>
-                                                                    <div style={{
-                                                                        fontWeight: '600',
-                                                                        marginBottom: '8px',
-                                                                        color: '#ef6c00',
-                                                                        fontSize: '13px'
-                                                                    }}>
-                                                                        📎 Attachments ({attachments.length})
-                                                                    </div>
-                                                                    {attachments.map((attachment, index) => (
-                                                                        <div key={index} style={{
-                                                                            display: 'flex',
-                                                                            alignItems: 'center',
-                                                                            gap: '8px',
-                                                                            padding: '6px 8px',
-                                                                            background: 'white',
-                                                                            borderRadius: '4px',
-                                                                            marginBottom: '4px',
-                                                                            border: '1px solid #e0e0e0'
-                                                                        }}>
-                                                                            <div style={{
-                                                                                width: '20px',
-                                                                                height: '20px',
-                                                                                background: getFileTypeColor(attachment.type),
-                                                                                borderRadius: '3px',
-                                                                                display: 'flex',
-                                                                                alignItems: 'center',
-                                                                                justifyContent: 'center',
-                                                                                fontSize: '10px',
-                                                                                fontWeight: 'bold',
-                                                                                color: 'white'
-                                                                            }}>
-                                                                                {getFileTypeIcon(attachment.type)}
-                                                                            </div>
-                                                                            <div style={{ flex: 1 }}>
-                                                                                <div style={{
-                                                                                    fontSize: '12px',
-                                                                                    fontWeight: '500',
-                                                                                    color: '#333'
-                                                                                }}>
-                                                                                    {attachment.isReference ? (
-                                                                                        <span style={{ fontStyle: 'italic' }}>{attachment.name}</span>
-                                                                                    ) : (
-                                                                                        <a href={attachment.url}
-                                                                                           target="_blank"
-                                                                                           rel="noopener noreferrer"
-                                                                                           style={{
-                                                                                               color: '#1a73e8',
-                                                                                               textDecoration: 'none'
-                                                                                           }}
-                                                                                           onMouseOver={(e) => e.target.style.textDecoration = 'underline'}
-                                                                                           onMouseOut={(e) => e.target.style.textDecoration = 'none'}
-                                                                                        >
-                                                                                            {attachment.name}
-                                                                                        </a>
-                                                                                    )}
-                                                                                </div>
-                                                                                <div style={{
-                                                                                    fontSize: '10px',
-                                                                                    color: '#666'
-                                                                                }}>
-                                                                                    {attachment.type} • {attachment.size}
-                                                                                    {attachment.isFromBates && attachment.batesRange && (
-                                                                                        <div style={{
-                                                                                            fontSize: '9px',
-                                                                                            color: '#1a73e8',
-                                                                                            fontWeight: '600',
-                                                                                            marginTop: '2px'
-                                                                                        }}>
-                                                                                            📋 Bates: {attachment.batesRange}
-                                                                                            {attachment.pages && ` • ${attachment.pages} pages`}
-                                                                                        </div>
-                                                                                    )}
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    ))}
-                                                                </div>
-                                                            ) : null;
-                                                        })()}
                                                     </div>
                                                 </>
                                             ) : (
@@ -1779,6 +1744,143 @@
                                             </div>
                                         </div>
                                     </div>
+
+                                    {/* Thread Attachments Section */}
+                                    {threadMessages && threadMessages.length > 0 && (() => {
+                                        const allAttachments = getAllThreadAttachments(threadMessages);
+                                        return allAttachments.length > 0 ? (
+                                            <div className="sidebar-section">
+                                                <h3>Thread Attachments ({allAttachments.length})</h3>
+                                                <div style={{
+                                                    maxHeight: '400px',
+                                                    overflowY: 'auto',
+                                                    padding: '4px'
+                                                }}>
+                                                    {allAttachments.map((attachment, index) => (
+                                                        <div key={index} style={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            gap: '8px',
+                                                            padding: '8px',
+                                                            background: 'white',
+                                                            borderRadius: '6px',
+                                                            marginBottom: '6px',
+                                                            border: '1px solid #e0e0e0',
+                                                            boxShadow: '0 1px 2px rgba(0,0,0,0.1)'
+                                                        }}>
+                                                            <div style={{
+                                                                width: '24px',
+                                                                height: '24px',
+                                                                background: getFileTypeColor(attachment.type),
+                                                                borderRadius: '4px',
+                                                                display: 'flex',
+                                                                alignItems: 'center',
+                                                                justifyContent: 'center',
+                                                                fontSize: '11px',
+                                                                fontWeight: 'bold',
+                                                                color: 'white',
+                                                                flexShrink: 0
+                                                            }}>
+                                                                {getFileTypeIcon(attachment.type)}
+                                                            </div>
+                                                            <div style={{ flex: 1, minWidth: 0 }}>
+                                                                <div style={{
+                                                                    fontSize: '12px',
+                                                                    fontWeight: '500',
+                                                                    color: '#333',
+                                                                    marginBottom: '2px',
+                                                                    wordBreak: 'break-word'
+                                                                }}>
+                                                                    {attachment.isReference ? (
+                                                                        <span style={{ fontStyle: 'italic' }}>{attachment.name}</span>
+                                                                    ) : (
+                                                                        <a href={attachment.url}
+                                                                           target="_blank"
+                                                                           rel="noopener noreferrer"
+                                                                           title="Click to view attachment"
+                                                                           style={{
+                                                                               color: '#1a73e8',
+                                                                               textDecoration: 'none',
+                                                                               wordBreak: 'break-word'
+                                                                           }}
+                                                                           onMouseOver={(e) => e.target.style.textDecoration = 'underline'}
+                                                                           onMouseOut={(e) => e.target.style.textDecoration = 'none'}
+                                                                        >
+                                                                            {attachment.name}
+                                                                        </a>
+                                                                    )}
+                                                                </div>
+                                                                <div style={{
+                                                                    fontSize: '10px',
+                                                                    color: '#666',
+                                                                    marginBottom: '2px'
+                                                                }}>
+                                                                    {attachment.type} • {attachment.size}
+                                                                </div>
+                                                                {attachment.isFromBates && attachment.batesRange && (
+                                                                    <div style={{
+                                                                        fontSize: '9px',
+                                                                        color: '#1a73e8',
+                                                                        fontWeight: '600',
+                                                                        marginBottom: '2px'
+                                                                    }}>
+                                                                        📋 Bates: {attachment.batesRange}
+                                                                        {attachment.pages && ` • ${attachment.pages} pages`}
+                                                                    </div>
+                                                                )}
+                                                                <div style={{
+                                                                    fontSize: '9px',
+                                                                    color: '#888',
+                                                                    fontStyle: 'italic'
+                                                                }}>
+                                                                    From: {cleanParticipant(attachment.fromMessageSender)}
+                                                                </div>
+                                                            </div>
+                                                            <div style={{
+                                                                display: 'flex',
+                                                                flexDirection: 'column',
+                                                                gap: '4px',
+                                                                flexShrink: 0
+                                                            }}>
+                                                                <button
+                                                                    onClick={() => setCurrentMessageIndex(attachment.fromMessage)}
+                                                                    style={{
+                                                                        padding: '4px 6px',
+                                                                        fontSize: '9px',
+                                                                        background: '#f8f9fa',
+                                                                        border: '1px solid #dadce0',
+                                                                        borderRadius: '3px',
+                                                                        cursor: 'pointer',
+                                                                        color: '#1a73e8'
+                                                                    }}
+                                                                    title="Go to message with this attachment"
+                                                                >
+                                                                    View Email
+                                                                </button>
+                                                                {!attachment.isReference && (
+                                                                    <button
+                                                                        onClick={() => window.open(attachment.url, '_blank')}
+                                                                        style={{
+                                                                            padding: '4px 6px',
+                                                                            fontSize: '9px',
+                                                                            background: '#1a73e8',
+                                                                            border: 'none',
+                                                                            borderRadius: '3px',
+                                                                            cursor: 'pointer',
+                                                                            color: 'white'
+                                                                        }}
+                                                                        title="Open attachment in new tab"
+                                                                    >
+                                                                        Open
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        ) : null;
+                                    })()}
                                 </>
                             )}
                         </div>
