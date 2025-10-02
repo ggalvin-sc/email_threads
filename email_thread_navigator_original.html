@@ -66,10 +66,10 @@
 
         .visualization-container {
             flex: 1;
-            margin: 0 20px;
-            height: 80px;
-            border: 1px solid #d0d7de;
-            border-radius: 6px;
+            margin: 0;
+            height: 100%;
+            border: none;
+            border-radius: 0;
             background: #f6f8fa;
             position: relative;
             overflow: hidden;
@@ -78,6 +78,62 @@
         .viz-timeline {
             width: 100%;
             height: 100%;
+        }
+
+        /* New visualization controls */
+        .viz-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: white;
+            border-top: 1px solid #d0d7de;
+        }
+
+        .viz-info {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .viz-info-text {
+            font-size: 12px;
+            color: #656d76;
+            font-weight: 500;
+        }
+
+        .viz-progress {
+            font-size: 11px;
+            color: #0969da;
+            font-weight: 600;
+        }
+
+        .viz-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .viz-button {
+            padding: 6px 16px;
+            border: 1px solid #d0d7de;
+            border-radius: 6px;
+            background: white;
+            color: #24292f;
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .viz-button:hover {
+            background: #f6f8fa;
+            border-color: #0969da;
+        }
+
+        .viz-button.active {
+            background: #0969da;
+            color: white;
+            border-color: #0969da;
         }
 
         .nav-controls {
@@ -693,18 +749,13 @@
 
         .layout-grid.grid-custom {
             grid-template-columns: 300px 1fr 350px;
-            grid-template-rows: 180px 1fr;
+            grid-template-rows: 280px 1fr;
         }
         
         /* Span settings for panels in custom layout */
-        .layout-grid.grid-custom [data-panel-id="navigation_panel"] {
-            grid-row: 1 / 2;
-            grid-column: 1 / 2;
-        }
-        
         .layout-grid.grid-custom [data-panel-id="timeline_panel"] {
             grid-row: 1 / 2;
-            grid-column: 2 / 3;
+            grid-column: 1 / 3;  /* Spans left and middle columns */
         }
         
         .layout-grid.grid-custom [data-panel-id="rating_panel"] {
@@ -720,6 +771,11 @@
         .layout-grid.grid-custom [data-panel-id="message_panel"] {
             grid-row: 2 / 3;
             grid-column: 2 / 3;
+        }
+        
+        /* Hide navigation panel in this layout */
+        .layout-grid.grid-custom [data-panel-id="navigation_panel"] {
+            display: none;
         }
 
         /* Layout Configuration Panel */
@@ -1032,17 +1088,17 @@
 
             getDefaultLayout: () => ({
                 gridType: 'custom',
-                panelOrder: ['navigation_panel', 'timeline_panel', 'rating_panel', 'thread_panel', 'message_panel'],
+                panelOrder: ['timeline_panel', 'rating_panel', 'thread_panel', 'message_panel'],
                 panelVisibility: {
-                    navigation_panel: true,
+                    navigation_panel: false,
                     timeline_panel: true,
                     thread_panel: true,
                     message_panel: true,
                     rating_panel: true
                 },
                 panelSizes: {
-                    navigation_panel: { width: '300px', height: '180px' },
-                    timeline_panel: { width: '1fr', height: '180px' },
+                    navigation_panel: { width: '0', height: '0' },
+                    timeline_panel: { width: 'auto', height: '280px' },
                     rating_panel: { width: '350px', height: 'auto' },
                     thread_panel: { width: '300px', height: '1fr' },
                     message_panel: { width: '1fr', height: '1fr' }
@@ -2870,19 +2926,52 @@ HR Team`
                         <DraggablePanel
                             key="timeline_panel"
                             id="timeline_panel"
-                            title="Timeline Visualization"
+                            title="Email Thread Visualization"
                             icon="pi-chart-line"
                             isVisible={layoutConfig.panelVisibility.timeline_panel}
                             onToggleVisibility={handlePanelVisibilityToggle}
                             className="timeline-panel"
                         >
-                            <div className="visualization-container">
+                            <div className="visualization-container" style={{height: 'calc(100% - 90px)'}}>
                                 <TimelineVisualization
                                     threadData={threadData}
                                     selectedMessageId={selectedMessageId}
                                     onSelectMessage={setSelectedMessageId}
                                     viewMode={viewMode}
                                 />
+                            </div>
+                            <div className="viz-controls">
+                                <div className="viz-info">
+                                    <span className="viz-info-text">
+                                        Thread: {threadData.threadId} • {threadData.messages.length} messages
+                                    </span>
+                                    <span className="viz-progress">
+                                        Progress: {ratedMessages}/{totalMessages} ({progressPercentage}%)
+                                    </span>
+                                </div>
+                                <div className="viz-buttons">
+                                    <button
+                                        className={`viz-button ${viewMode === 'timeline' ? 'active' : ''}`}
+                                        onClick={() => setViewMode('timeline')}
+                                        title="Timeline view"
+                                    >
+                                        Timeline
+                                    </button>
+                                    <button
+                                        className={`viz-button ${viewMode === 'tree' ? 'active' : ''}`}
+                                        onClick={() => setViewMode('tree')}
+                                        title="Tree view"
+                                    >
+                                        Tree
+                                    </button>
+                                    <button
+                                        className={`viz-button ${viewMode === 'sankey' ? 'active' : ''}`}
+                                        onClick={() => setViewMode('sankey')}
+                                        title="Sankey flow view"
+                                    >
+                                        Sankey
+                                    </button>
+                                </div>
                             </div>
                         </DraggablePanel>
                     ),
