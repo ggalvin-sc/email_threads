@@ -535,92 +535,248 @@
             margin-right: 8px;
         }
 
-        /* Right Panel - Rating Panel */
+        /* CASEDOXX RIGHT SIDEBAR STYLES */
+        /* Based on: casedoxx_webapp/src/app/features/work/view/view/file-sidebars/right-sidebar/ */
         .rating-panel {
-            width: 320px;
-            min-width: 280px;
+            width: 350px;
+            min-width: 300px;
             background: white;
             display: flex;
             flex-direction: column;
             overflow-y: auto;
         }
 
-        .rating-section {
-            padding: 16px;
-            border-bottom: 1px solid #e0e4e7;
+        /* Collapsible Panel Section */
+        .casedoxx-panel {
+            border-bottom: 1px solid #D4D6DB;  /* --gray-300 */
         }
 
-        .rating-title {
+        .casedoxx-panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 16px;
+            cursor: pointer;
+            background: white;
+            border-bottom: 1px solid #D4D6DB;
+        }
+
+        .casedoxx-panel-header:hover {
+            background: #F6F8FA;  /* --gray-100 */
+        }
+
+        .casedoxx-panel-title {
+            font-family: Inter, sans-serif;
             font-size: 14px;
             font-weight: 600;
             color: #24292f;
-            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .rating-options {
+        .casedoxx-panel-toggle {
+            font-size: 12px;
+            color: #57606a;
+            transition: transform 0.2s;
+        }
+
+        .casedoxx-panel-toggle.expanded {
+            transform: rotate(180deg);
+        }
+
+        .casedoxx-panel-content {
+            padding: 16px;
+            background: white;
+        }
+
+        .casedoxx-panel-content.collapsed {
+            display: none;
+        }
+
+        /* Priority Buttons (from priority.component.scss) */
+        .priority-container {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            justify-content: center;
+            align-items: stretch;
+            gap: 8px;
+        }
+
+        .priority-button {
+            flex-grow: 1;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid #D4D6DB;  /* --gray-300 */
+            background: #F6F8FA;  /* --gray-100 */
+            color: rgba(0, 0, 0, 0.6);
+            font-family: Inter, sans-serif;
+            font-size: 14px;
+            font-weight: 400;
+            height: 36px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .priority-button:hover {
+            background: #e8eaed;
+        }
+
+        .priority-button.active.low {
+            border: 1px solid #4BBB70;
+            background: #ECF9F3;
+            color: #0D853F;
+            font-weight: 600;
+        }
+
+        .priority-button.active.medium {
+            border: 1px solid #FDBE2A;
+            background: #FEF1E1;
+            color: #A85400;
+            font-weight: 600;
+        }
+
+        .priority-button.active.high {
+            border: 1px solid #EA2E29;
+            background: #FCE7E7;
+            color: #9F0906;
+            font-weight: 600;
+        }
+
+        /* Form Fields */
+        .casedoxx-form-group {
+            margin-bottom: 16px;
+        }
+
+        .casedoxx-label {
+            display: block;
+            font-family: Inter, sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            color: #24292f;
+            margin-bottom: 6px;
+        }
+
+        .casedoxx-input,
+        .casedoxx-select,
+        .casedoxx-textarea {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #D4D6DB;
+            border-radius: 6px;
+            font-family: Inter, sans-serif;
+            font-size: 14px;
+            color: #24292f;
+            background: white;
+            transition: border-color 0.2s;
+        }
+
+        .casedoxx-input:focus,
+        .casedoxx-select:focus,
+        .casedoxx-textarea:focus {
+            outline: none;
+            border-color: #1C846F;  /* casedoxx primary */
+            box-shadow: 0 0 0 3px rgba(28, 132, 111, 0.1);
+        }
+
+        .casedoxx-textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        /* Category Chips (from categories.component.scss) */
+        .categories-container {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             margin-bottom: 12px;
         }
 
-        .rating-button {
+        .category-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            background: #E8F5F3;
+            border: 1px solid #5DD7B0;
+            border-radius: 16px;
+            font-size: 13px;
+            color: #023e37;
+        }
+
+        .category-chip .remove-btn {
+            background: none;
+            border: none;
+            color: #57606a;
+            cursor: pointer;
+            padding: 0;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+
+        .category-chip .remove-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .add-category-btn {
             padding: 6px 12px;
-            border: 1px solid #d0d7de;
-            border-radius: 20px;
             background: white;
-            color: #24292f;
-            font-size: 12px;
+            border: 1px solid #1C846F;
+            border-radius: 20px;
+            color: #1C846F;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .add-category-btn:hover {
+            background: #E8F5F3;
+        }
+
+        /* Action Buttons */
+        .casedoxx-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-family: Inter, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
             cursor: pointer;
             transition: all 0.2s;
+            border: none;
         }
 
-        .rating-button:hover {
-            background: #f6f8fa;
-        }
-
-        .rating-button.selected {
-            background: #0969da;
+        .casedoxx-btn-primary {
+            background: #1C846F;
             color: white;
-            border-color: #0969da;
         }
 
-        .rating-note {
-            width: 100%;
-            min-height: 60px;
-            padding: 8px;
-            border: 1px solid #d0d7de;
-            border-radius: 6px;
-            font-size: 12px;
-            resize: vertical;
+        .casedoxx-btn-primary:hover {
+            background: #156558;
         }
 
-        .rating-actions {
-            display: flex;
-            gap: 8px;
-            margin-top: 12px;
+        .casedoxx-btn-secondary {
+            background: white;
+            color: #454444;
+            border: 1px solid rgba(69, 68, 68, 0.14);
         }
 
-        .keyboard-shortcuts {
-            margin-top: 16px;
-            padding: 12px;
-            background: #f6f8fa;
-            border-radius: 6px;
-            font-size: 11px;
+        .casedoxx-btn-secondary:hover {
+            background: #F6F8FA;
         }
 
-        .shortcut-item {
-            display: flex;
-            justify-content: space-between;
-            margin: 4px 0;
-        }
-
-        .shortcut-key {
-            background: #24292f;
-            color: white;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-family: monospace;
+        /* Divider */
+        .casedoxx-divider {
+            height: 1px;
+            background: #D4D6DB;
+            margin: 0;
         }
 
         /* Mini preview tooltip */
@@ -1314,27 +1470,70 @@
             );
         }
 
-        // Rating schema as per spec
-        const DEFAULT_RATING_SCHEMA = {
-            version: "1.0.0",
-            messageOptions: [
-                { key: "relevant", label: "Relevant", color: "#198754", severity: 70 },
-                { key: "irrelevant", label: "Irrelevant", color: "#6c757d", severity: 10, exclusiveGroup: "relevance" },
-                { key: "privileged", label: "Privileged", color: "#dc3545", severity: 90, requiresNote: true },
-                { key: "confidential", label: "Confidential", color: "#fd7e14", severity: 80 },
-                { key: "responsive", label: "Responsive", color: "#0dcaf0", severity: 60 }
+        // CASEDOXX INTEGRATION: Document Review Schema
+        // This schema matches casedoxx_webapp/src/app/features/work/view/view/file-sidebars/right-sidebar/
+        // When fully integrated, this will connect to:
+        // - Priority API: PUT /api/v1/cases/{caseId}/documents/{documentId}/priority
+        // - Categories API: POST /api/v1/cases/{caseId}/documents/{documentId}/categories
+        // - Notes API: POST /api/v1/cases/{caseId}/documents/{documentId}/notes
+        // - Internal Info API: PUT /api/v1/cases/{caseId}/documents/{documentId}/internal-info
+        
+        const CASEDOXX_SCHEMA = {
+            version: "2.0.0",
+            source: "casedoxx_webapp",
+            
+            // Priority levels from priority.component.ts
+            priorityLevels: [
+                { 
+                    value: 1, 
+                    label: "Low", 
+                    color: "#4BBB70",  // --success-300
+                    bgColor: "#ECF9F3",  // --success-100
+                    textColor: "#0D853F",
+                    borderColor: "#4BBB70"
+                },
+                { 
+                    value: 2, 
+                    label: "Medium", 
+                    color: "#FDBE2A",  // --warning-300
+                    bgColor: "#FEF1E1",  // --warning-100
+                    textColor: "#A85400",
+                    borderColor: "#FDBE2A"
+                },
+                { 
+                    value: 3, 
+                    label: "High", 
+                    color: "#EA2E29",  // --error-300
+                    bgColor: "#FCE7E7",  // --error-100
+                    textColor: "#9F0906",
+                    borderColor: "#EA2E29"
+                }
             ],
-            threadOptions: [
-                { key: "hot", label: "Hot", color: "#dc3545", severity: 100 },
-                { key: "review_complete", label: "Review Complete", color: "#198754", severity: 50 }
+            
+            // Deposition parties for legal discovery
+            // INTEGRATION: This will map to custom fields in casedoxx
+            depositionParties: [
+                { value: "plaintiff", label: "Plaintiff" },
+                { value: "defendant", label: "Defendant" },
+                { value: "third_party", label: "Third Party" },
+                { value: "expert_witness", label: "Expert Witness" },
+                { value: "not_applicable", label: "N/A" }
             ],
-            rollupPolicy: {
-                mode: "maxSeverity",
-                rules: [
-                    { ifAny: ["privileged"], thenThread: "privileged" },
-                    { ifAny: ["relevant"], thenThread: "relevant" }
-                ]
-            }
+            
+            // Document categories from categories.component.ts
+            // INTEGRATION: Will sync with casedoxx categories API
+            availableCategories: [
+                { id: "cat_legal", label: "Legal", parent: null },
+                { id: "cat_legal_contract", label: "Contract Review", parent: "cat_legal" },
+                { id: "cat_legal_discovery", label: "Discovery", parent: "cat_legal" },
+                { id: "cat_legal_privileged", label: "Privileged", parent: "cat_legal" },
+                { id: "cat_hr", label: "HR", parent: null },
+                { id: "cat_hr_performance", label: "Performance Review", parent: "cat_hr" },
+                { id: "cat_hr_personnel", label: "Personnel", parent: "cat_hr" },
+                { id: "cat_finance", label: "Finance", parent: null },
+                { id: "cat_finance_budget", label: "Budget", parent: "cat_finance" },
+                { id: "cat_finance_audit", label: "Audit", parent: "cat_finance" }
+            ]
         };
 
         // Complex sample thread data with multiple branches and conversation paths
@@ -2149,211 +2348,347 @@ HR Team`
             );
         }
 
-        // Rating Panel Component
-        function RatingPanel({ schema, messageRating, threadRating, onChangeMessage, onChangeThread, autoAdvance }) {
-            const [currentMessageRating, setCurrentMessageRating] = useState(messageRating);
-            const [currentThreadRating, setCurrentThreadRating] = useState(threadRating);
+        // CASEDOXX RIGHT SIDEBAR COMPONENT
+        // Based on: casedoxx_webapp/src/app/features/work/view/view/file-sidebars/right-sidebar/right-sidebar.component.ts
+        // API Integration Points:
+        //   - Priority: PUT /api/v1/cases/{caseId}/documents/{documentId}/priority { priority: 1|2|3 }
+        //   - Deposition: PUT /api/v1/cases/{caseId}/documents/{documentId}/custom-fields { depositionParty: string }
+        //   - Internal Info: PUT /api/v1/cases/{caseId}/documents/{documentId}/internal-info { internalName: string, internalDate: string }
+        //   - Categories: POST /api/v1/cases/{caseId}/documents/{documentId}/categories { categoryIds: string[] }
+        //   - Notes: POST /api/v1/cases/{caseId}/documents/{documentId}/notes { content: string }
+        
+        function RatingPanel({ schema, messageRating, threadRating, onChangeMessage, onChangeThread, autoAdvance, selectedMessage }) {
+            // State for casedoxx document fields
+            const [priority, setPriority] = useState(0);  // 0=none, 1=low, 2=medium, 3=high
+            const [depositionParty, setDepositionParty] = useState('');
+            const [internalDescription, setInternalDescription] = useState('');
+            const [internalDate, setInternalDate] = useState('');
+            const [categories, setCategories] = useState([]);
+            const [notes, setNotes] = useState('');
+            const [showCategoryModal, setShowCategoryModal] = useState(false);
+            
+            // Panel collapse states
+            const [priorityExpanded, setPriorityExpanded] = useState(true);
+            const [depositionExpanded, setDepositionExpanded] = useState(true);
+            const [internalInfoExpanded, setInternalInfoExpanded] = useState(false);
+            const [categoriesExpanded, setCategoriesExpanded] = useState(false);
+            const [notesExpanded, setNotesExpanded] = useState(true);
 
+            // Update fields when message changes
             useEffect(() => {
-                setCurrentMessageRating(messageRating);
-            }, [messageRating]);
-
-            useEffect(() => {
-                setCurrentThreadRating(threadRating);
-            }, [threadRating]);
-
-            const toggleMessageRating = (key) => {
-                const option = schema.messageOptions.find(opt => opt.key === key);
-                let newSelected = new Set(currentMessageRating.selected);
-
-                // Handle exclusive groups
-                if (option?.exclusiveGroup) {
-                    schema.messageOptions
-                        .filter(opt => opt.exclusiveGroup === option.exclusiveGroup)
-                        .forEach(opt => newSelected.delete(opt.key));
+                if (selectedMessage) {
+                    // Load document data (in real integration, fetch from API)
+                    setPriority(selectedMessage.priority || 0);
+                    setDepositionParty(selectedMessage.depositionParty || '');
+                    setInternalDescription(selectedMessage.internalDescription || '');
+                    setInternalDate(selectedMessage.internalDate || '');
+                    setCategories(selectedMessage.categories || []);
+                    setNotes(selectedMessage.notes || '');
                 }
+            }, [selectedMessage]);
 
-                if (newSelected.has(key)) {
-                    newSelected.delete(key);
-                } else {
-                    newSelected.add(key);
+            // Priority change handler
+            const handlePriorityChange = (value) => {
+                setPriority(value);
+                // INTEGRATION: API call
+                // await fetch(`/api/v1/cases/${caseId}/documents/${documentId}/priority`, {
+                //     method: 'PUT',
+                //     body: JSON.stringify({ priority: value })
+                // });
+                
+                // Update parent component
+                if (onChangeMessage) {
+                    onChangeMessage({
+                        ...messageRating,
+                        priority: value,
+                        updatedAt: new Date().toISOString()
+                    });
                 }
-
-                setCurrentMessageRating({
-                    ...currentMessageRating,
-                    selected: Array.from(newSelected)
-                });
             };
 
-            const toggleThreadRating = (key) => {
-                const option = (schema.threadOptions || schema.messageOptions).find(opt => opt.key === key);
-                let newSelected = new Set(currentThreadRating.selected);
-
-                // Handle exclusive groups
-                if (option?.exclusiveGroup) {
-                    (schema.threadOptions || schema.messageOptions)
-                        .filter(opt => opt.exclusiveGroup === option.exclusiveGroup)
-                        .forEach(opt => newSelected.delete(opt.key));
-                }
-
-                if (newSelected.has(key)) {
-                    newSelected.delete(key);
-                } else {
-                    newSelected.add(key);
-                }
-
-                setCurrentThreadRating({
-                    ...currentThreadRating,
-                    selected: Array.from(newSelected),
-                    source: "override"
-                });
+            // Deposition party change handler
+            const handleDepositionChange = (value) => {
+                setDepositionParty(value);
+                // INTEGRATION: API call
+                // await fetch(`/api/v1/cases/${caseId}/documents/${documentId}/custom-fields`, {
+                //     method: 'PUT',
+                //     body: JSON.stringify({ depositionParty: value })
+                // });
             };
 
-            // Keyboard shortcuts for ratings
-            useEffect(() => {
-                const handleKeyDown = (event) => {
-                    // Only handle shortcuts when not typing in inputs
-                    if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') return;
-
-                    const key = event.key;
-                    const numKey = parseInt(key);
-
-                    // Map number keys to rating options
-                    if (numKey >= 1 && numKey <= schema.messageOptions.length) {
-                        event.preventDefault();
-                        const option = schema.messageOptions[numKey - 1];
-                        if (option) {
-                            toggleMessageRating(option.key);
-                        }
-                    }
-
-                    // Special shortcuts
-                    if (event.ctrlKey || event.metaKey) {
-                        if (key === 's') {
-                            event.preventDefault();
-                            saveAndNext();
-                        }
-                    }
-                };
-
-                document.addEventListener('keydown', handleKeyDown);
-                return () => document.removeEventListener('keydown', handleKeyDown);
-            }, [currentMessageRating, schema.messageOptions]);
-
-            const saveAndNext = () => {
-                // Check if note is required
-                const requiresNote = currentMessageRating.selected.some(key =>
-                    schema.messageOptions.find(opt => opt.key === key)?.requiresNote
-                );
-
-                if (requiresNote && !currentMessageRating.note) {
-                    alert("Please add a note for this rating.");
-                    return;
-                }
-
-                // Save ratings
-                onChangeMessage({
-                    ...currentMessageRating,
-                    version: currentMessageRating.version + 1,
-                    updatedAt: new Date().toISOString(),
-                    updatedBy: "current_user"
-                });
-
-                onChangeThread(currentThreadRating);
-
-                // Auto-advance to next unrated
-                if (autoAdvance) {
-                    autoAdvance();
-                }
+            // Category management
+            const addCategory = (category) => {
+                const newCategories = [...categories, category];
+                setCategories(newCategories);
+                // INTEGRATION: API call
+                // await fetch(`/api/v1/cases/${caseId}/documents/${documentId}/categories`, {
+                //     method: 'POST',
+                //     body: JSON.stringify({ categoryIds: newCategories.map(c => c.id) })
+                // });
             };
+
+            const removeCategory = (categoryToRemove) => {
+                const newCategories = categories.filter(c => c.id !== categoryToRemove.id);
+                setCategories(newCategories);
+                // INTEGRATION: API call (same as addCategory)
+            };
+
+            // Save notes
+            const saveNotes = () => {
+                // INTEGRATION: API call
+                // await fetch(`/api/v1/cases/${caseId}/documents/${documentId}/notes`, {
+                //     method: 'POST',
+                //     body: JSON.stringify({ content: notes })
+                // });
+                alert('Notes saved successfully!');
+            };
+
+            // Save internal info
+            const saveInternalInfo = () => {
+                // INTEGRATION: API call
+                // await fetch(`/api/v1/cases/${caseId}/documents/${documentId}/internal-info`, {
+                //     method: 'PUT',
+                //     body: JSON.stringify({ 
+                //         internalName: internalDescription,
+                //         internalDate: internalDate
+                //     })
+                // });
+                alert('Internal info saved successfully!');
+            };
+
 
             return (
                 <div className="rating-panel">
-                    {/* Thread Rating Section */}
-                    <div className="rating-section">
-                        <div className="rating-title">Thread Rating</div>
-                        <div className="rating-options">
-                            {(schema.threadOptions || schema.messageOptions).map(option => (
-                                <button
-                                    key={option.key}
-                                    className={`rating-button ${currentThreadRating.selected.includes(option.key) ? 'selected' : ''}`}
-                                    onClick={() => toggleThreadRating(option.key)}
-                                    title={option.description}
-                                >
-                                    {option.label}
-                                </button>
-                            ))}
+                    {/* CASEDOXX PRIORITY PANEL */}
+                    <div className="casedoxx-panel">
+                        <div 
+                            className="casedoxx-panel-header"
+                            onClick={() => setPriorityExpanded(!priorityExpanded)}
+                        >
+                            <div className="casedoxx-panel-title">
+                                <i className="pi pi-flag"></i>
+                                Priority
+                            </div>
+                            <i className={`pi pi-chevron-down casedoxx-panel-toggle ${priorityExpanded ? 'expanded' : ''}`}></i>
                         </div>
-                        <textarea
-                            className="rating-note"
-                            placeholder="Thread note (optional)"
-                            value={currentThreadRating.note || ''}
-                            onChange={(e) => setCurrentThreadRating({
-                                ...currentThreadRating,
-                                note: e.target.value,
-                                source: "override"
-                            })}
-                        />
-                    </div>
-
-                    {/* Message Rating Section */}
-                    <div className="rating-section">
-                        <div id="message-rating-title" className="rating-title">Message Rating</div>
-                        <div className="rating-options" role="group" aria-labelledby="message-rating-title">
-                            {schema.messageOptions.map((option, index) => (
-                                <button
-                                    key={option.key}
-                                    className={`rating-button ${currentMessageRating.selected.includes(option.key) ? 'selected' : ''}`}
-                                    onClick={() => toggleMessageRating(option.key)}
-                                    aria-pressed={currentMessageRating.selected.includes(option.key)}
-                                    aria-label={`${option.label} (Press ${index + 1} for quick access)`}
-                                    title={option.description}
-                                >
-                                    {option.label}
-                                </button>
-                            ))}
-                        </div>
-                        <textarea
-                            className="rating-note"
-                            placeholder="Note (required for some ratings)"
-                            value={currentMessageRating.note || ''}
-                            onChange={(e) => setCurrentMessageRating({
-                                ...currentMessageRating,
-                                note: e.target.value
-                            })}
-                        />
-                        <div className="rating-actions">
-                            <button className="btn btn-primary" onClick={saveAndNext}>
-                                Save & Next
-                            </button>
-                            <button className="btn" onClick={() => window.location.reload()}>
-                                Reset
-                            </button>
-                        </div>
-                    </div>
-
-                    {/* Navigation Help */}
-                    <div className="rating-section">
-                        <div className="rating-title">Keyboard Shortcuts</div>
-                        <div className="keyboard-shortcuts">
-                            {schema.messageOptions.map((option, index) => (
-                                <div key={option.key} className="shortcut-item">
-                                    <span>{option.label}</span>
-                                    <span className="shortcut-key">{index + 1}</span>
+                        {priorityExpanded && (
+                            <div className="casedoxx-panel-content">
+                                <div className="priority-container">
+                                    {schema.priorityLevels.map((level) => (
+                                        <button
+                                            key={level.value}
+                                            className={`priority-button ${priority === level.value ? `active ${level.label.toLowerCase()}` : ''}`}
+                                            onClick={() => handlePriorityChange(level.value)}
+                                        >
+                                            {level.label}
+                                        </button>
+                                    ))}
                                 </div>
-                            ))}
-                            <div className="shortcut-item">
-                                <span>Save & Next</span>
-                                <span className="shortcut-key">Ctrl+S</span>
                             </div>
-                            <div className="shortcut-item">
-                                <span>Navigate</span>
-                                <span className="shortcut-key">↑/↓</span>
+                        )}
+                    </div>
+
+                    {/* DEPOSITION PARTY PANEL */}
+                    <div className="casedoxx-panel">
+                        <div 
+                            className="casedoxx-panel-header"
+                            onClick={() => setDepositionExpanded(!depositionExpanded)}
+                        >
+                            <div className="casedoxx-panel-title">
+                                <i className="pi pi-users"></i>
+                                Deposition Party
                             </div>
-                            <div className="shortcut-item">
-                                <span>Search</span>
-                                <span className="shortcut-key">/</span>
+                            <i className={`pi pi-chevron-down casedoxx-panel-toggle ${depositionExpanded ? 'expanded' : ''}`}></i>
+                        </div>
+                        {depositionExpanded && (
+                            <div className="casedoxx-panel-content">
+                                <div className="casedoxx-form-group">
+                                    <label className="casedoxx-label">Party</label>
+                                    <select
+                                        className="casedoxx-select"
+                                        value={depositionParty}
+                                        onChange={(e) => handleDepositionChange(e.target.value)}
+                                    >
+                                        <option value="">Select party...</option>
+                                        {schema.depositionParties.map(party => (
+                                            <option key={party.value} value={party.value}>
+                                                {party.label}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
                             </div>
+                        )}
+                    </div>
+
+                    {/* INTERNAL INFO PANEL */}
+                    <div className="casedoxx-panel">
+                        <div 
+                            className="casedoxx-panel-header"
+                            onClick={() => setInternalInfoExpanded(!internalInfoExpanded)}
+                        >
+                            <div className="casedoxx-panel-title">
+                                <i className="pi pi-info-circle"></i>
+                                Internal Info
+                            </div>
+                            <i className={`pi pi-chevron-down casedoxx-panel-toggle ${internalInfoExpanded ? 'expanded' : ''}`}></i>
+                        </div>
+                        {internalInfoExpanded && (
+                            <div className="casedoxx-panel-content">
+                                <div className="casedoxx-form-group">
+                                    <label className="casedoxx-label">Internal Description</label>
+                                    <input
+                                        type="text"
+                                        className="casedoxx-input"
+                                        placeholder="Internal document name..."
+                                        value={internalDescription}
+                                        onChange={(e) => setInternalDescription(e.target.value)}
+                                    />
+                                </div>
+                                <div className="casedoxx-form-group">
+                                    <label className="casedoxx-label">Internal Date</label>
+                                    <input
+                                        type="date"
+                                        className="casedoxx-input"
+                                        value={internalDate}
+                                        onChange={(e) => setInternalDate(e.target.value)}
+                                    />
+                                </div>
+                                <button 
+                                    className="casedoxx-btn casedoxx-btn-primary"
+                                    onClick={saveInternalInfo}
+                                    style={{ width: '100%' }}
+                                >
+                                    Save Internal Info
+                                </button>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* CATEGORIES PANEL */}
+                    <div className="casedoxx-panel">
+                        <div 
+                            className="casedoxx-panel-header"
+                            onClick={() => setCategoriesExpanded(!categoriesExpanded)}
+                        >
+                            <div className="casedoxx-panel-title">
+                                <i className="pi pi-tags"></i>
+                                Categories
+                                {categories.length > 0 && (
+                                    <span style={{ 
+                                        marginLeft: '4px', 
+                                        color: '#57606a', 
+                                        fontSize: '12px',
+                                        fontWeight: 400 
+                                    }}>
+                                        ({categories.length})
+                                    </span>
+                                )}
+                            </div>
+                            <i className={`pi pi-chevron-down casedoxx-panel-toggle ${categoriesExpanded ? 'expanded' : ''}`}></i>
+                        </div>
+                        {categoriesExpanded && (
+                            <div className="casedoxx-panel-content">
+                                {categories.length > 0 && (
+                                    <div className="categories-container">
+                                        {categories.map(category => (
+                                            <div key={category.id} className="category-chip">
+                                                {category.parent ? (
+                                                    <span>
+                                                        <strong>{category.parent.label}</strong> - {category.label}
+                                                    </span>
+                                                ) : (
+                                                    <span>{category.label}</span>
+                                                )}
+                                                <button
+                                                    className="remove-btn"
+                                                    onClick={() => removeCategory(category)}
+                                                    aria-label="Remove category"
+                                                >
+                                                    ✕
+                                                </button>
+                                            </div>
+                                        ))}
+                                    </div>
+                                )}
+                                <button
+                                    className="add-category-btn"
+                                    onClick={() => {
+                                        // Simulate adding a category from available list
+                                        const available = schema.availableCategories.filter(
+                                            ac => !categories.find(c => c.id === ac.id)
+                                        );
+                                        if (available.length > 0) {
+                                            const categoryToAdd = available[Math.floor(Math.random() * available.length)];
+                                            const parent = categoryToAdd.parent 
+                                                ? schema.availableCategories.find(c => c.id === categoryToAdd.parent)
+                                                : null;
+                                            addCategory({
+                                                id: categoryToAdd.id,
+                                                label: categoryToAdd.label,
+                                                parent: parent
+                                            });
+                                        } else {
+                                            alert('All categories have been added!');
+                                        }
+                                    }}
+                                >
+                                    <i className="pi pi-plus"></i>
+                                    Add Category
+                                </button>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* NOTES PANEL */}
+                    <div className="casedoxx-panel">
+                        <div 
+                            className="casedoxx-panel-header"
+                            onClick={() => setNotesExpanded(!notesExpanded)}
+                        >
+                            <div className="casedoxx-panel-title">
+                                <i className="pi pi-file-edit"></i>
+                                Notes
+                            </div>
+                            <i className={`pi pi-chevron-down casedoxx-panel-toggle ${notesExpanded ? 'expanded' : ''}`}></i>
+                        </div>
+                        {notesExpanded && (
+                            <div className="casedoxx-panel-content">
+                                <div className="casedoxx-form-group">
+                                    <label className="casedoxx-label">Document Notes</label>
+                                    <textarea
+                                        className="casedoxx-textarea"
+                                        placeholder="Add notes about this document..."
+                                        value={notes}
+                                        onChange={(e) => setNotes(e.target.value)}
+                                    />
+                                </div>
+                                <button 
+                                    className="casedoxx-btn casedoxx-btn-primary"
+                                    onClick={saveNotes}
+                                    style={{ width: '100%' }}
+                                >
+                                    Save Notes
+                                </button>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* INTEGRATION STATUS INFO */}
+                    <div style={{ 
+                        padding: '12px 16px', 
+                        background: '#FEF1E1',
+                        borderTop: '2px solid #FDBE2A',
+                        fontSize: '11px',
+                        color: '#A85400'
+                    }}>
+                        <div style={{ fontWeight: 600, marginBottom: '4px' }}>
+                            <i className="pi pi-info-circle" style={{ marginRight: '4px' }}></i>
+                            Casedoxx Integration Ready
+                        </div>
+                        <div style={{ lineHeight: '1.4' }}>
+                            This panel will sync with casedoxx APIs when connected. 
+                            All changes are currently stored locally.
                         </div>
                     </div>
                 </div>
@@ -3088,12 +3423,13 @@ HR Team`
                             onToggleVisibility={handlePanelVisibilityToggle}
                         >
                             <RatingPanel
-                                schema={DEFAULT_RATING_SCHEMA}
+                                schema={CASEDOXX_SCHEMA}
                                 messageRating={currentMessageRating}
                                 threadRating={ratings.thread}
                                 onChangeMessage={handleMessageRatingChange}
                                 onChangeThread={handleThreadRatingChange}
                                 autoAdvance={autoAdvanceToNext}
+                                selectedMessage={selectedMessage}
                             />
                         </DraggablePanel>
                     )
