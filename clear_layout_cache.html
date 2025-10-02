@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+<html>
+<head><title>Clear Layout Cache</title></head>
+<body>
+<h1>Clearing Layout Cache...</h1>
+<script>
+localStorage.removeItem('emailThreadNavigator_layout');
+document.body.innerHTML += '<p>Layout cache cleared! <a href="email_thread_navigator_original.html">Go back to app</a></p>';
+</script>
+</body>
+</html>
